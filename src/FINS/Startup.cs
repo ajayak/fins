@@ -1,5 +1,14 @@
-﻿using FINS.Context;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Autofac.Features.Variance;
+using FINS.Context;
 using FINS.Models;
+using Hangfire;
+using Hangfire.SqlServer;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using StructureMap.TypeRules;
 
 namespace FINS
 {
@@ -43,7 +53,7 @@ namespace FINS
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             //Add CORS support.
             // Must be first to avoid OPTIONS issues when calling from Angular/Browser
@@ -67,10 +77,24 @@ namespace FINS
                 options.UseOpenIddict();
             });
 
+            services.Configure<DatabaseSettings>(Configuration.GetSection("Data:DefaultConnection"));
+            services.Configure<EmailSettings>(Configuration.GetSection("Email"));
+            services.Configure<SampleDataSettings>(Configuration.GetSection("SampleData"));
+            services.Configure<GeneralSettings>(Configuration.GetSection("General"));
+            services.Configure<TwitterAuthenticationSettings>(Configuration.GetSection("Authentication:Twitter"));
+            services.Configure<TwilioSettings>(Configuration.GetSection("Authentication:Twilio"));
+
             // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            // Add Authorization rules for the app
+            /*services.AddAuthorization(options =>
+            {
+                options.AddPolicy("OrgAdmin", b => b.RequireClaim(Security.ClaimTypes.UserType, "OrgAdmin", "SiteAdmin"));
+                options.AddPolicy("SiteAdmin", b => b.RequireClaim(Security.ClaimTypes.UserType, "SiteAdmin"));
+            });*/
 
             // Add MVC services to the services container.
             // config add to get passed Angular failing on Options request when logging in.
@@ -118,6 +142,54 @@ namespace FINS
             //          assembly: typeof(Startup).GetTypeInfo().Assembly,
             //          resource: "AuthorizationServer.Certificate.pfx",
             //          password: "OpenIddict");
+
+            //Hangfire
+            services.AddHangfire(configuration => configuration.UseSqlServerStorage(Configuration["Data:HangfireConnection:ConnectionString"]));
+
+            // configure IoC support
+            var container = CreateIoCContainer(services);
+            return container.Resolve<IServiceProvider>();
+        }
+
+        private IContainer CreateIoCContainer(IServiceCollection services)
+        {
+            // todo: move these to a proper autofac module
+            // Register application services.
+            services.AddSingleton(x => Configuration);
+            
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterSource(new ContravariantRegistrationSource());
+            containerBuilder.RegisterAssemblyTypes(typeof(IMediator).GetAssembly()).AsImplementedInterfaces();
+            containerBuilder.RegisterAssemblyTypes(typeof(Startup).GetAssembly()).AsImplementedInterfaces();
+            containerBuilder.Register<SingleInstanceFactory>(ctx =>
+            {
+                var c = ctx.Resolve<IComponentContext>();
+                return t => c.Resolve(t);
+            });
+
+            containerBuilder.Register<MultiInstanceFactory>(ctx =>
+            {
+                var c = ctx.Resolve<IComponentContext>();
+                return t => (IEnumerable<object>)c.Resolve(typeof(IEnumerable<>).MakeGenericType(t));
+            });
+
+            //Hangfire
+            containerBuilder.Register(icomponentcontext => new BackgroundJobClient(new SqlServerStorage(Configuration["Data:HangfireConnection:ConnectionString"])))
+                .As<IBackgroundJobClient>();
+
+            //auto-register Hangfire jobs by convention
+            //http://docs.autofac.org/en/latest/register/scanning.html
+            var assembly = Assembly.GetEntryAssembly();
+            containerBuilder
+                .RegisterAssemblyTypes(assembly)
+                .Where(t => t.Namespace == "AllReady.Hangfire.Jobs" && t.IsInterfaceOrAbstract())
+                .AsImplementedInterfaces();
+
+            //Populate the container with services that were previously registered
+            containerBuilder.Populate(services);
+
+            var container = containerBuilder.Build();
+            return container;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -159,6 +231,9 @@ namespace FINS
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
+
+            // Add static files to the request pipeline.
+            app.UseStaticFiles();
 
             // Track data about exceptions from the application. Should be configured after all error handling middleware in the request pipeline.
             app.UseApplicationInsightsExceptionTelemetry();
