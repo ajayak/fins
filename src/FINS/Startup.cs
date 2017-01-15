@@ -73,7 +73,10 @@ namespace FINS
             // Add Entity Framework services to the services container.
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
+                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"], option =>
+                {
+                    option.EnableRetryOnFailure(2);
+                });
                 options.UseOpenIddict();
             });
 

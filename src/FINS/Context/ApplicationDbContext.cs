@@ -8,8 +8,6 @@ namespace FINS.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() { }
-
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -21,6 +19,13 @@ namespace FINS.Context
             {
                 entity.Relational().TableName = entity.DisplayName();
             }
+
+            builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+            builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+            builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+            builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+            builder.Entity<IdentityRole>().ToTable("Roles");
 
             builder.Entity<ApplicationUser>().Configure();
         }
