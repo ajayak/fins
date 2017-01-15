@@ -2,7 +2,13 @@
   "dependencies": {
     "AspNet.Security.OAuth.Introspection": "1.0.0-beta1-0195",
     "AspNet.Security.OAuth.Validation": "1.0.0-beta1-0195",
+    "Hangfire": "1.6.8",
+    "Hangfire.AspNetCore": "1.6.8",
+    "Hangfire.Core": "1.6.8",
+    "Hangfire.SqlServer": "1.6.8",
+    "MediatR": "3.0.0",
     "Microsoft.ApplicationInsights.AspNetCore": "2.0.0-beta1",
+    "Microsoft.AspNetCore.Cors": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.1.0",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
@@ -13,9 +19,16 @@
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
+    "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "1.1.0-preview4-final",
+      "type": "build"
+    },
+    "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.1.0",
+    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.0",
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
@@ -27,7 +40,8 @@
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
     "OpenIddict": "1.0.0-*",
     "OpenIddict.EntityFrameworkCore": "1.0.0-*",
-    "OpenIddict.Mvc": "1.0.0-*"
+    "OpenIddict.Mvc": "1.0.0-*",
+    "Twilio": "5.0.0-rca2"
   },
 
   "tools": {
