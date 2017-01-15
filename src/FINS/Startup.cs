@@ -71,7 +71,7 @@ namespace FINS
             services.AddApplicationInsightsTelemetry(Configuration);
 
             // Add Entity Framework services to the services container.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<FinsDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"], option =>
                 {
@@ -89,8 +89,28 @@ namespace FINS
 
             // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<FinsDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
 
             // Add Authorization rules for the app
             /*services.AddAuthorization(options =>
@@ -108,7 +128,7 @@ namespace FINS
             // Register the OpenIddict services.
             services.AddOpenIddict()
                 // Register the Entity Framework stores.
-                .AddEntityFrameworkCoreStores<ApplicationDbContext>()
+                .AddEntityFrameworkCoreStores<FinsDbContext>()
 
                 // Register the ASP.NET Core MVC binder used by OpenIddict.
                 // Note: if you don't call this method, you won't be able to

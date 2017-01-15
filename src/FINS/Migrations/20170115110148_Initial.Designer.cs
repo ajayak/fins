@@ -7,7 +7,7 @@ using FINS.Context;
 
 namespace FINS.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(FinsDbContext))]
     [Migration("20170115110148_Initial")]
     partial class Initial
     {

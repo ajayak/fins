@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FINS.Context
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class FinsDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
+        public FinsDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
