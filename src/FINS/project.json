@@ -1,30 +1,30 @@
 {
   "dependencies": {
-    "AspNet.Security.OAuth.Introspection": "1.0.0-alpha3-final",
-    "AspNet.Security.OAuth.Validation": "1.0.0-alpha3-final",
-    "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
-    "Microsoft.AspNetCore.Diagnostics": "1.0.0",
-    "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",
-    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
-    "Microsoft.AspNetCore.Mvc": "1.0.0",
-    "Microsoft.AspNetCore.Routing": "1.0.0",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-    "Microsoft.AspNetCore.StaticFiles": "1.0.0",
-    "Microsoft.EntityFrameworkCore": "1.0.0",
-    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
-    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
-    "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Microsoft.Extensions.Logging": "1.0.0",
-    "Microsoft.Extensions.Logging.Console": "1.0.0",
-    "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "AspNet.Security.OAuth.Introspection": "1.0.0-beta1-0195",
+    "AspNet.Security.OAuth.Validation": "1.0.0-beta1-0195",
+    "Microsoft.ApplicationInsights.AspNetCore": "2.0.0-beta1",
+    "Microsoft.AspNetCore.Diagnostics": "1.1.0",
+    "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.1.0",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
+    "Microsoft.AspNetCore.Mvc": "1.1.0",
+    "Microsoft.AspNetCore.Routing": "1.1.0",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
+    "Microsoft.AspNetCore.StaticFiles": "1.1.0",
+    "Microsoft.EntityFrameworkCore": "1.1.0",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
+    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0",
+    "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0",
+    "Microsoft.Extensions.Logging": "1.1.0",
+    "Microsoft.Extensions.Logging.Console": "1.1.0",
+    "Microsoft.Extensions.Logging.Debug": "1.1.0",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "Microsoft.NETCore.App": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "type": "platform"
     },
-    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
     "OpenIddict": "1.0.0-*",
     "OpenIddict.EntityFrameworkCore": "1.0.0-*",
     "OpenIddict.Mvc": "1.0.0-*"
@@ -36,7 +36,7 @@
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
+    "netcoreapp1.1": {
       "imports": [
         "dotnet5.6",
         "portable-net45+win8"
