@@ -254,10 +254,7 @@ namespace FINS
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
-
-            // Add static files to the request pipeline.
-            app.UseStaticFiles();
-
+            
             // Track data about exceptions from the application. Should be configured after all error handling middleware in the request pipeline.
             app.UseApplicationInsightsExceptionTelemetry();
             
