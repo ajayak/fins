@@ -20,6 +20,8 @@
     </PackageReference>
     <PackageReference Include="Autofac" Version="4.2.1" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
+    <PackageReference Include="FluentValidation" Version="6.4.0-beta9" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="6.4.0-beta9" />
     <PackageReference Include="Hangfire">
       <Version>1.6.8</Version>
     </PackageReference>

@@ -7,8 +7,8 @@ namespace FINS.Context.Configurations
     {
         public static void Configure(this EntityTypeBuilder<ApplicationUser> entity)
         {
-            entity.Property(p => p.FirstName).HasMaxLength(50);
-            entity.Property(p => p.LastName).HasMaxLength(50);
+            entity.Property(p => p.FirstName).IsRequired().HasMaxLength(50);
+            entity.Property(p => p.LastName).IsRequired().HasMaxLength(50);
         }
     }
 }
