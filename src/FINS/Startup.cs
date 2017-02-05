@@ -18,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using StructureMap.TypeRules;
 
 namespace FINS
 {
@@ -179,11 +178,11 @@ namespace FINS
             // todo: move these to a proper autofac module
             // Register application services.
             services.AddSingleton(x => Configuration);
-            
+
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterSource(new ContravariantRegistrationSource());
-            containerBuilder.RegisterAssemblyTypes(typeof(IMediator).GetAssembly()).AsImplementedInterfaces();
-            containerBuilder.RegisterAssemblyTypes(typeof(Startup).GetAssembly()).AsImplementedInterfaces();
+            containerBuilder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
+            containerBuilder.RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly).AsImplementedInterfaces();
             containerBuilder.Register<SingleInstanceFactory>(ctx =>
             {
                 var c = ctx.Resolve<IComponentContext>();
@@ -205,7 +204,7 @@ namespace FINS
             var assembly = Assembly.GetEntryAssembly();
             containerBuilder
                 .RegisterAssemblyTypes(assembly)
-                .Where(t => t.Namespace == "AllReady.Hangfire.Jobs" && t.IsInterfaceOrAbstract())
+                .Where(t => t.Namespace == "AllReady.Hangfire.Jobs" && (t.GetTypeInfo().IsAbstract || t.GetTypeInfo().IsInterface))
                 .AsImplementedInterfaces();
 
             //Populate the container with services that were previously registered
@@ -254,10 +253,10 @@ namespace FINS
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
-            
+
             // Track data about exceptions from the application. Should be configured after all error handling middleware in the request pipeline.
             app.UseApplicationInsightsExceptionTelemetry();
-            
+
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
