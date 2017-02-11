@@ -4,8 +4,12 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.Variance;
+using FINS.Configuration;
 using FINS.Context;
+using FINS.DataAccess;
+using FINS.Hangfire;
 using FINS.Models;
+using FINS.Security;
 using Hangfire;
 using Hangfire.SqlServer;
 using MediatR;
@@ -54,16 +58,11 @@ namespace FINS
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            //Add CORS support.
+            // Add CORS support.
             // Must be first to avoid OPTIONS issues when calling from Angular/Browser
-            var corsBuilder = new CorsPolicyBuilder();
-            corsBuilder.AllowAnyHeader();
-            corsBuilder.AllowAnyMethod();
-            corsBuilder.AllowAnyOrigin();
-            corsBuilder.AllowCredentials();
             services.AddCors(options =>
             {
-                options.AddPolicy("FINS", corsBuilder.Build());
+                options.AddPolicy("FINS", FinsCorsPolicyFactory.BuildFinsOpenCorsPolicy());
             });
 
             // Add Application Insights data collection services to the services container.
@@ -72,19 +71,14 @@ namespace FINS
             // Add Entity Framework services to the services container.
             services.AddDbContext<FinsDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"], option =>
-                {
-                    option.EnableRetryOnFailure(2);
-                });
+                options.UseSqlServer(
+                    Configuration["Data:DefaultConnection:ConnectionString"],
+                    option => option.EnableRetryOnFailure(2)
+                );
                 options.UseOpenIddict();
             });
 
-            services.Configure<DatabaseSettings>(Configuration.GetSection("Data:DefaultConnection"));
-            services.Configure<EmailSettings>(Configuration.GetSection("Email"));
-            services.Configure<SampleDataSettings>(Configuration.GetSection("SampleData"));
-            services.Configure<GeneralSettings>(Configuration.GetSection("General"));
-            services.Configure<TwitterAuthenticationSettings>(Configuration.GetSection("Authentication:Twitter"));
-            services.Configure<TwilioSettings>(Configuration.GetSection("Authentication:Twilio"));
+            Options.LoadConfigurationOptions(services, Configuration);
 
             // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -117,6 +111,8 @@ namespace FINS
                 options.AddPolicy("OrgAdmin", b => b.RequireClaim(Security.ClaimTypes.UserType, "OrgAdmin", "SiteAdmin"));
                 options.AddPolicy("SiteAdmin", b => b.RequireClaim(Security.ClaimTypes.UserType, "SiteAdmin"));
             });*/
+
+            services.AddMemoryCache();
 
             // Add MVC services to the services container.
             // config add to get passed Angular failing on Options request when logging in.
@@ -169,53 +165,13 @@ namespace FINS
             services.AddHangfire(configuration => configuration.UseSqlServerStorage(Configuration["Data:HangfireConnection:ConnectionString"]));
 
             // configure IoC support
-            var container = CreateIoCContainer(services);
+            var container = FINS.Configuration.Services.CreateIoCContainer(services, Configuration);
             return container.Resolve<IServiceProvider>();
         }
 
-        private IContainer CreateIoCContainer(IServiceCollection services)
-        {
-            // todo: move these to a proper autofac module
-            // Register application services.
-            services.AddSingleton(x => Configuration);
-
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterSource(new ContravariantRegistrationSource());
-            containerBuilder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
-            containerBuilder.RegisterAssemblyTypes(typeof(Startup).GetTypeInfo().Assembly).AsImplementedInterfaces();
-            containerBuilder.Register<SingleInstanceFactory>(ctx =>
-            {
-                var c = ctx.Resolve<IComponentContext>();
-                return t => c.Resolve(t);
-            });
-
-            containerBuilder.Register<MultiInstanceFactory>(ctx =>
-            {
-                var c = ctx.Resolve<IComponentContext>();
-                return t => (IEnumerable<object>)c.Resolve(typeof(IEnumerable<>).MakeGenericType(t));
-            });
-
-            //Hangfire
-            containerBuilder.Register(icomponentcontext => new BackgroundJobClient(new SqlServerStorage(Configuration["Data:HangfireConnection:ConnectionString"])))
-                .As<IBackgroundJobClient>();
-
-            //auto-register Hangfire jobs by convention
-            //http://docs.autofac.org/en/latest/register/scanning.html
-            var assembly = Assembly.GetEntryAssembly();
-            containerBuilder
-                .RegisterAssemblyTypes(assembly)
-                .Where(t => t.Namespace == "AllReady.Hangfire.Jobs" && (t.GetTypeInfo().IsAbstract || t.GetTypeInfo().IsInterface))
-                .AsImplementedInterfaces();
-
-            //Populate the container with services that were previously registered
-            containerBuilder.Populate(services);
-
-            var container = containerBuilder.Build();
-            return container;
-        }
-
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, FinsDbContext context, SampleDataGenerator sampleData)
         {
             // Put first to avoid issues with OPTIONS when calling from Angular/Browser.  
             app.UseCors("FINS");
@@ -257,12 +213,34 @@ namespace FINS
             // Track data about exceptions from the application. Should be configured after all error handling middleware in the request pipeline.
             app.UseApplicationInsightsExceptionTelemetry();
 
+            //call Migrate here to force the creation of the FINS database so Hangfire can create its schema under it
+            if (!env.IsProduction())
+            {
+                context.Database.Migrate();
+            }
+
+            //Hangfire
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions { Authorization = new[] { new HangireDashboardAuthorizationFilter() } });
+            app.UseHangfireServer();
+
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "areaRoute", template: "{area:exists}/{controller}/{action=Index}/{id?}");
                 routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Add sample data and test admin accounts if specified in Config.Json.
+            // for production applications, this should either be set to false or deleted.
+            if (Configuration["SampleData:InsertSampleData"] == "true")
+            {
+                sampleData.InsertTestData();
+            }
+
+            if (Configuration["SampleData:InsertTestUsers"] == "true")
+            {
+                await sampleData.CreateAdminUser();
+            }
         }
     }
 }

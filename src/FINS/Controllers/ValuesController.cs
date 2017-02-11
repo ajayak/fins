@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace FINS.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     public class ValuesController : Controller
     {
         // GET api/values
@@ -20,6 +19,7 @@ namespace FINS.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
+        [Authorize]
         public string Get(int id)
         {
             return "value";
