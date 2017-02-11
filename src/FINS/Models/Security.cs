@@ -8,7 +8,7 @@ namespace FINS.Models
     public enum UserType
     {
         BasicUser,
-        TenantAdmin,
+        OrgAdmin,
         SiteAdmin
     }
 }

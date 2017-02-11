@@ -8,9 +8,10 @@ using FINS.Context;
 namespace FINS.Migrations
 {
     [DbContext(typeof(FinsDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170211134035_OfflineAccess")]
+    partial class OfflineAccess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
