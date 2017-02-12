@@ -25,7 +25,6 @@
         public string DefaultFromEmailAddress { get; set; }
         public string DefaultFromDisplayName { get; set; }
         public string InsertSampleData { get; set; }
-        public string InsertTestUsers { get; set; }
     }
 
     public class TwitterAuthenticationSettings

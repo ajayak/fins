@@ -14,5 +14,11 @@ namespace FINS.Security
             var userTypeString = Enum.GetName(typeof(UserType), type);
             return user.HasClaim(ClaimTypes.UserType, userTypeString);
         }
+
+        public static bool HasAccess(this ClaimsPrincipal user, AccessLevel access)
+        {
+            var accessString = Enum.GetName(typeof(AccessLevel), access);
+            return user.HasClaim(ClaimTypes.AccessLevel, accessString);
+        }
     }
 }

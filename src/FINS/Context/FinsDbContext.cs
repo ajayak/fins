@@ -10,6 +10,8 @@ namespace FINS.Context
     {
         public FinsDbContext(DbContextOptions options) : base(options) { }
 
+        public virtual DbSet<Organization> Organizations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

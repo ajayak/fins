@@ -19,5 +19,10 @@ namespace FINS.Security
         /// The type of user
         /// </summary>
         public const string UserType = "fs:usertype";
+
+        /// <summary>
+        /// Access levels of user
+        /// </summary>
+        public const string AccessLevel = "fs:accessLevel";
     }
 }

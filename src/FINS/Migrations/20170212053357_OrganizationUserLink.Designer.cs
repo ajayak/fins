@@ -8,9 +8,10 @@ using FINS.Context;
 namespace FINS.Migrations
 {
     [DbContext(typeof(FinsDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170212053357_OrganizationUserLink")]
+    partial class OrganizationUserLink
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -49,7 +50,7 @@ namespace FINS.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<int?>("OrganizationId");
+                    b.Property<int>("OrganizationId");
 
                     b.Property<string>("PasswordHash");
 
@@ -290,7 +291,8 @@ namespace FINS.Migrations
                 {
                     b.HasOne("FINS.Models.Organization", "Organization")
                         .WithMany("Users")
-                        .HasForeignKey("OrganizationId");
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

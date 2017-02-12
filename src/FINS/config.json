@@ -10,8 +10,7 @@
     "DefaultOrganizationUsername": "organization@example.com",
     "DefaultFromEmailAddress": "Administrator@example.com",
     "DefaultFromDisplayName": "FINS Administrator",
-    "InsertSampleData": "true",
-    "InsertTestUsers": "true"
+    "InsertSampleData": "true"
   },
   "General": {
     "SiteBaseUrl": "http://localhost:51111/",

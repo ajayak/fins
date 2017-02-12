@@ -106,11 +106,11 @@ namespace FINS
             });
 
             // Add Authorization rules for the app
-            /*services.AddAuthorization(options =>
+            services.AddAuthorization(options =>
             {
-                options.AddPolicy("OrgAdmin", b => b.RequireClaim(Security.ClaimTypes.UserType, "OrgAdmin", "SiteAdmin"));
-                options.AddPolicy("SiteAdmin", b => b.RequireClaim(Security.ClaimTypes.UserType, "SiteAdmin"));
-            });*/
+                options.AddPolicy("OrgAdmin", b => b.RequireClaim(ClaimTypes.UserType, "OrgAdmin"));
+                options.AddPolicy("SiteAdmin", b => b.RequireClaim(ClaimTypes.UserType, "SiteAdmin", "OrgAdmin"));
+            });
 
             services.AddMemoryCache();
 
@@ -235,11 +235,6 @@ namespace FINS
             if (Configuration["SampleData:InsertSampleData"] == "true")
             {
                 sampleData.InsertTestData();
-            }
-
-            if (Configuration["SampleData:InsertTestUsers"] == "true")
-            {
-                await sampleData.CreateAdminUser();
             }
         }
     }

@@ -34,7 +34,6 @@ namespace FINS.Models
         /// <summary>
         /// Short summary description of the organzation which can be used in tiles and smaller display areas
         /// </summary>
-        [MaxLength(250)]
         public string Summary { get; set; }
 
         /// <summary>
@@ -44,7 +43,6 @@ namespace FINS.Models
 
         /// <summary>
         /// Application users which are members of this Organization.
-        /// Users may be members of more than one organization.
         /// </summary>
         public List<ApplicationUser> Users { get; set; }
 
