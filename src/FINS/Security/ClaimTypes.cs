@@ -11,6 +11,11 @@ namespace FINS.Security
     public class ClaimTypes
     {
         /// <summary>
+        /// The id of the organization
+        /// </summary>
+        public const string Organization = "ar:organizationid";
+
+        /// <summary>
         /// The display name of the user
         /// </summary>
         public const string DisplayName = "fs:displayname";

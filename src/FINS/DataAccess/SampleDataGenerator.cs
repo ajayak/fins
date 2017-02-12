@@ -100,12 +100,15 @@ namespace FINS.DataAccess
                     UserName = _settings.DefaultOrganizationUsername,
                     Email = _settings.DefaultOrganizationUsername,
                     EmailConfirmed = true,
-                    PhoneNumber = "555-555-5555",
-                    Organization = organization
+                    PhoneNumber = "555-555-5555"
                 };
                 // For the sake of being able to exercise Organization-specific stuff, we need to associate a organization.
                 await _userManager.CreateAsync(orgAdmin, _settings.DefaultAdminPassword);
-                await _userManager.AddClaimAsync(orgAdmin, new Claim(Security.ClaimTypes.UserType, "OrgAdmin"));
+                await _userManager.AddClaimsAsync(orgAdmin, new List<Claim>()
+                {
+                    new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
+                    new Claim(Security.ClaimTypes.Organization, organization.Id.ToString())
+                });
 
                 var orgUser = new ApplicationUser
                 {
@@ -114,11 +117,14 @@ namespace FINS.DataAccess
                     UserName = _settings.DefaultUsername,
                     Email = _settings.DefaultUsername,
                     EmailConfirmed = true,
-                    PhoneNumber = "666-666-6666",
-                    Organization = organization
+                    PhoneNumber = "666-666-6666"
                 };
                 await _userManager.CreateAsync(orgUser, _settings.DefaultAdminPassword);
-                await _userManager.AddClaimAsync(orgUser, new Claim(Security.ClaimTypes.UserType, "BasicUser"));
+                await _userManager.AddClaimsAsync(orgUser, new List<Claim>
+                {
+                    new Claim(Security.ClaimTypes.UserType, "BasicUser"),
+                    new Claim(Security.ClaimTypes.Organization, organization.Id.ToString())
+                });
 
                 await _userManager.AddToRoleAsync(orgUser, "GateKeeper");
             }
