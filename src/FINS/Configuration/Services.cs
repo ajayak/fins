@@ -31,7 +31,11 @@ namespace FINS.Configuration
             containerBuilder.Register<SingleInstanceFactory>(ctx =>
             {
                 var c = ctx.Resolve<IComponentContext>();
-                return t => c.Resolve(t);
+                return t =>
+                {
+                    object o;
+                    return c.TryResolve(t, out o) ? o : null;
+                };
             });
 
             containerBuilder.Register<MultiInstanceFactory>(ctx =>

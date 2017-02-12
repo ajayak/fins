@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
+using FINS.Features.Login;
 using FINS.Models;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -18,23 +20,38 @@ namespace FINS.Controllers
         private readonly OpenIddictApplicationManager<OpenIddictApplication> _applicationManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMediator _mediator;
 
         public AuthorizationController(
             OpenIddictApplicationManager<OpenIddictApplication> applicationManager,
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IMediator mediator)
         {
             _applicationManager = applicationManager;
             _signInManager = signInManager;
             _userManager = userManager;
+            _mediator = mediator;
         }
 
         [HttpPost("~/connect/token"), Produces("application/json")]
         public async Task<IActionResult> ExchangeAsync(OpenIdConnectRequest request)
         {
+            /*var organizationParameter = request.GetParameter("organizationName");
+            var organizationName = organizationParameter?.Value.ToString();
+            var organizationExists = await _mediator.Send(new OrganizationExistsQuery(organizationName));
+            if (!organizationExists)
+            {
+                return BadRequest(new OpenIdConnectResponse
+                {
+                    Error = OpenIdConnectConstants.Errors.AccessDenied,
+                    ErrorDescription = $"{organizationParameter.Value} Organization does not exists"
+                });
+            }*/
+
             if (request.IsPasswordGrantType())
             {
-                var user = await _userManager.FindByNameAsync(request.Username);
+                var user = await _mediator.Send(new ApplicationUserQuery { UserName = request.Username });
                 if (user == null)
                 {
                     return BadRequest(new OpenIdConnectResponse
