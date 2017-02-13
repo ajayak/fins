@@ -5,6 +5,7 @@ using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
 using FINS.Features.Login;
 using FINS.Models;
+using FINS.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.Authentication;
@@ -37,18 +38,6 @@ namespace FINS.Controllers
         [HttpPost("~/connect/token"), Produces("application/json")]
         public async Task<IActionResult> ExchangeAsync(OpenIdConnectRequest request)
         {
-            /*var organizationParameter = request.GetParameter("organizationName");
-            var organizationName = organizationParameter?.Value.ToString();
-            var organizationExists = await _mediator.Send(new OrganizationExistsQuery(organizationName));
-            if (!organizationExists)
-            {
-                return BadRequest(new OpenIdConnectResponse
-                {
-                    Error = OpenIdConnectConstants.Errors.AccessDenied,
-                    ErrorDescription = $"{organizationParameter.Value} Organization does not exists"
-                });
-            }*/
-
             if (request.IsPasswordGrantType())
             {
                 var user = await _mediator.Send(new ApplicationUserQuery { UserName = request.Username });
@@ -111,6 +100,17 @@ namespace FINS.Controllers
                     await _userManager.ResetAccessFailedCountAsync(user);
                 }
 
+                if (!user.IsUserType(UserType.SiteAdmin))
+                {
+                    var organizationParameter = request.GetParameter("organization");
+                    var organizationName = organizationParameter?.Value.ToString();
+                    var status = await CheckOrganization(user, organizationName, request.Username);
+                    if (status != null)
+                    {
+                        return status;
+                    }
+                }
+
                 // Create a new authentication ticket.
                 var ticket = await CreateTicketAsync(request, user);
 
@@ -144,6 +144,17 @@ namespace FINS.Controllers
                     });
                 }
 
+                if (!user.IsUserType(UserType.SiteAdmin))
+                {
+                    var organizationParameter = request.GetParameter("organization");
+                    var organizationName = organizationParameter?.Value.ToString();
+                    var status = await CheckOrganization(user, organizationName, request.Username);
+                    if (status != null)
+                    {
+                        return status;
+                    }
+                }
+
                 // Create a new authentication ticket, but reuse the properties stored
                 // in the refresh token, including the scopes originally granted.
                 var ticket = await CreateTicketAsync(request, user, info.Properties);
@@ -156,6 +167,34 @@ namespace FINS.Controllers
                 Error = OpenIdConnectConstants.Errors.UnsupportedGrantType,
                 ErrorDescription = "The specified grant type is not supported."
             });
+        }
+
+
+        private async Task<IActionResult> CheckOrganization(ApplicationUser user, string organizationName, string username)
+        {
+            var organizationId = await _mediator.Send(new GetOrganizationIdQuery() { OrganizationName = organizationName });
+            if (!organizationId.HasValue || organizationId == 0)
+            {
+                return BadRequest(new OpenIdConnectResponse
+                {
+                    Error = OpenIdConnectConstants.Errors.AccessDenied,
+                    ErrorDescription = $"{organizationName} Organization does not exists"
+                });
+            }
+
+            var organizationClaim = user.Claims
+                .FirstOrDefault(c => c.ClaimType == ClaimTypes.Organization).ToClaim();
+            var userIsInOrganization = organizationClaim.Value
+                .Contains(organizationId.ToString());
+            if (!userIsInOrganization)
+            {
+                return BadRequest(new OpenIdConnectResponse
+                {
+                    Error = OpenIdConnectConstants.Errors.AccessDenied,
+                    ErrorDescription = $"{username} is not a member of {organizationName}."
+                });
+            }
+            return null;
         }
 
         private async Task<AuthenticationTicket> CreateTicketAsync(

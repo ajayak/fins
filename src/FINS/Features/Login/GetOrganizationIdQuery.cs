@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FINS.Models;
 using MediatR;
 
 namespace FINS.Features.Login
 {
-    public class OrganizationExistsQuery : IRequest<bool>
+    public class GetOrganizationIdQuery : IRequest<int?>
     {
-        public OrganizationExistsQuery(string name)
-        {
-            this.OrganizationName = name;
-        }
         public string OrganizationName { get; set; }
     }
 }
