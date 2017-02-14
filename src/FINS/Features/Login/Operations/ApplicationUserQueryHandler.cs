@@ -4,7 +4,7 @@ using FINS.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace FINS.Features.Login
+namespace FINS.Features.Login.Operations
 {
     public class ApplicationUserQueryHandler : IAsyncRequestHandler<ApplicationUserQuery, ApplicationUser>
     {

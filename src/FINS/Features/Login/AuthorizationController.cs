@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
-using FINS.Features.Login;
+using FINS.Features.Login.Operations;
 using FINS.Models;
 using FINS.Security;
 using MediatR;
@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Core;
 using OpenIddict.Models;
 
-namespace FINS.Controllers
+namespace FINS.Features.Login
 {
     public class AuthorizationController : Controller
     {
@@ -214,8 +214,7 @@ namespace FINS.Controllers
                 // In this sample, every claim is serialized in both the access and the identity tokens.
                 // In a real world application, you'd probably want to exclude confidential claims
                 // or apply a claims policy based on the scopes requested by the client application.
-                claim.SetDestinations(OpenIdConnectConstants.Destinations.AccessToken,
-                                      OpenIdConnectConstants.Destinations.IdentityToken);
+                claim.SetDestinations(OpenIdConnectConstants.Destinations.IdentityToken, OpenIdConnectConstants.Destinations.AccessToken);
             }
 
             // Create a new authentication ticket holding the user identity.

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FINS.Context;
-using FINS.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace FINS.Features.Login
+namespace FINS.Features.Login.Operations
 {
     public class GetOrganizationIdQueryHandler : IAsyncRequestHandler<GetOrganizationIdQuery, int?>
     {

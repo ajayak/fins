@@ -1,7 +1,7 @@
 ﻿using FINS.Models;
 using MediatR;
 
-namespace FINS.Features.Login
+namespace FINS.Features.Login.Operations
 {
     public class ApplicationUserQuery : IRequest<ApplicationUser>
     {
