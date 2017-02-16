@@ -11,7 +11,7 @@ namespace FINS.App_Start
 {
     public static class FinsDbContextConfig
     {
-        public static void SetupDbContextConfig(this IServiceCollection services, string connectionString)
+        public static IServiceCollection SetupDbContextConfig(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<FinsDbContext>(options =>
             {
@@ -21,6 +21,7 @@ namespace FINS.App_Start
                 );
                 options.UseOpenIddict();
             });
+            return services;
         }
     }
 }

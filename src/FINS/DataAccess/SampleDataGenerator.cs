@@ -31,7 +31,7 @@ namespace FINS.DataAccess
             _roleManager = roleManager;
         }
 
-        public async void InsertTestData()
+        public async Task InsertTestData()
         {
             if (_context.Organizations.Any() ||
                 _context.Roles.Any() ||

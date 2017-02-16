@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Autofac.Features.Variance;
 using FINS.App_Start;
 using FINS.Configuration;
 using FINS.Context;
 using FINS.DataAccess;
 using FINS.Hangfire;
-using FINS.Models;
 using FINS.Security;
 using Hangfire;
-using Hangfire.SqlServer;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace FINS
 {
@@ -50,6 +42,13 @@ namespace FINS
             {
                 builder.AddApplicationInsightsSettings(developerMode: false);
             }
+
+            // configure serilog
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.LiterateConsole()
+                .WriteTo.RollingFile("logs/log-{Date}.txt")
+                .CreateLogger();
 
             Configuration = builder.Build();
         }
@@ -112,6 +111,9 @@ namespace FINS
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            // Add Serilog to the logging pipeline
+            loggerFactory.AddSerilog();
+
             // Add Application Insights to the request pipeline to track HTTP request telemetry data.
             app.UseApplicationInsightsRequestTelemetry();
 
@@ -167,7 +169,7 @@ namespace FINS
             // for production applications, this should either be set to false or deleted.
             if (Configuration["SampleData:InsertSampleData"] == "true")
             {
-                sampleData.InsertTestData();
+                await sampleData.InsertTestData();
             }
         }
     }

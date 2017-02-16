@@ -6,7 +6,7 @@ namespace FINS.App_Start
 {
     public static class ConfigureOpenIdConnect
     {
-        public static void ConfigureFinsOpenIdConnect(this IServiceCollection services)
+        public static IServiceCollection ConfigureFinsOpenIdConnect(this IServiceCollection services)
         {
             // Register the OpenIddict services.
             services.AddOpenIddict()
@@ -48,6 +48,8 @@ namespace FINS.App_Start
             //          assembly: typeof(Startup).GetTypeInfo().Assembly,
             //          resource: "AuthorizationServer.Certificate.pfx",
             //          password: "OpenIddict");
+
+            return services;
         }
     }
 }

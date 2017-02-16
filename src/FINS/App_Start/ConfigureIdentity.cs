@@ -9,7 +9,7 @@ namespace FINS.App_Start
 {
     public static class ConfigureIdentity
     {
-        public static void ConfigureFinsIdentity(this IServiceCollection services)
+        public static IServiceCollection ConfigureFinsIdentity(this IServiceCollection services)
         {
             // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -35,6 +35,8 @@ namespace FINS.App_Start
                 // User settings
                 options.User.RequireUniqueEmail = true;
             });
+
+            return services;
         }
     }
 }
