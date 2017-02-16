@@ -36,7 +36,7 @@ namespace FINS.Features.Login
         }
 
         [HttpPost("~/connect/token"), Produces("application/json")]
-        public async Task<IActionResult> ExchangeAsync(OpenIdConnectRequest request)
+        public async Task<IActionResult> Exchange(OpenIdConnectRequest request)
         {
             if (request.IsPasswordGrantType())
             {
