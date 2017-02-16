@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
 
-namespace FINS.Security
+namespace FINS.App_Start
 {
-    public static class FinsCorsPolicyFactory
+    public static class CorsPolicyFactory
     {
         public static CorsPolicy BuildFinsOpenCorsPolicy()
         {

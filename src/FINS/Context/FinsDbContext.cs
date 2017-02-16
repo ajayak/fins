@@ -30,6 +30,7 @@ namespace FINS.Context
             builder.Entity<IdentityRole>().ToTable("Roles");
 
             builder.Entity<ApplicationUser>().Configure();
+            builder.Entity<Organization>().Configure();
         }
     }
 }

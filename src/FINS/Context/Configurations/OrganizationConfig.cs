@@ -14,6 +14,7 @@ namespace FINS.Context.Configurations
         {
             entity.Property(p => p.Id).HasColumnName($"{nameof(Organization)}Id");
             entity.Property(p => p.Name).IsRequired().HasMaxLength(100);
+            entity.Property(p => p.Code).IsRequired().HasMaxLength(20);
             entity.Property(p => p.Summary).HasMaxLength(250);
             entity.Property(p => p.LogoUrl).HasMaxLength(250);
             entity.Property(p => p.WebUrl).HasMaxLength(250);

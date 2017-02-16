@@ -4,6 +4,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.Variance;
+using FINS.App_Start;
 using FINS.Configuration;
 using FINS.Context;
 using FINS.DataAccess;
@@ -62,48 +63,19 @@ namespace FINS
             // Must be first to avoid OPTIONS issues when calling from Angular/Browser
             services.AddCors(options =>
             {
-                options.AddPolicy("FINS", FinsCorsPolicyFactory.BuildFinsOpenCorsPolicy());
+                options.AddPolicy("FINS", CorsPolicyFactory.BuildFinsOpenCorsPolicy());
             });
 
             // Add Application Insights data collection services to the services container.
             services.AddApplicationInsightsTelemetry(Configuration);
 
             // Add Entity Framework services to the services container.
-            services.AddDbContext<FinsDbContext>(options =>
-            {
-                options.UseSqlServer(
-                    Configuration["Data:DefaultConnection:ConnectionString"],
-                    option => option.EnableRetryOnFailure(2)
-                );
-                options.UseOpenIddict();
-            });
+            services.SetupDbContextConfig(Configuration["Data:DefaultConnection:ConnectionString"]);
 
             Options.LoadConfigurationOptions(services, Configuration);
 
             // Register the Identity services.
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<FinsDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = false;
-
-                // Lockout settings
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
-
-                options.SignIn.RequireConfirmedEmail = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-
-                // User settings
-                options.User.RequireUniqueEmail = true;
-            });
+            services.ConfigureFinsIdentity();
 
             // Add Authorization rules for the app
             services.AddAuthorization(options =>
@@ -120,46 +92,7 @@ namespace FINS
                 .AddJsonOptions(options =>
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
-            // Register the OpenIddict services.
-            services.AddOpenIddict()
-                // Register the Entity Framework stores.
-                .AddEntityFrameworkCoreStores<FinsDbContext>()
-
-                // Register the ASP.NET Core MVC binder used by OpenIddict.
-                // Note: if you don't call this method, you won't be able to
-                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-                .AddMvcBinders()
-
-                // Enable the token endpoint.
-                .EnableTokenEndpoint("/connect/token")
-
-                // Enable the password and the refresh token flows.
-                .AllowPasswordFlow()
-                .AllowRefreshTokenFlow()
-
-                // During development, you can disable the HTTPS requirement.
-                .DisableHttpsRequirement()
-
-                // Register a new ephemeral key, that is discarded when the application
-                // shuts down. Tokens signed using this key are automatically invalidated.
-                // This method should only be used during development.
-                .AddEphemeralSigningKey();
-
-            // On production, using a X.509 certificate stored in the machine store is recommended.
-            // You can generate a self-signed certificate using Pluralsight's self-cert utility:
-            // https://s3.amazonaws.com/pluralsight-free/keith-brown/samples/SelfCert.zip
-            //
-            // services.AddOpenIddict()
-            //     .AddSigningCertificate("7D2A741FE34CC2C7369237A5F2078988E17A6A75");
-            //
-            // Alternatively, you can also store the certificate as an embedded .pfx resource
-            // directly in this assembly or in a file published alongside this project:
-            //
-            // services.AddOpenIddict()
-            //     .AddSigningCertificate(
-            //          assembly: typeof(Startup).GetTypeInfo().Assembly,
-            //          resource: "AuthorizationServer.Certificate.pfx",
-            //          password: "OpenIddict");
+            services.ConfigureFinsOpenIdConnect();
 
             //Hangfire
             services.AddHangfire(configuration => configuration.UseSqlServerStorage(Configuration["Data:HangfireConnection:ConnectionString"]));
