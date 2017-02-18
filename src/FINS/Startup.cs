@@ -51,9 +51,11 @@ namespace FINS
                 .CreateLogger();
 
             Configuration = builder.Build();
+            HostingEnvironment = env;
         }
 
         public IConfigurationRoot Configuration { get; }
+        public IHostingEnvironment HostingEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -69,7 +71,7 @@ namespace FINS
             services.AddApplicationInsightsTelemetry(Configuration);
 
             // Add Entity Framework services to the services container.
-            services.SetupDbContextConfig(Configuration["Data:DefaultConnection:ConnectionString"]);
+            services.SetupFinsDbContext(Configuration["Data:DefaultConnection:ConnectionString"], HostingEnvironment.IsEnvironment("Test"));
 
             Options.LoadConfigurationOptions(services, Configuration);
 
@@ -93,7 +95,7 @@ namespace FINS
             services.ConfigureFinsOpenIdConnect();
 
             //Hangfire
-            services.AddHangfire(configuration => configuration.UseSqlServerStorage(Configuration["Data:HangfireConnection:ConnectionString"]));
+            services.ConfigureHangfire(Configuration["Data:HangfireConnection:ConnectionString"], HostingEnvironment.IsEnvironment("Test"));
 
             // configure IoC support
             var container = FINS.Configuration.Services.CreateIoCContainer(services, Configuration);
@@ -142,14 +144,13 @@ namespace FINS
             app.UseOAuthValidation();
 
             //call Migrate here to force the creation of the FINS database so Hangfire can create its schema under it
-            if (!env.IsProduction())
+            if (env.IsDevelopment())
             {
                 context.Database.Migrate();
             }
 
             //Hangfire
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions { Authorization = new[] { new HangireDashboardAuthorizationFilter() } });
-            app.UseHangfireServer();
+            app.UseFinsHangfire();
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>

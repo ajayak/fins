@@ -18,18 +18,16 @@ namespace FINS.Features.Login
 {
     public class AuthorizationController : Controller
     {
-        private readonly OpenIddictApplicationManager<OpenIddictApplication> _applicationManager;
+        //private readonly OpenIddictApplicationManager<OpenIddictApplication> _applicationManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMediator _mediator;
 
         public AuthorizationController(
-            OpenIddictApplicationManager<OpenIddictApplication> applicationManager,
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IMediator mediator)
         {
-            _applicationManager = applicationManager;
             _signInManager = signInManager;
             _userManager = userManager;
             _mediator = mediator;
