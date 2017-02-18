@@ -30,7 +30,7 @@ namespace FINS.UnitTest.Features.Login.Operations
         }
 
         [Fact]
-        public async void ReturnOrganizationIdWhenOrgExists()
+        public async Task ReturnOrganizationIdWhenOrgExists()
         {
             var sut = new GetOrganizationIdQueryHandler(Context);
             var result = await sut.Handle(new GetOrganizationIdQuery {OrganizationName = "fs"});
@@ -38,7 +38,7 @@ namespace FINS.UnitTest.Features.Login.Operations
         }
 
         [Fact]
-        public async void ReturnOrganizationIdWhenOrgNameIsUpper()
+        public async Task ReturnOrganizationIdWhenOrgNameIsUpper()
         {
             var sut = new GetOrganizationIdQueryHandler(Context);
             var result = await sut.Handle(new GetOrganizationIdQuery { OrganizationName = "FS" });
@@ -46,7 +46,7 @@ namespace FINS.UnitTest.Features.Login.Operations
         }
 
         [Fact]
-        public async void ReturnsZeroWhenOrgNameNotExists()
+        public async Task ReturnsZeroWhenOrgNameNotExists()
         {
             var sut = new GetOrganizationIdQueryHandler(Context);
             var result = await sut.Handle(new GetOrganizationIdQuery { OrganizationName = "fsa" });

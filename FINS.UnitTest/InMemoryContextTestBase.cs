@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using FINS.Context;
 using FINS.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FINS.UnitTest
 {
@@ -18,11 +19,13 @@ namespace FINS.UnitTest
         /// </summary>
         protected FinsDbContext Context { get; private set; }
         protected UserManager<ApplicationUser> UserManager { get; }
+        protected RoleManager<IdentityRole> RoleManager { get; }
 
         protected InMemoryContextTest()
         {
             Context = ServiceProvider.GetService<FinsDbContext>();
             UserManager = ServiceProvider.GetService<UserManager<ApplicationUser>>();
+            RoleManager = ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
             LoadTestData();
         }
