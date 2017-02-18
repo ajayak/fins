@@ -86,7 +86,6 @@ namespace FINS
             services.AddMemoryCache();
 
             // Add MVC services to the services container.
-            // config add to get passed Angular failing on Options request when logging in.
             services.AddMvc()
                 .AddJsonOptions(options =>
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
@@ -113,9 +112,6 @@ namespace FINS
 
             // Add Serilog to the logging pipeline
             loggerFactory.AddSerilog();
-
-            // Add Application Insights to the request pipeline to track HTTP request telemetry data.
-            app.UseApplicationInsightsRequestTelemetry();
 
             // Add the following to the request pipeline only in development environment.
             if (env.IsDevelopment())
@@ -144,9 +140,6 @@ namespace FINS
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
-
-            // Track data about exceptions from the application. Should be configured after all error handling middleware in the request pipeline.
-            app.UseApplicationInsightsExceptionTelemetry();
 
             //call Migrate here to force the creation of the FINS database so Hangfire can create its schema under it
             if (!env.IsProduction())

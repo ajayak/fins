@@ -45,6 +45,7 @@ namespace FINS.DataAccess
             var organization = new Organization()
             {
                 Name = "fs",
+                Code = "fs",
                 Summary = "Test organization",
                 DescriptionHtml = "<h1>Description</h1>",
                 LogoUrl = "https://www.gravatar.com/avatar/c1dac1f4ff42afb6cbf5761039e79e3d",
