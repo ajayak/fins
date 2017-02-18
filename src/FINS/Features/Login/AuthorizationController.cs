@@ -173,7 +173,7 @@ namespace FINS.Features.Login
         private async Task<IActionResult> CheckOrganization(ApplicationUser user, string organizationName, string username)
         {
             var organizationId = await _mediator.Send(new GetOrganizationIdQuery() { OrganizationName = organizationName });
-            if (!organizationId.HasValue || organizationId == 0)
+            if (organizationId == 0)
             {
                 return BadRequest(new OpenIdConnectResponse
                 {

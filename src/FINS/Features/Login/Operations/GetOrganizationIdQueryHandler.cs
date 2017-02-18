@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FINS.Features.Login.Operations
 {
-    public class GetOrganizationIdQueryHandler : IAsyncRequestHandler<GetOrganizationIdQuery, int?>
+    public class GetOrganizationIdQueryHandler : IAsyncRequestHandler<GetOrganizationIdQuery, int>
     {
         private readonly FinsDbContext _dataContext;
 
@@ -16,7 +16,7 @@ namespace FINS.Features.Login.Operations
             this._dataContext = dataContext;
         }
 
-        public async Task<int?> Handle(GetOrganizationIdQuery message)
+        public async Task<int> Handle(GetOrganizationIdQuery message)
         {
             return await _dataContext.Organizations
                 .Where(c => c.Name.Equals(message.OrganizationName, StringComparison.OrdinalIgnoreCase))
