@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO;
 using FINS.Context;
 using FINS.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace FINS.UnitTest
 {
@@ -22,27 +24,16 @@ namespace FINS.UnitTest
         {
             if (ServiceProvider == null)
             {
-                var services = new ServiceCollection();
+                var path = PlatformServices.Default.Application.ApplicationBasePath;
+                var setDir = Path.GetFullPath(Path.Combine(path, "../../../../src/FINS"));
 
-                // set up empty in-memory test db
-                services
-                  .AddEntityFrameworkInMemoryDatabase()
-                  .AddDbContext<FinsDbContext>(options => options.UseInMemoryDatabase().UseInternalServiceProvider(services.BuildServiceProvider()));
-
-                // add identity service
-                services.AddIdentity<ApplicationUser, IdentityRole>()
-                    .AddEntityFrameworkStores<FinsDbContext>();
-                var context = new DefaultHttpContext();
-                context.Features.Set<IHttpAuthenticationFeature>(new HttpAuthenticationFeature());
-                services.AddSingleton<IHttpContextAccessor>(h => new HttpContextAccessor { HttpContext = context });
-
-                // Setup hosting environment
-                IHostingEnvironment hostingEnvironment = new HostingEnvironment();
-                hostingEnvironment.EnvironmentName = "Development";
-                services.AddSingleton(x => hostingEnvironment);
-
-                // set up service provider for tests
-                ServiceProvider = services.BuildServiceProvider();
+                var builder = new WebHostBuilder()
+                    .UseContentRoot(setDir)
+                    .UseEnvironment("Test")
+                    .UseKestrel()
+                    .UseStartup<Startup>();
+                var host = builder.Build();
+                ServiceProvider = host.Services;
             }
         }
 
