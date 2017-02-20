@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
 using FINS.DataAccess;
 using FINS.Features.Login;
 using FINS.Models;
-using FINS.Security;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +12,7 @@ using SignInResult = Microsoft.AspNetCore.Mvc.SignInResult;
 
 namespace FINS.UnitTest.Features.Login
 {
-    public class DataFixture:TestBase
-    {
-        public DataFixture()
-        {
-            var dataGenerator = ServiceProvider.GetService<SampleDataGenerator>();
-            dataGenerator.InsertOrgUserRoleTestData().Wait();
-        }
-    }
-
-    public class AuthorizationControllerShould : InMemoryContextTest, IClassFixture<DataFixture>
+    public class AuthorizationControllerShould : InMemoryContextTest, IClassFixture<OrgUserRoleFixture>
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -96,6 +85,14 @@ namespace FINS.UnitTest.Features.Login
             result.As<BadRequestObjectResult>()
                 .Value.As<OpenIdConnectResponse>()
                 .Error.Should().Be(OpenIdConnectConstants.Errors.UnsupportedGrantType);
+        }
+    }
+
+    public class OrgUserRoleFixture : InMemoryContextTest
+    {
+        public OrgUserRoleFixture()
+        {
+            SampleDataGenerator.InsertOrgUserRoleTestData().Wait();
         }
     }
 }
