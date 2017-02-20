@@ -52,7 +52,19 @@ namespace FINS.DataAccess
                 PrivacyPolicyUrl = "https://www.google.co.in",
                 WebUrl = "http://www.github.com/"
             };
+            var anotherOrganization = new Organization()
+            {
+                Name = "anotherfs",
+                Code = "anotherfs",
+                Summary = "Test organization 2",
+                DescriptionHtml = "<h1>Description</h1>",
+                LogoUrl = "https://www.gravatar.com/avatar/c1dac1f4ff42afb6cbf5761039e79e3d",
+                PrivacyPolicy = "Do not copy",
+                PrivacyPolicyUrl = "https://www.google.co.in",
+                WebUrl = "http://www.github.com/"
+            };
             await _context.Organizations.AddAsync(organization);
+            await _context.Organizations.AddAsync(anotherOrganization);
 
             #endregion
 

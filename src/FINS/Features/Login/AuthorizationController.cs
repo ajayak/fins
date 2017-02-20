@@ -166,8 +166,7 @@ namespace FINS.Features.Login
                 ErrorDescription = "The specified grant type is not supported."
             });
         }
-
-
+        
         private async Task<IActionResult> CheckOrganization(ApplicationUser user, string organizationName, string username)
         {
             var organizationId = await _mediator.Send(new GetOrganizationIdQuery() { OrganizationName = organizationName });

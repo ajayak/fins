@@ -19,7 +19,6 @@ namespace FINS.Features.Login.Operations
         {
             var normalizedUserName = message.UserName.ToUpperInvariant();
             var user = await _context.Users
-                .AsNoTracking()
                 .Include(a => a.Claims)
                 .Include(a => a.Roles)
                 .FirstOrDefaultAsync(a => a.NormalizedUserName == normalizedUserName);
