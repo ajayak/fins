@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
-using FINS.DataAccess;
 using FINS.Features.Login;
 using FINS.Models;
 using FluentAssertions;
@@ -12,7 +11,8 @@ using SignInResult = Microsoft.AspNetCore.Mvc.SignInResult;
 
 namespace FINS.UnitTest.Features.Login
 {
-    public class AuthorizationControllerShould : InMemoryContextTest, IClassFixture<OrgUserRoleFixture>
+    [Collection("OrgUserRole")]
+    public class AuthorizationControllerShould : InMemoryContextTest
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -24,7 +24,6 @@ namespace FINS.UnitTest.Features.Login
         [Fact]
         public async Task ReturnsTokenForOrgAdminWithValidOrg()
         {
-            await SampleDataGenerator.InsertOrgUserRoleTestData();
             var sut = new AuthorizationController(_signInManager, UserManager, Mediator);
             var request = new OpenIdConnectRequest()
             {
@@ -48,7 +47,6 @@ namespace FINS.UnitTest.Features.Login
         [InlineData("fso")]
         public async Task ReturnsTokenForSiteAdminWithAnyOrg(string orgName)
         {
-            await SampleDataGenerator.InsertOrgUserRoleTestData();
             var sut = new AuthorizationController(_signInManager, UserManager, Mediator);
             var request = new OpenIdConnectRequest()
             {
@@ -69,7 +67,6 @@ namespace FINS.UnitTest.Features.Login
         [Fact]
         public async void ReturnsErrorWhenInvalidGrantType()
         {
-            await SampleDataGenerator.InsertOrgUserRoleTestData();
             var sut = new AuthorizationController(_signInManager, UserManager, Mediator);
             var result = await sut.Exchange(new OpenIdConnectRequest()
             {
@@ -85,14 +82,6 @@ namespace FINS.UnitTest.Features.Login
             result.As<BadRequestObjectResult>()
                 .Value.As<OpenIdConnectResponse>()
                 .Error.Should().Be(OpenIdConnectConstants.Errors.UnsupportedGrantType);
-        }
-    }
-
-    public class OrgUserRoleFixture : InMemoryContextTest
-    {
-        public OrgUserRoleFixture()
-        {
-            SampleDataGenerator.InsertOrgUserRoleTestData().Wait();
         }
     }
 }
