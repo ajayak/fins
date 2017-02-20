@@ -29,27 +29,23 @@ namespace FINS.UnitTest.Features.Login.Operations
             Context.SaveChanges();
         }
 
-        [Fact]
-        public async Task ReturnOrganizationIdWhenOrgExists()
+        [Theory]
+        [InlineData("testOrg")]
+        [InlineData("TESTORG")]
+        public async Task ReturnOrganizationIdWhenOrgExists(string name)
         {
             var sut = new GetOrganizationIdQueryHandler(Context);
-            var result = await sut.Handle(new GetOrganizationIdQuery {OrganizationName = "testOrg" });
+            var result = await sut.Handle(new GetOrganizationIdQuery {OrganizationName = name });
             result.Should().Be(1);
         }
 
-        [Fact]
-        public async Task ReturnOrganizationIdWhenOrgNameIsUpper()
+        [Theory]
+        [InlineData("fsa")]
+        [InlineData("")]
+        public async Task ReturnsZeroWhenOrgNameNotExists(string name)
         {
             var sut = new GetOrganizationIdQueryHandler(Context);
-            var result = await sut.Handle(new GetOrganizationIdQuery { OrganizationName = "TESTORG" });
-            result.Should().Be(1);
-        }
-
-        [Fact]
-        public async Task ReturnsZeroWhenOrgNameNotExists()
-        {
-            var sut = new GetOrganizationIdQueryHandler(Context);
-            var result = await sut.Handle(new GetOrganizationIdQuery { OrganizationName = "fsa" });
+            var result = await sut.Handle(new GetOrganizationIdQuery { OrganizationName = name });
             result.Should().Be(0);
         }
     }
