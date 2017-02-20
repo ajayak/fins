@@ -22,7 +22,7 @@ namespace FINS.Features.Login.Operations
                 .AsNoTracking()
                 .Include(a => a.Claims)
                 .Include(a => a.Roles)
-                .SingleOrDefaultAsync(a => a.NormalizedUserName == normalizedUserName);
+                .FirstOrDefaultAsync(a => a.NormalizedUserName == normalizedUserName);
              return user;
         }
     }

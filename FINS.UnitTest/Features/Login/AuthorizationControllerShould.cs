@@ -1,37 +1,101 @@
-﻿using AspNet.Security.OpenIdConnect.Primitives;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using AspNet.Security.OpenIdConnect.Primitives;
+using FINS.DataAccess;
 using FINS.Features.Login;
 using FINS.Models;
+using FINS.Security;
 using FluentAssertions;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using SignInResult = Microsoft.AspNetCore.Mvc.SignInResult;
 
 namespace FINS.UnitTest.Features.Login
 {
-    [Collection("Integration tests collection")]
-    public class AuthorizationControllerShould : InMemoryContextTest
+    public class DataFixture:TestBase
+    {
+        public DataFixture()
+        {
+            var dataGenerator = ServiceProvider.GetService<SampleDataGenerator>();
+            dataGenerator.InsertOrgUserRoleTestData().Wait();
+        }
+    }
+
+    public class AuthorizationControllerShould : InMemoryContextTest, IClassFixture<DataFixture>
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IMediator _mediator;
 
         public AuthorizationControllerShould()
         {
             _signInManager = ServiceProvider.GetService<SignInManager<ApplicationUser>>();
-            _mediator = ServiceProvider.GetService<Mediator>();
         }
 
         [Fact]
-        public async void ReturnOkStatus()
+        public async Task ReturnsTokenForOrgAdminWithValidOrg()
         {
-            var sut = new AuthorizationController(_signInManager, UserManager, _mediator);
+            await SampleDataGenerator.InsertOrgUserRoleTestData();
+            var sut = new AuthorizationController(_signInManager, UserManager, Mediator);
+            var request = new OpenIdConnectRequest()
+            {
+                Username = "organization@example.com",
+                Password = "YouShouldChangeThisPassword1!",
+                GrantType = "password",
+                Scope = "openid email profiles roles",
+            };
+            request.AddParameter("organization", "fs");
+            var result = await sut.Exchange(request);
 
+            result.Should().BeOfType<SignInResult>()
+                .Which.Principal.Identity.Name.Should().Be("organization@example.com");
+
+            result.As<SignInResult>().Principal.Identity.IsAuthenticated.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("fs")]
+        [InlineData("fso")]
+        public async Task ReturnsTokenForSiteAdminWithAnyOrg(string orgName)
+        {
+            await SampleDataGenerator.InsertOrgUserRoleTestData();
+            var sut = new AuthorizationController(_signInManager, UserManager, Mediator);
+            var request = new OpenIdConnectRequest()
+            {
+                Username = "Administrator@example.com",
+                Password = "YouShouldChangeThisPassword1!",
+                GrantType = "password",
+                Scope = "openid email profiles roles",
+            };
+            request.AddParameter("organization", orgName);
+            var result = await sut.Exchange(request);
+
+            result.Should().BeOfType<SignInResult>()
+                .Which.Principal.Identity.Name.Should().Be("Administrator@example.com");
+
+            result.As<SignInResult>().Principal.Identity.IsAuthenticated.Should().BeTrue();
+        }
+
+        [Fact]
+        public async void ReturnsErrorWhenInvalidGrantType()
+        {
+            await SampleDataGenerator.InsertOrgUserRoleTestData();
+            var sut = new AuthorizationController(_signInManager, UserManager, Mediator);
             var result = await sut.Exchange(new OpenIdConnectRequest()
             {
-                Username = "a"
+                Username = "Administrator@example.com",
+                Password = "YouShouldChangeThisPassword1!",
+                GrantType = "not!password",
+                Scope = "openid email profiles roles",
             });
 
-            0.Should().Be(0);
+            result.Should().BeOfType<BadRequestObjectResult>()
+                .Which.StatusCode.Should().Be(400);
+
+            result.As<BadRequestObjectResult>()
+                .Value.As<OpenIdConnectResponse>()
+                .Error.Should().Be(OpenIdConnectConstants.Errors.UnsupportedGrantType);
         }
     }
 }

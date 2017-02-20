@@ -16,8 +16,8 @@ namespace FINS.UnitTest.Features.Login.Operations
         {
             var organization = new Organization()
             {
-                Name = "fs",
-                Code = "fs",
+                Name = "testOrg",
+                Code = "to",
                 Summary = "Test organization",
                 DescriptionHtml = "<h1>Description</h1>",
                 LogoUrl = "https://www.gravatar.com/avatar/c1dac1f4ff42afb6cbf5761039e79e3d",
@@ -33,7 +33,7 @@ namespace FINS.UnitTest.Features.Login.Operations
         public async Task ReturnOrganizationIdWhenOrgExists()
         {
             var sut = new GetOrganizationIdQueryHandler(Context);
-            var result = await sut.Handle(new GetOrganizationIdQuery {OrganizationName = "fs"});
+            var result = await sut.Handle(new GetOrganizationIdQuery {OrganizationName = "testOrg" });
             result.Should().Be(1);
         }
 
@@ -41,7 +41,7 @@ namespace FINS.UnitTest.Features.Login.Operations
         public async Task ReturnOrganizationIdWhenOrgNameIsUpper()
         {
             var sut = new GetOrganizationIdQueryHandler(Context);
-            var result = await sut.Handle(new GetOrganizationIdQuery { OrganizationName = "FS" });
+            var result = await sut.Handle(new GetOrganizationIdQuery { OrganizationName = "TESTORG" });
             result.Should().Be(1);
         }
 

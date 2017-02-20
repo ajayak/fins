@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using FINS.Context;
+using FINS.DataAccess;
 using FINS.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -22,13 +23,15 @@ namespace FINS.UnitTest
         protected UserManager<ApplicationUser> UserManager { get; }
         protected RoleManager<IdentityRole> RoleManager { get; }
         protected IMediator Mediator { get; }
+        protected SampleDataGenerator SampleDataGenerator { get; }
 
         protected InMemoryContextTest()
         {
             Context = ServiceProvider.GetService<FinsDbContext>();
             UserManager = ServiceProvider.GetService<UserManager<ApplicationUser>>();
             RoleManager = ServiceProvider.GetService<RoleManager<IdentityRole>>();
-            Mediator = ServiceProvider.GetService<Mediator>();
+            Mediator = ServiceProvider.GetService<IMediator>();
+            SampleDataGenerator = ServiceProvider.GetService<SampleDataGenerator>();
 
             LoadTestData();
         }

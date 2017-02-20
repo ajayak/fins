@@ -102,7 +102,7 @@ namespace FINS
             return container.Resolve<IServiceProvider>();
         }
 
-        
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, FinsDbContext context, SampleDataGenerator sampleData)
         {
@@ -161,9 +161,10 @@ namespace FINS
 
             // Add sample data and test admin accounts if specified in Config.Json.
             // for production applications, this should either be set to false or deleted.
-            if (Configuration["SampleData:InsertSampleData"] == "true")
+            if (Configuration["SampleData:InsertSampleData"] == "true" &&
+                !env.IsEnvironment("Test"))
             {
-                await sampleData.InsertTestData();
+                await sampleData.InsertOrgUserRoleTestData();
             }
         }
     }
