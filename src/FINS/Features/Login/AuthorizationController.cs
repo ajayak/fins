@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Core;
-using OpenIddict.Models;
 
 namespace FINS.Features.Login
 {

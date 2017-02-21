@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FINS.Configuration;
 using FINS.Context;
 using FINS.Models;
 using Microsoft.AspNetCore.Identity;

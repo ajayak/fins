@@ -1,13 +1,11 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FINS.Configuration;
 using FINS.DTO.Account;
-using FINS.Features.Manage;
 using FINS.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Options;
 
 namespace FINS.Controllers

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FINS.Security
+﻿namespace FINS.Security
 {
     /// <summary>
     /// Custom claims for FINS

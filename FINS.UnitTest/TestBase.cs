@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using FINS.Context;
-using FINS.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.PlatformAbstractions;
 
 namespace FINS.UnitTest
