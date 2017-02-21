@@ -14,13 +14,12 @@ namespace FINS.UnitTest.Features.Login
     [Collection("OrgUserRole")]
     public class AuthorizationControllerShould : InMemoryContextTest
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private AuthorizationController _sut;
+        private readonly AuthorizationController _sut;
 
         public AuthorizationControllerShould()
         {
-            _signInManager = ServiceProvider.GetService<SignInManager<ApplicationUser>>();
-            _sut = new AuthorizationController(_signInManager, UserManager, Mediator);
+            var signInManager = ServiceProvider.GetService<SignInManager<ApplicationUser>>();
+            _sut = new AuthorizationController(signInManager, UserManager, Mediator);
         }
 
         [Theory]

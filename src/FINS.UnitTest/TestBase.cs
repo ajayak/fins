@@ -20,7 +20,7 @@ namespace FINS.UnitTest
             if (ServiceProvider == null)
             {
                 var path = PlatformServices.Default.Application.ApplicationBasePath;
-                var setDir = Path.GetFullPath(Path.Combine(path, "../../../../src/FINS"));
+                var setDir = Path.GetFullPath(Path.Combine(path, "../../../../FINS"));
 
                 var builder = new WebHostBuilder()
                     .UseContentRoot(setDir)
