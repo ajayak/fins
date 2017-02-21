@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FINS.Models
 {
@@ -20,6 +16,11 @@ namespace FINS.Models
         /// The name of the organization
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The organization code
+        /// </summary>
+        public string Code { get; set; }
 
         /// <summary>
         /// The URL of the logo used by the organization
