@@ -17,7 +17,11 @@ namespace FINS.UnitTest
     {
         protected TestBase()
         {
-            if (ServiceProvider == null)
+            if (ServiceHolder.ServiceProvider != null)
+            {
+                ServiceProvider = ServiceHolder.ServiceProvider;
+            }
+            else
             {
                 var path = PlatformServices.Default.Application.ApplicationBasePath;
                 var setDir = Path.GetFullPath(Path.Combine(path, "../../../../FINS"));
@@ -29,6 +33,8 @@ namespace FINS.UnitTest
                     .UseStartup<Startup>();
                 var host = builder.Build();
                 ServiceProvider = host.Services;
+
+                ServiceHolder.ServiceProvider = ServiceProvider;
             }
         }
 
@@ -51,5 +57,10 @@ namespace FINS.UnitTest
 
             return builder.Options;
         }
+    }
+
+    public static class ServiceHolder
+    {
+        public static IServiceProvider ServiceProvider { get; set; }
     }
 }
