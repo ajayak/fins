@@ -29,7 +29,6 @@ namespace FINS.UnitTest.Features.Login
         [InlineData("fso")]
         public async Task ReturnsTokenForSiteAdminWithAnyOrg(string orgName)
         {
-            var sut = new AuthorizationController(_signInManager, UserManager, Mediator);
             var request = new OpenIdConnectRequest()
             {
                 Username = "Administrator@example.com",
@@ -38,7 +37,7 @@ namespace FINS.UnitTest.Features.Login
                 Scope = "openid email profiles roles",
             };
             request.AddParameter("organization", orgName);
-            var result = await sut.Exchange(request);
+            var result = await _sut.Exchange(request);
 
             result.Should().BeOfType<SignInResult>()
                 .Which.Principal.Identity.Name.Should().Be("Administrator@example.com");
@@ -90,7 +89,7 @@ namespace FINS.UnitTest.Features.Login
         }
 
         [Fact]
-        public async Task ReturnsErrorForUserWithInValidOrg()
+        public async Task ReturnsErrorForUserWithInvalidOrg()
         {
             var invalidOrgName = "anotherfs";
             var userName = "organization@example.com";
