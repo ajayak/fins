@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FINS.Context;
 using FINS.Models;
+using FINS.Models.App;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

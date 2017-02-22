@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace FINS.Models
+namespace FINS.Models.App
 {
     public class ApplicationUser : IdentityUser
     {

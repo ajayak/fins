@@ -1,5 +1,6 @@
 ﻿using FINS.Context.Configurations;
-using FINS.Models;
+using FINS.Models.Account;
+using FINS.Models.App;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -11,6 +12,7 @@ namespace FINS.Context
         public FinsDbContext(DbContextOptions options) : base(options) { }
 
         public virtual DbSet<Organization> Organizations { get; set; }
+        public DbSet<AccountGroup> AccountGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,6 +33,7 @@ namespace FINS.Context
 
             builder.Entity<ApplicationUser>().Configure();
             builder.Entity<Organization>().Configure();
+            builder.Entity<AccountGroup>().Configure();
         }
     }
 }

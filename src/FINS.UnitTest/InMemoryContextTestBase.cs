@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FINS.Context;
 using FINS.DataAccess;
 using FINS.Models;
+using FINS.Models.App;
 using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 

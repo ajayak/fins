@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FINS.Models;
+using FINS.Models.App;
 
 namespace FINS.Security
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FINS.Models
 {
-    public class AccountsContext : DbContext
+    /*public class AccountsContext : DbContext
     {
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<AddressType> AddressType { get; set; }
@@ -2589,5 +2589,5 @@ namespace FINS.Models
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
-    }
+    }*/
 }

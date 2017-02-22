@@ -5,6 +5,7 @@ using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
 using FINS.Features.Login.Operations;
 using FINS.Models;
+using FINS.Models.App;
 using FINS.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;

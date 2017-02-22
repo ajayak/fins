@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FINS.Configuration;
 using FINS.Context;
 using FINS.Models;
+using FINS.Models.App;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

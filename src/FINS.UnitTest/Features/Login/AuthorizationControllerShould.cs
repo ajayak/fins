@@ -2,6 +2,7 @@
 using AspNet.Security.OpenIdConnect.Primitives;
 using FINS.Features.Login;
 using FINS.Models;
+using FINS.Models.App;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace FINS.Models
+namespace FINS.Models.App
 {
     /// <summary>
     /// Represents tenant
     /// </summary>
-    public class Organization
+    public class Organization : BaseModel, ISoftDelete
     {
-        /// <summary>
-        /// The unique Id of the organization - controlled by SQL
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// The name of the organization
         /// </summary>
@@ -56,5 +51,10 @@ namespace FINS.Models
         /// The html for an organization specific privacy policy
         /// </summary>
         public string PrivacyPolicy { get; set; }
+
+        /// <summary>
+        /// Soft delete organization
+        /// </summary>
+        public bool IsDeleted { get; set; }
     }
 }

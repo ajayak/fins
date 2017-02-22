@@ -1,4 +1,4 @@
-﻿using FINS.Models;
+﻿using FINS.Models.App;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
