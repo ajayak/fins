@@ -1,4 +1,5 @@
-﻿using FINS.Models.App;
+﻿using System.Collections.Generic;
+using FINS.Models.App;
 
 namespace FINS.Models.Account
 {
@@ -43,5 +44,10 @@ namespace FINS.Models.Account
         /// </summary>
         public int OrganizationId { get; set; }
         public virtual Organization Organization { get; set; }
+
+        /// <summary>
+        /// List of contact Persons
+        /// </summary>
+        public virtual ICollection<Person> ContactPersons { get; set; } = new HashSet<Person>();
     }
 }
