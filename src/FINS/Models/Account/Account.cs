@@ -3,29 +3,35 @@
 namespace FINS.Models.Account
 {
     /// <summary>
-    /// Category of the Account
+    /// Account Details
     /// </summary>
-    public class AccountGroup : BaseModel, ISoftDelete, IBelongToOrganization
+    public class Account : BaseModel, IBelongToOrganization, ISoftDelete
     {
         /// <summary>
-        /// Name of Account Group
+        /// Name of the account
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Display Name of Account Group
+        /// Display name of the Account
         /// </summary>
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// Parent child relationship Id AG => AG
+        /// Category/Type of Account
         /// </summary>
-        public int ParentId { get; set; }
+        public int AccountGroupId { get; set; }
+        public AccountGroup AccountGroup { get; set; }
 
         /// <summary>
-        /// Is Primary flag
+        /// Opening balance Amount
         /// </summary>
-        public bool IsPrimary { get; set; }
+        public decimal OpeningBalance { get; set; }
+
+        /// <summary>
+        /// Type of Opening Balance Credit/Debit
+        /// </summary>
+        public TransactionType OpeningBalanceType { get; set; }
 
         /// <summary>
         /// Soft delete Account Group

@@ -13,6 +13,7 @@ namespace FINS.Context
 
         public virtual DbSet<Organization> Organizations { get; set; }
         public DbSet<AccountGroup> AccountGroups { get; set; }
+        public DbSet<Account> Accounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,6 +35,7 @@ namespace FINS.Context
             builder.Entity<ApplicationUser>().Configure();
             builder.Entity<Organization>().Configure();
             builder.Entity<AccountGroup>().Configure();
+            builder.Entity<Account>().Configure();
         }
     }
 }
