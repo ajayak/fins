@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using FINS.AutoMap;
 using FINS.Configuration;
 using FINS.Context;
 using FINS.DataAccess;
@@ -108,6 +109,9 @@ namespace FINS
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            // Initialize Automapper
+            AutomapperConfig.InitializeAutoMapper();
 
             // Add Serilog to the logging pipeline
             loggerFactory.AddSerilog();

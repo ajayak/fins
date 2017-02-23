@@ -13,8 +13,13 @@ namespace FINS.Features.Login.Operations
         public ApplicationUserQueryHandler(FinsDbContext context)
         {
             _context = context;
-
         }
+
+        /// <summary>
+        /// Gets Application User by UserName
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public async Task<ApplicationUser> Handle(ApplicationUserQuery message)
         {
             var normalizedUserName = message.UserName.ToUpperInvariant();
