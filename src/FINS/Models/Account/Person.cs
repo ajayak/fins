@@ -36,37 +36,37 @@
         public string Address { get; set; }
 
         /// <summary>
-        /// State
+        /// State from master table
         /// </summary>
-        public string State { get; set; }
+        public int StateId { get; set; }
 
         /// <summary>
-        /// 
+        /// Type of ward/area
         /// </summary>
         public string Ward { get; set; }
 
         /// <summary>
-        /// 
+        /// Pan Number
         /// </summary>
         public string ItPanNumber { get; set; }
 
         /// <summary>
-        /// 
+        /// Local Sales Tax
         /// </summary>
         public string LstNumber { get; set; }
 
         /// <summary>
-        /// 
+        /// Central Sales Tax
         /// </summary>
         public string CstNumber { get; set; }
 
         /// <summary>
-        /// 
+        /// Tax Number
         /// </summary>
         public string TinNumber { get; set; }
 
         /// <summary>
-        /// 
+        /// Service tax number
         /// </summary>
         public string ServiceTaxNumber { get; set; }
 

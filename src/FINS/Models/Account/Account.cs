@@ -6,7 +6,7 @@ namespace FINS.Models.Account
     /// <summary>
     /// Account Details
     /// </summary>
-    public class Account : BaseModel, IBelongToOrganization, ISoftDelete
+    public class Account : BaseModel, ISoftDelete
     {
         /// <summary>
         /// Name of the account
@@ -38,12 +38,6 @@ namespace FINS.Models.Account
         /// Soft delete Account Group
         /// </summary>
         public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// Tenant Id which holds this Account Group
-        /// </summary>
-        public int OrganizationId { get; set; }
-        public virtual Organization Organization { get; set; }
 
         /// <summary>
         /// List of contact Persons

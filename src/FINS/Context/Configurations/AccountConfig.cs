@@ -12,7 +12,6 @@ namespace FINS.Context.Configurations
             entity.Property(p => p.Name).IsRequired().HasMaxLength(200);
             entity.Property(p => p.DisplayName).IsRequired().HasMaxLength(200);
             entity.Property(p => p.AccountGroupId).IsRequired();
-            entity.Property(p => p.OrganizationId).IsRequired();
             entity.Property(p => p.OpeningBalance).HasDefaultValue("0").IsRequired();
         }
     }
