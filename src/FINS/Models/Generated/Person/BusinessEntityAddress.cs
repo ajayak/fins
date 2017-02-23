@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Person
 {
     public class BusinessEntityAddress
     {

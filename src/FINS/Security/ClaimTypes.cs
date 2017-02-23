@@ -8,7 +8,7 @@
         /// <summary>
         /// The id of the organization
         /// </summary>
-        public const string Organization = "ar:organizationid";
+        public const string Organization = "fs:organizationid";
 
         /// <summary>
         /// The display name of the user

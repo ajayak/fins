@@ -4,7 +4,6 @@ using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
 using FINS.Features.Login.Operations;
-using FINS.Models;
 using FINS.Models.App;
 using FINS.Security;
 using MediatR;
@@ -33,6 +32,12 @@ namespace FINS.Features.Login
             _mediator = mediator;
         }
 
+
+        /// <summary>
+        /// Creates Auth token for user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("~/connect/token"), Produces("application/json")]
         public async Task<IActionResult> Exchange(OpenIdConnectRequest request)
         {
@@ -167,6 +172,13 @@ namespace FINS.Features.Login
             });
         }
         
+        /// <summary>
+        /// Checks if user is a member of an organization
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="organizationName"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
         private async Task<IActionResult> CheckOrganization(ApplicationUser user, string organizationName, string username)
         {
             var organizationId = await _mediator.Send(new GetOrganizationIdQuery() { OrganizationName = organizationName });

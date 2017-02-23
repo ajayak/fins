@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FINS.Configuration;
 using FINS.DTO.Account;
-using FINS.Models;
 using FINS.Models.App;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

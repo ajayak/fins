@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using FINS.Models.Generated.Person;
+using FINS.Models.Generated.Purchasing;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Sales
 {
     public class SalesOrderHeader
     {

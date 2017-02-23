@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Production
 {
     public class ProductSubcategory
     {

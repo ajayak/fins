@@ -1,6 +1,7 @@
 ﻿using System;
+using FINS.Models.Generated.Production;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Purchasing
 {
     public class ProductVendor
     {

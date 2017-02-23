@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using FINS.Models.App;
 
-namespace FINS.Models.Account
+namespace FINS.Models.Accounting
 {
     /// <summary>
     /// Account Details

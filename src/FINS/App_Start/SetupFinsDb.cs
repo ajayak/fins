@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FINS.App_Start
+namespace FINS
 {
     public static class SetupFinsDb
     {

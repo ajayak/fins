@@ -1,4 +1,4 @@
-﻿namespace FINS.Models.Account
+﻿namespace FINS.Models.Accounting
 {
     /// <summary>
     /// Person Details

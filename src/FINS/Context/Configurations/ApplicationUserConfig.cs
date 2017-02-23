@@ -1,5 +1,4 @@
-﻿using FINS.Models;
-using FINS.Models.App;
+﻿using FINS.Models.App;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FINS.Context.Configurations

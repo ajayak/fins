@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FINS.Models.Generated.Sales;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Person
 {
     public class Address
     {

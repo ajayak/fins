@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FINS.Models.Generated.HumarResources;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Sales
 {
     public class SalesPerson
     {

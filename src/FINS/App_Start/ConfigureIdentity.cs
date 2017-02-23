@@ -1,12 +1,11 @@
 ﻿using System;
 using FINS.Context;
-using FINS.Models;
 using FINS.Models.App;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FINS.App_Start
+namespace FINS
 {
     public static class ConfigureIdentity
     {

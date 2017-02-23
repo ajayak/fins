@@ -1,5 +1,4 @@
-﻿using FINS.Models;
-using FINS.Models.App;
+﻿using FINS.Models.App;
 using MediatR;
 
 namespace FINS.Features.Login.Operations

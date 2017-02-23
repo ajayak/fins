@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-
-namespace FINS.Models
+﻿namespace FINS.Models.Generated
 {
     /*public class AccountsContext : DbContext
     {

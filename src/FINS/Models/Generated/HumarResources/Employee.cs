@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using FINS.Models.Generated.Purchasing;
+using FINS.Models.Generated.Sales;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.HumarResources
 {
     public class Employee
     {
@@ -26,6 +28,6 @@ namespace FINS.Models
         public virtual ICollection<JobCandidate> JobCandidate { get; set; } = new HashSet<JobCandidate>();
         public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { get; set; } = new HashSet<PurchaseOrderHeader>();
         public virtual SalesPerson SalesPerson { get; set; }
-        public virtual Person BusinessEntity { get; set; }
+        public virtual Person.Person BusinessEntity { get; set; }
     }
 }

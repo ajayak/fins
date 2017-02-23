@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Sales
 {
     public class PersonCreditCard
     {
@@ -8,7 +8,7 @@ namespace FINS.Models
         public int CreditCardId { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public virtual Person BusinessEntity { get; set; }
+        public virtual Person.Person BusinessEntity { get; set; }
         public virtual CreditCard CreditCard { get; set; }
     }
 }

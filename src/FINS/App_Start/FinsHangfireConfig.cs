@@ -4,7 +4,7 @@ using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FINS.App_Start
+namespace FINS
 {
     public static class FinsHangfireConfig
     {

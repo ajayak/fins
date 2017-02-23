@@ -1,6 +1,6 @@
 ﻿using FINS.Models.App;
 
-namespace FINS.Models.Account
+namespace FINS.Models.Accounting
 {
     /// <summary>
     /// Category of the Account

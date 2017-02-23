@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac;
-using FINS.App_Start;
 using FINS.Configuration;
 using FINS.Context;
 using FINS.DataAccess;

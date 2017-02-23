@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Sales
 {
     public class Customer
     {
@@ -14,7 +14,7 @@ namespace FINS.Models
         public DateTime ModifiedDate { get; set; }
 
         public virtual ICollection<SalesOrderHeader> SalesOrderHeader { get; set; } = new HashSet<SalesOrderHeader>();
-        public virtual Person Person { get; set; }
+        public virtual Person.Person Person { get; set; }
         public virtual Store Store { get; set; }
         public virtual SalesTerritory Territory { get; set; }
     }

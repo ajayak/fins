@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using FINS.Models.Generated.Purchasing;
+using FINS.Models.Generated.Sales;
 
-namespace FINS.Models
+namespace FINS.Models.Generated.Production
 {
     public class Product
     {

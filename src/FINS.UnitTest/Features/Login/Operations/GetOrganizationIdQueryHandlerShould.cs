@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using FINS.Features.Login.Operations;
-using FINS.Models;
 using FINS.Models.App;
 using FluentAssertions;
 using Xunit;

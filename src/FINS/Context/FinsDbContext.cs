@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using FINS.Context.Configurations;
-using FINS.Models.Account;
+using FINS.Models.Accounting;
 using FINS.Models.App;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
