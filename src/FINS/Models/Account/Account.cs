@@ -6,7 +6,7 @@ namespace FINS.Models.Account
     /// <summary>
     /// Account Details
     /// </summary>
-    public class Account : BaseModel, ISoftDelete
+    public class Account : BaseModel<int>, ISoftDelete
     {
         /// <summary>
         /// Name of the account

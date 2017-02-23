@@ -5,7 +5,7 @@ namespace FINS.Models.App
     /// <summary>
     /// Represents tenant
     /// </summary>
-    public class Organization : BaseModel, ISoftDelete
+    public class Organization : BaseModel<int>, ISoftDelete
     {
         /// <summary>
         /// The name of the organization

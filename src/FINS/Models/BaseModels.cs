@@ -5,9 +5,9 @@ namespace FINS.Models
     /// <summary>
     /// Base Model with Id property
     /// </summary>
-    public class BaseModel
+    public class BaseModel<T>
     {
-        public int Id { get; set; }
+        public T Id { get; set; }
     }
 
     /// <summary>

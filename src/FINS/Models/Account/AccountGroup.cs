@@ -5,7 +5,7 @@ namespace FINS.Models.Account
     /// <summary>
     /// Category of the Account
     /// </summary>
-    public class AccountGroup : BaseModel, ISoftDelete, IBelongToOrganization
+    public class AccountGroup : BaseModel<int>, ISoftDelete, IBelongToOrganization
     {
         /// <summary>
         /// Name of Account Group

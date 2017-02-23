@@ -3,7 +3,7 @@
     /// <summary>
     /// Person Details
     /// </summary>
-    public class Person : BaseModel
+    public class Person : BaseModel<int>
     {
         /// <summary>
         /// First Name of the contact person
