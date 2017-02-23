@@ -4,7 +4,7 @@ using Xunit;
 
 namespace FINS.UnitTest.Features.Login.Operations
 {
-    [Collection("OrgUserRole")]
+    [Collection("TestData")]
     public class ApplicationUserQueryHandlerShould : InMemoryContextTest
     {
         [Theory]

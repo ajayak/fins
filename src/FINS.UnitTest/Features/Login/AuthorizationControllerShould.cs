@@ -12,7 +12,7 @@ using SignInResult = Microsoft.AspNetCore.Mvc.SignInResult;
 
 namespace FINS.UnitTest.Features.Login
 {
-    [Collection("OrgUserRole")]
+    [Collection("TestData")]
     public class AuthorizationControllerShould : InMemoryContextTest
     {
         private readonly AuthorizationController _sut;

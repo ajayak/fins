@@ -162,7 +162,7 @@ namespace FINS
             if (Configuration["SampleData:InsertSampleData"] == "true" &&
                 !env.IsEnvironment("Test"))
             {
-                await sampleData.InsertOrgUserRoleTestData();
+                await sampleData.InsertDemoData();
             }
         }
     }

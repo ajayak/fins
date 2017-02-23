@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FINS.Configuration;
 using FINS.Context;
 using FINS.Models;
+using FINS.Models.Account;
 using FINS.Models.App;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -32,7 +33,13 @@ namespace FINS.DataAccess
             _roleManager = roleManager;
         }
 
-        public async Task InsertOrgUserRoleTestData()
+        public async Task InsertDemoData()
+        {
+            await InsertOrgUserRoleData();
+            await InsertAccountData();
+        }
+
+        public async Task InsertOrgUserRoleData()
         {
             if (_context.Roles.Any() ||
                 _context.Users.Any())
@@ -138,6 +145,29 @@ namespace FINS.DataAccess
             await _userManager.AddToRoleAsync(orgUser, "GateKeeper");
 
             #endregion
+        }
+
+        public async Task InsertAccountData()
+        {
+            if (_context.AccountGroups.Any())
+            {
+                return;
+            }
+
+            var organizationId = _context.Organizations
+                .Where(c => c.Name == "fs")
+                .Select(c => c.Id)
+                .FirstOrDefault();
+
+            var accountGroups = new List<AccountGroup>
+            {
+                new AccountGroup(){Name = "Loan", DisplayName = "Loan", IsPrimary = true, ParentId = 0, OrganizationId = organizationId},
+                new AccountGroup(){Name = "Sales", DisplayName = "Sales", IsPrimary = true, ParentId = 0, OrganizationId = organizationId},
+                new AccountGroup(){Name = "Purchase", DisplayName = "Purchase", IsPrimary = true, ParentId = 0, OrganizationId = organizationId}
+            };
+            await _context.AccountGroups.AddRangeAsync(accountGroups);
+
+            await _context.SaveChangesAsync();
         }
     }
 }
