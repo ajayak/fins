@@ -18,7 +18,7 @@ namespace FINS.Features.Accounting.AccountGroups
             _mediator = mediator;
         }
 
-
+        [HttpGet("")]
         [HttpGet("{organizationId}"), Produces("application/json")]
         public async Task<IActionResult> GetAllAccountTypes(int organizationId = 0)
         {
