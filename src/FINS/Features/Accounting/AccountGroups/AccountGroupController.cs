@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using FINS.AutoMap;
 using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Security;
 using MediatR;
@@ -20,7 +22,7 @@ namespace FINS.Features.Accounting.AccountGroups
 
         [HttpGet("")]
         [HttpGet("{organizationId}"), Produces("application/json")]
-        public async Task<IActionResult> GetAllAccountTypes(int organizationId = 0)
+        public async Task<IActionResult> GetAllAccountGroups(int organizationId = 0)
         {
             var orgId = User.GetOrganizationId();
             organizationId = orgId ?? organizationId;
@@ -28,6 +30,30 @@ namespace FINS.Features.Accounting.AccountGroups
             var accountGroups = await _mediator.Send(new GetAllAccountGroupQuery() { OrganizationId = organizationId });
 
             return Ok(accountGroups);
+        }
+
+        [HttpPost("")]
+        [HttpPost("{organizationId}")]
+        public async Task<IActionResult> AddAccountGroup([FromBody]AccountGroupDto accountGroup, int organizationId = 0)
+        {
+            if (accountGroup == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var orgId = User.GetOrganizationId();
+            organizationId = orgId ?? organizationId;
+
+            var query = accountGroup.MapTo<AddAccountGroupQuery>();
+            query.OrganizationId = organizationId;
+            try
+            {
+                var accountGroups = await _mediator.Send(query);
+                return Ok(accountGroups);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

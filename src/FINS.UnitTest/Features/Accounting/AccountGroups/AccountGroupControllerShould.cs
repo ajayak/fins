@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using FINS.Features.Accounting.AccountGroups;
 using FINS.Models.Accounting;
 using FINS.Models.App;
-using FINS.Security;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +19,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
     {
         private readonly AccountGroupController _sut;
         public int OrganizationId { get; set; }
+        public int AccountGroupId { get; set; }
 
         public AccountGroupControllerShould()
         {
@@ -31,17 +29,10 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
         [Fact]
         public async void ReturnAllAccountGroupForUser()
         {
-            var user = new ClaimsPrincipal(new GenericPrincipal(new GenericIdentity("user"), null));
-            user.AddIdentity(new ClaimsIdentity(new List<Claim>()
-            {
-                new Claim(ClaimTypes.Organization, OrganizationId.ToString()),
-                new Claim(ClaimTypes.UserType, "OrgAdmin")
-            }));
-
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();
-            _sut.HttpContext.User = user;
+            _sut.HttpContext.User = CreateOrgAdminUser();
 
-            var result = await _sut.GetAllAccountTypes();
+            var result = await _sut.GetAllAccountGroups();
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.As<List<AccountGroupDto>>().Count.Should().Be(3);
         }
@@ -58,9 +49,78 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();
             _sut.HttpContext.User = user;
 
-            var result = await _sut.GetAllAccountTypes(OrganizationId);
+            var result = await _sut.GetAllAccountGroups(OrganizationId);
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.As<List<AccountGroupDto>>().Count.Should().Be(3);
+        }
+
+        [Fact]
+        public async void AddAccountGroupAtRoot()
+        {
+            _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.HttpContext.User = CreateOrgAdminUser();
+            var accountGroupDto = new AccountGroupDto
+            {
+                DisplayName = "Test",
+                Name = "Test",
+                IsPrimary = true,
+                ParentId = 0
+            };
+            var result = await _sut.AddAccountGroup(accountGroupDto);
+            result.Should().BeOfType<OkObjectResult>();
+            var dto = result.As<OkObjectResult>().Value.As<AccountGroupDto>();
+            dto.Id.Should().NotBe(0);
+            dto.DisplayName.Should().Be(accountGroupDto.DisplayName);
+        }
+
+        [Fact]
+        public async void AddAccountGroupAtChild()
+        {
+            _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.HttpContext.User = CreateOrgAdminUser();
+            var accountGroupDto = new AccountGroupDto
+            {
+                DisplayName = "Test2",
+                Name = "Test2",
+                IsPrimary = true,
+                ParentId = AccountGroupId
+            };
+            var result = await _sut.AddAccountGroup(accountGroupDto);
+            result.Should().BeOfType<OkObjectResult>();
+            var dto = result.As<OkObjectResult>().Value.As<AccountGroupDto>();
+            dto.Id.Should().NotBe(0);
+            dto.DisplayName.Should().Be(accountGroupDto.DisplayName);
+            dto.ParentId.Should().Be(AccountGroupId);
+        }
+
+        [Fact]
+        public async void ReturnErrorWhenAddAccountGroupAtChildWithParentNotExist()
+        {
+            _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.HttpContext.User = CreateOrgAdminUser();
+            var accountGroupDto = new AccountGroupDto
+            {
+                DisplayName = "Test2",
+                Name = "Test2",
+                IsPrimary = true,
+                ParentId = 213213123
+            };
+            var result = await _sut.AddAccountGroup(accountGroupDto);
+            result.Should().BeOfType<BadRequestObjectResult>();
+            result.As<BadRequestObjectResult>()
+                .Value.As<string>()
+                .Should().Be("Parent organization does not exist");
+        }
+
+        private ClaimsPrincipal CreateOrgAdminUser()
+        {
+            var user = new ClaimsPrincipal(new GenericPrincipal(new GenericIdentity("user"), null));
+            user.AddIdentity(new ClaimsIdentity(new List<Claim>()
+            {
+                new Claim(ClaimTypes.Organization, OrganizationId.ToString()),
+                new Claim(ClaimTypes.UserType, "OrgAdmin")
+            }));
+            return user;
         }
 
         protected override void LoadTestData()
@@ -86,6 +146,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
             };
             Context.AccountGroups.Add(child);
             Context.SaveChanges();
+            AccountGroupId = child.Id;
         }
     }
 }

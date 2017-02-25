@@ -1,4 +1,5 @@
-﻿using FINS.DTO;
+﻿using System.ComponentModel.DataAnnotations;
+using FINS.DTO;
 
 namespace FINS.Features.Accounting.AccountGroups
 {
@@ -10,16 +11,19 @@ namespace FINS.Features.Accounting.AccountGroups
         /// <summary>
         /// Name of Account Group
         /// </summary>
+        [Required, MaxLength(200)]
         public string Name { get; set; }
 
         /// <summary>
         /// Display Name of Account Group
         /// </summary>
+        [Required, MaxLength(200)]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Parent child relationship Id AG => AG
         /// </summary>
+        [Required]
         public int ParentId { get; set; }
 
         /// <summary>
