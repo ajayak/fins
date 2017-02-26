@@ -39,6 +39,7 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
             }
 
             var accountGroup = message.MapTo<AccountGroup>();
+            accountGroup.IsPrimary = true;
             await _context.AccountGroups.AddAsync(accountGroup);
 
             await _context.SaveChangesAsync();

@@ -112,6 +112,31 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
                 .Should().Be("Parent organization does not exist");
         }
 
+        [Fact]
+        public async void ReturnBooleanWhenAskedForCheckAccountGroupExits()
+        {
+            var result = await _sut.CheckAccountGroupExistsInOrganization(0, "loan", 1);
+            result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeOfType<bool>();
+        }
+
+        [Fact]
+        public async void ReturnBooleanWhenAskedForDeletingValidAccountGroup()
+        {
+            _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.HttpContext.User = CreateOrgAdminUser();
+            var result = await _sut.DeleteAccountGroup(AccountGroupId, OrganizationId);
+            result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeOfType<bool>();
+        }
+
+        [Fact]
+        public async void ReturnExceptionMessageWhenAskedForDeletingInvalidAccountGroup()
+        {
+            _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.HttpContext.User = CreateOrgAdminUser();
+            var result = await _sut.DeleteAccountGroup(13213123, OrganizationId);
+            result.Should().BeOfType<BadRequestObjectResult>();
+        }
+
         private ClaimsPrincipal CreateOrgAdminUser()
         {
             var user = new ClaimsPrincipal(new GenericPrincipal(new GenericIdentity("user"), null));

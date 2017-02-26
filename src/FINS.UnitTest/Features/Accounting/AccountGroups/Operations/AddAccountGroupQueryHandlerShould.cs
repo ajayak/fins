@@ -18,11 +18,13 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
             {
                 DisplayName = "test_add",
                 Name = "test_add",
-                ParentId = parentId
+                ParentId = parentId,
+                IsPrimary = false
             };
             var sut = new AddAccountGroupQueryHandler(Context);
             var result = await sut.Handle(query);
             result.ParentId.Should().Be(parentId);
+            result.IsPrimary.Should().BeTrue();
         }
 
         [Fact]
