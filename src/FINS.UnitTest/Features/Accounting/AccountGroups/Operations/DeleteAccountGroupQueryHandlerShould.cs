@@ -9,7 +9,7 @@ using Xunit;
 namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
 {
     [Collection("TestData")]
-    public class DeleteAccountGroupQueryShould : InMemoryContextTest
+    public class DeleteAccountGroupQueryHandlerShould : InMemoryContextTest
     {
         public int OrganizationId { get; set; }
         public int ParentAccountGroupId { get; set; }
@@ -56,6 +56,20 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         }
 
         [Fact]
+        public async void ShoulDeleteOnlyChildAccountGroupAndMakeParentPrimary()
+        {
+            var query = new DeleteAccountGroupQuery
+            {
+                OrganizationId = OrganizationId,
+                AccountGroupId = ChildAccountGroupId
+            };
+            var sut = new DeleteAccountGroupQueryHandler(Context);
+            await sut.Handle(query);
+            var parent = await Context.AccountGroups.FindAsync(ParentAccountGroupId);
+            parent.IsPrimary.Should().BeTrue();
+        }
+
+        [Fact]
         public async void ShouldNotDeleteAccountGroupWhenNotExists()
         {
             var query = new DeleteAccountGroupQuery
@@ -85,7 +99,8 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 OrganizationId = OrganizationId,
                 Name = $"child{guid}",
                 DisplayName = $"child{guid}",
-                ParentId = accountGroup.Id
+                ParentId = accountGroup.Id,
+                IsPrimary = true
             };
             Context.AccountGroups.Add(childAccountGroup);
             Context.SaveChanges();

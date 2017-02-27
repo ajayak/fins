@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Models.Accounting;
+using FINS.Models.App;
 using FluentAssertions;
 using Xunit;
 
@@ -67,6 +70,32 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
             var sut = new AddAccountGroupQueryHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Parent organization does not exist");
+        }
+
+        [Fact]
+        public async void ReturnErrorWhenAccountGroupAlreadyExistsUnderParent()
+        {
+            var guid = new Guid().ToString();
+            var organization = new Organization() { Name = guid, Code = guid };
+            Context.Organizations.Add(organization);
+            var accountGroups = new List<AccountGroup>
+            {
+                new AccountGroup(){Name = $"TG1{guid}", DisplayName = $"TG1{guid}", IsPrimary = true, ParentId = 0, OrganizationId = organization.Id},
+                new AccountGroup(){Name = $"TG2{guid}", DisplayName =$"TG2{guid}", IsPrimary = true, ParentId = 0, OrganizationId = organization.Id},
+            };
+            await Context.AccountGroups.AddRangeAsync(accountGroups);
+            Context.SaveChanges();
+            var query = new AddAccountGroupQuery
+            {
+                DisplayName = $"TG1{guid}",
+                Name = $"TG1{guid}",
+                IsPrimary = true,
+                ParentId = 0,
+                OrganizationId = organization.Id
+            };
+            var sut = new AddAccountGroupQueryHandler(Context);
+            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            ex.Message.Should().Be("Account Group with same name already exists under this parent");
         }
     }
 }

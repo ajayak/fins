@@ -113,13 +113,6 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
         }
 
         [Fact]
-        public async void ReturnBooleanWhenAskedForCheckAccountGroupExits()
-        {
-            var result = await _sut.CheckAccountGroupExistsInOrganization(0, "loan", 1);
-            result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeOfType<bool>();
-        }
-
-        [Fact]
         public async void ReturnBooleanWhenAskedForDeletingValidAccountGroup()
         {
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();

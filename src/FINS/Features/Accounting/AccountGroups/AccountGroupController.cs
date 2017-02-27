@@ -56,7 +56,7 @@ namespace FINS.Features.Accounting.AccountGroups
             }
         }
 
-        [HttpDelete("{accountGroupId}")]
+        [HttpDelete("{accountGroupId}/organization/{organizationId}")]
         public async Task<IActionResult> DeleteAccountGroup(int accountGroupId, int organizationId = 0)
         {
             var orgId = User.GetOrganizationId();
@@ -76,20 +76,6 @@ namespace FINS.Features.Accounting.AccountGroups
             {
                 return BadRequest(e.Message);
             }
-        }
-
-
-        [HttpGet("{accountGroupParentId}/{accountGroupName}/organization/{organizationId}")]
-        public async Task<IActionResult> CheckAccountGroupExistsInOrganization
-            (int accountGroupParentId, string accountGroupName, int organizationId)
-        {
-            var result = await _mediator.Send(new AccountGroupExistsInOrganizationQuery
-            {
-                OrganizationId = organizationId,
-                ParentAccountGroupId = accountGroupParentId,
-                AccountGroupName = accountGroupName
-            });
-            return Ok(result);
         }
     }
 }

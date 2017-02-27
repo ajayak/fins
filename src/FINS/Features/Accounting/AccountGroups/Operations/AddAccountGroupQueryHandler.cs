@@ -37,6 +37,10 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
                 var parentAccountGroup = await _context.AccountGroups.FindAsync(message.ParentId);
                 parentAccountGroup.IsPrimary = false;
             }
+            if (await AccountGroupExistsInOrganization(message))
+            {
+                throw new Exception("Account Group with same name already exists under this parent");
+            }
 
             var accountGroup = message.MapTo<AccountGroup>();
             accountGroup.IsPrimary = true;
@@ -48,8 +52,16 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
 
         private bool CheckParentOrganizationIdExists(int parentId)
         {
-            if (parentId == 0) return true;
-            return _context.AccountGroups.Any(c => c.Id == parentId);
+            return parentId == 0 || _context.AccountGroups.Any(c => c.Id == parentId);
+        }
+
+        public async Task<bool> AccountGroupExistsInOrganization(AddAccountGroupQuery message)
+        {
+            return await _context.AccountGroups
+                .AnyAsync(c => c.ParentId == message.ParentId &&
+                               c.OrganizationId == message.OrganizationId &&
+                               !c.IsDeleted &&
+                               c.Name.Equals(message.Name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
