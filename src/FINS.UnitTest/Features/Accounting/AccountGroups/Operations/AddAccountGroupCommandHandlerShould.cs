@@ -10,21 +10,21 @@ using Xunit;
 namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
 {
     [Collection("TestData")]
-    public class AddAccountGroupQueryHandlerShould : InMemoryContextTest
+    public class AddAccountGroupCommandHandlerShould : InMemoryContextTest
     {
         [Theory]
         [InlineData(0)]
         [InlineData(1)]
         public async void ShouldAddAccountGroup(int parentId)
         {
-            var query = new AddAccountGroupQuery()
+            var query = new AddAccountGroupCommand()
             {
                 DisplayName = "test_add",
                 Name = "test_add",
                 ParentId = parentId,
                 IsPrimary = false
             };
-            var sut = new AddAccountGroupQueryHandler(Context);
+            var sut = new AddAccountGroupCommandHandler(Context);
             var result = await sut.Handle(query);
             result.ParentId.Should().Be(parentId);
             result.IsPrimary.Should().BeTrue();
@@ -45,13 +45,13 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
             await Context.AccountGroups.AddAsync(accountGroup);
             await Context.SaveChangesAsync();
 
-            var query = new AddAccountGroupQuery()
+            var query = new AddAccountGroupCommand()
             {
                 DisplayName = "test_add",
                 Name = "test_add",
                 ParentId = accountGroup.Id
             };
-            var sut = new AddAccountGroupQueryHandler(Context);
+            var sut = new AddAccountGroupCommandHandler(Context);
             await sut.Handle(query);
             var accountGroupUpdated = await Context.AccountGroups.FindAsync(accountGroup.Id);
             accountGroupUpdated.IsPrimary.Should().BeFalse();
@@ -60,14 +60,14 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ReturnErrorWhenAddAccountGroupAtChildWithParentNotExist()
         {
-            var query = new AddAccountGroupQuery
+            var query = new AddAccountGroupCommand
             {
                 DisplayName = "Test1232",
                 Name = "Test12322",
                 IsPrimary = true,
                 ParentId = 213213123
             };
-            var sut = new AddAccountGroupQueryHandler(Context);
+            var sut = new AddAccountGroupCommandHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Parent organization does not exist");
         }
@@ -85,7 +85,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
             };
             await Context.AccountGroups.AddRangeAsync(accountGroups);
             Context.SaveChanges();
-            var query = new AddAccountGroupQuery
+            var query = new AddAccountGroupCommand
             {
                 DisplayName = $"TG1{guid}",
                 Name = $"TG1{guid}",
@@ -93,7 +93,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 ParentId = 0,
                 OrganizationId = organization.Id
             };
-            var sut = new AddAccountGroupQueryHandler(Context);
+            var sut = new AddAccountGroupCommandHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account Group with same name already exists under this parent");
         }

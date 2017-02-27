@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
 using FINS.AutoMap;
 using FINS.Context;
 using FINS.Models.Accounting;
@@ -12,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FINS.Features.Accounting.AccountGroups.Operations
 {
-    public class AddAccountGroupQueryHandler : IAsyncRequestHandler<AddAccountGroupQuery, AccountGroupDto>
+    public class AddAccountGroupCommandHandler : IAsyncRequestHandler<AddAccountGroupCommand, AccountGroupDto>
     {
         private readonly FinsDbContext _context;
 
-        public AddAccountGroupQueryHandler(FinsDbContext context)
+        public AddAccountGroupCommandHandler(FinsDbContext context)
         {
             _context = context;
         }
@@ -26,7 +23,7 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public async Task<AccountGroupDto> Handle(AddAccountGroupQuery message)
+        public async Task<AccountGroupDto> Handle(AddAccountGroupCommand message)
         {
             if (!CheckParentOrganizationIdExists(message.ParentId))
             {
@@ -55,7 +52,7 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
             return parentId == 0 || _context.AccountGroups.Any(c => c.Id == parentId);
         }
 
-        private async Task<bool> AccountGroupExistsInOrganization(AddAccountGroupQuery message)
+        private async Task<bool> AccountGroupExistsInOrganization(AddAccountGroupCommand message)
         {
             return await _context.AccountGroups
                 .AnyAsync(c => c.ParentId == message.ParentId &&

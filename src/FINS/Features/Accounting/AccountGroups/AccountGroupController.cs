@@ -43,7 +43,7 @@ namespace FINS.Features.Accounting.AccountGroups
             var orgId = User.GetOrganizationId();
             organizationId = orgId ?? organizationId;
 
-            var query = accountGroup.MapTo<AddAccountGroupQuery>();
+            var query = accountGroup.MapTo<AddAccountGroupCommand>();
             query.OrganizationId = organizationId;
             try
             {
@@ -67,7 +67,7 @@ namespace FINS.Features.Accounting.AccountGroups
             var orgId = User.GetOrganizationId();
             organizationId = orgId ?? organizationId;
 
-            var query = accountGroup.MapTo<UpdateAccountGroupQuery>();
+            var query = accountGroup.MapTo<UpdateAccountGroupCommand>();
             query.OrganizationId = organizationId;
             try
             {
@@ -87,7 +87,7 @@ namespace FINS.Features.Accounting.AccountGroups
             var orgId = User.GetOrganizationId();
             organizationId = orgId ?? organizationId;
 
-            var query = new DeleteAccountGroupQuery
+            var query = new DeleteAccountGroupCommand
             {
                 OrganizationId = organizationId,
                 AccountGroupId = accountGroupId

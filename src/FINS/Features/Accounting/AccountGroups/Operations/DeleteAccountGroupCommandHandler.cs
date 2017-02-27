@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FINS.Features.Accounting.AccountGroups.Operations
 {
-    public class DeleteAccountGroupQueryHandler : IAsyncRequestHandler<DeleteAccountGroupQuery, bool>
+    public class DeleteAccountGroupCommandHandler : IAsyncRequestHandler<DeleteAccountGroupCommand, bool>
     {
         private readonly FinsDbContext _context;
 
-        public DeleteAccountGroupQueryHandler(FinsDbContext context)
+        public DeleteAccountGroupCommandHandler(FinsDbContext context)
         {
             _context = context;
         }
 
-        public async Task<bool> Handle(DeleteAccountGroupQuery message)
+        public async Task<bool> Handle(DeleteAccountGroupCommand message)
         {
             if (await AccountGroupIsParent(message.AccountGroupId))
             {

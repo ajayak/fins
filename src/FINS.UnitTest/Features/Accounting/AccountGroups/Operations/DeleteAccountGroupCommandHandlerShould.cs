@@ -9,7 +9,7 @@ using Xunit;
 namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
 {
     [Collection("TestData")]
-    public class DeleteAccountGroupQueryHandlerShould : InMemoryContextTest
+    public class DeleteAccountGroupCommandHandlerShould : InMemoryContextTest
     {
         public int OrganizationId { get; set; }
         public int ParentAccountGroupId { get; set; }
@@ -19,12 +19,12 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ShouldDeleteChildAccountGroup()
         {
-            var query = new DeleteAccountGroupQuery
+            var query = new DeleteAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 AccountGroupId = ChildAccountGroupId
             };
-            var sut = new DeleteAccountGroupQueryHandler(Context);
+            var sut = new DeleteAccountGroupCommandHandler(Context);
             var result = await sut.Handle(query);
             result.Should().BeTrue();
         }
@@ -32,12 +32,12 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ShouldNotDeleteParentAccountGroup()
         {
-            var query = new DeleteAccountGroupQuery
+            var query = new DeleteAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 AccountGroupId = ParentAccountGroupId
             };
-            var sut = new DeleteAccountGroupQueryHandler(Context);
+            var sut = new DeleteAccountGroupCommandHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account group has related child account groups.");
         }
@@ -45,12 +45,12 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ShouldNotDeleteAccountGroupWithChildAccount()
         {
-            var query = new DeleteAccountGroupQuery
+            var query = new DeleteAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 AccountGroupId = RelatedAccountGroupId
             };
-            var sut = new DeleteAccountGroupQueryHandler(Context);
+            var sut = new DeleteAccountGroupCommandHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account group has related active accounts.");
         }
@@ -58,12 +58,12 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ShoulDeleteOnlyChildAccountGroupAndMakeParentPrimary()
         {
-            var query = new DeleteAccountGroupQuery
+            var query = new DeleteAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 AccountGroupId = ChildAccountGroupId
             };
-            var sut = new DeleteAccountGroupQueryHandler(Context);
+            var sut = new DeleteAccountGroupCommandHandler(Context);
             await sut.Handle(query);
             var parent = await Context.AccountGroups.FindAsync(ParentAccountGroupId);
             parent.IsPrimary.Should().BeTrue();
@@ -72,12 +72,12 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ShouldNotDeleteAccountGroupWhenNotExists()
         {
-            var query = new DeleteAccountGroupQuery
+            var query = new DeleteAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 AccountGroupId = 78123672
             };
-            var sut = new DeleteAccountGroupQueryHandler(Context);
+            var sut = new DeleteAccountGroupCommandHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("No matching Account group found.");
         }

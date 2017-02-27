@@ -14,14 +14,14 @@ namespace FINS.AutoMap
                 cfg.AddProfile<ToDTO>();
                 cfg.AddProfile<FromDTO>();
 
-                cfg.CreateMap<AccountGroupDto, AddAccountGroupQuery>();
-                cfg.CreateMap<AddAccountGroupQuery, AccountGroupDto>();
+                cfg.CreateMap<AccountGroupDto, AddAccountGroupCommand>();
+                cfg.CreateMap<AddAccountGroupCommand, AccountGroupDto>();
 
-                cfg.CreateMap<AccountGroupDto, UpdateAccountGroupQuery>();
-                cfg.CreateMap<UpdateAccountGroupQuery, AccountGroupDto>();
+                cfg.CreateMap<AccountGroupDto, UpdateAccountGroupCommand>();
+                cfg.CreateMap<UpdateAccountGroupCommand, AccountGroupDto>();
 
-                cfg.CreateMap<AddAccountGroupQuery, AccountGroup>();
-                cfg.CreateMap<AccountGroup, AddAccountGroupQuery>();
+                cfg.CreateMap<AddAccountGroupCommand, AccountGroup>();
+                cfg.CreateMap<AccountGroup, AddAccountGroupCommand>();
             });
         }
     }

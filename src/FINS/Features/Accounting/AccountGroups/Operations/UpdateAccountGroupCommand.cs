@@ -2,7 +2,7 @@
 
 namespace FINS.Features.Accounting.AccountGroups.Operations
 {
-    public class UpdateAccountGroupQuery : AddAccountGroupQuery, IRequest<AccountGroupDto>
+    public class UpdateAccountGroupCommand : AddAccountGroupCommand, IRequest<AccountGroupDto>
     {
         
     }

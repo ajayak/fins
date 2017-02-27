@@ -9,7 +9,7 @@ using Xunit;
 namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
 {
     [Collection("TestData")]
-    public class UpdateAccountGroupQueryHandlerShould : InMemoryContextTest
+    public class UpdateAccountGroupCommandHandlerShould : InMemoryContextTest
     {
         public int AccountGroupId { get; set; }
         public int OrganizationId { get; set; }
@@ -18,7 +18,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void UpdateValidAccountGroup()
         {
-            var query = new UpdateAccountGroupQuery
+            var query = new UpdateAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 DisplayName = "UpdatedTest",
@@ -27,7 +27,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 ParentId = 0,
                 Id = AccountGroupId
             };
-            var sut = new UpdateAccountGroupQueryHandler(Context);
+            var sut = new UpdateAccountGroupCommandHandler(Context);
             var result = await sut.Handle(query);
             result.DisplayName.Should().Be("UpdatedTest");
             result.Name.Should().Be("UpdatedTest");
@@ -36,7 +36,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ReturnErrorMessageWhenAccountGroupNotFount()
         {
-            var query = new UpdateAccountGroupQuery
+            var query = new UpdateAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 DisplayName = "UpdatedTest",
@@ -45,7 +45,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 ParentId = 0,
                 Id = 129736123
             };
-            var sut = new UpdateAccountGroupQueryHandler(Context);
+            var sut = new UpdateAccountGroupCommandHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account group does not exist");
         }
@@ -53,7 +53,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ReturnErrorWhenTryingToUpdateParentId()
         {
-            var query = new UpdateAccountGroupQuery
+            var query = new UpdateAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 DisplayName = "UpdatedTest",
@@ -62,7 +62,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 ParentId = 1,
                 Id = AccountGroupId
             };
-            var sut = new UpdateAccountGroupQueryHandler(Context);
+            var sut = new UpdateAccountGroupCommandHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Cannot update Parent Id");
         }
@@ -70,7 +70,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ReturnErrorWhenTryingToUpdateSameNameExists()
         {
-            var query = new UpdateAccountGroupQuery
+            var query = new UpdateAccountGroupCommand
             {
                 OrganizationId = OrganizationId,
                 DisplayName = "UpdatedTest",
@@ -79,7 +79,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 ParentId = 0,
                 Id = AccountGroupId
             };
-            var sut = new UpdateAccountGroupQueryHandler(Context);
+            var sut = new UpdateAccountGroupCommandHandler(Context);
             var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account Group with same name already exists under this parent");
         }
