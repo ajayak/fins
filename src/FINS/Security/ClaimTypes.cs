@@ -24,5 +24,10 @@
         /// Access levels of user
         /// </summary>
         public const string AccessLevel = "fs:accessLevel";
+
+        /// <summary>
+        /// Access levels of user
+        /// </summary>
+        public const string Accounting = "fs:accounting";
     }
 }

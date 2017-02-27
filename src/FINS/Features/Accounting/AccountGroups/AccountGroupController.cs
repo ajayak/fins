@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FINS.AutoMap;
 using FINS.Features.Accounting.AccountGroups.Operations;
+using FINS.FinsAttributes;
 using FINS.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,6 +33,7 @@ namespace FINS.Features.Accounting.AccountGroups
             return Ok(accountGroups);
         }
 
+        [AccountGroupCreator]
         [HttpPost("")]
         [HttpPost("{organizationId}")]
         public async Task<IActionResult> AddAccountGroup([FromBody]AccountGroupDto accountGroup, int organizationId = 0)
@@ -56,6 +58,7 @@ namespace FINS.Features.Accounting.AccountGroups
             }
         }
 
+        [AccountGroupCreator]
         [HttpPut("")]
         [HttpPut("{organizationId}")]
         public async Task<IActionResult> UpdateAccountGroup([FromBody]AccountGroupDto accountGroup, int organizationId = 0)
@@ -80,6 +83,7 @@ namespace FINS.Features.Accounting.AccountGroups
             }
         }
 
+        [AccountGroupCreator]
         [HttpDelete("{accountGroupId}")]
         [HttpDelete("{accountGroupId}/organization/{organizationId}")]
         public async Task<IActionResult> DeleteAccountGroup(int accountGroupId, int organizationId = 0)

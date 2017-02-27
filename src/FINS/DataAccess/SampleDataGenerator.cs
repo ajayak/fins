@@ -105,7 +105,8 @@ namespace FINS.DataAccess
             await _userManager.AddClaimsAsync(adminUser, new List<Claim>()
                 {
                     new Claim(Security.ClaimTypes.UserType, "SiteAdmin"),
-                    new Claim(Security.ClaimTypes.UserType, "OrgAdmin")
+                    new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
+                    new Claim(Security.ClaimTypes.Accounting, FinsConstants.AccountGroupCreator)
                 });
 
             var orgAdmin = new ApplicationUser
@@ -122,7 +123,8 @@ namespace FINS.DataAccess
             await _userManager.AddClaimsAsync(orgAdmin, new List<Claim>()
                 {
                     new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
-                    new Claim(Security.ClaimTypes.Organization, organization.Id.ToString())
+                    new Claim(Security.ClaimTypes.Organization, organization.Id.ToString()),
+                    new Claim(Security.ClaimTypes.Accounting, FinsConstants.AccountGroupCreator)
                 });
 
             var orgUser = new ApplicationUser

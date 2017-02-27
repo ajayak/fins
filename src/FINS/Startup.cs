@@ -77,11 +77,7 @@ namespace FINS
             services.ConfigureFinsIdentity();
 
             // Add Authorization rules for the app
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("OrgAdmin", b => b.RequireClaim(ClaimTypes.UserType, "OrgAdmin"));
-                options.AddPolicy("SiteAdmin", b => b.RequireClaim(ClaimTypes.UserType, "SiteAdmin", "OrgAdmin"));
-            });
+            services.AddSecurityPolicies();
 
             services.AddMemoryCache();
 
