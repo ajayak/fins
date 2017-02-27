@@ -19,6 +19,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
     {
         private readonly AccountGroupController _sut;
         public int OrganizationId { get; set; }
+        public int UpdateAccountGroupId { get; set; }
         public int AccountGroupId { get; set; }
 
         public AccountGroupControllerShould()
@@ -130,6 +131,42 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
             result.Should().BeOfType<BadRequestObjectResult>();
         }
 
+        [Fact]
+        public async void ReturnOkAccountGroupDtoWhenAskedWhenValidUpdate()
+        {
+            _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.HttpContext.User = CreateOrgAdminUser();
+            var accountGroupDto = new AccountGroupDto
+            {
+                DisplayName = "UpdatedTest",
+                Name = "UpdatedTest",
+                IsPrimary = true,
+                ParentId = 0,
+                Id = UpdateAccountGroupId
+            };
+            var result = await _sut.UpdateAccountGroup(accountGroupDto);
+            result.Should().BeOfType<OkObjectResult>();
+            result.As<OkObjectResult>().Value.Should().BeOfType<AccountGroupDto>();
+        }
+
+        [Fact]
+        public async void ReturnExceptionMessageAccountGroupDtoWhenAskedWhenInalidUpdate()
+        {
+            _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.HttpContext.User = CreateOrgAdminUser();
+            var accountGroupDto = new AccountGroupDto
+            {
+                DisplayName = "UpdatedTest",
+                Name = "UpdatedTest",
+                IsPrimary = true,
+                ParentId = 0,
+                Id = 12321312
+            };
+            var result = await _sut.UpdateAccountGroup(accountGroupDto);
+            result.Should().BeOfType<BadRequestObjectResult>();
+            result.As<BadRequestObjectResult>().Value.Should().BeOfType<string>();
+        }
+
         private ClaimsPrincipal CreateOrgAdminUser()
         {
             var user = new ClaimsPrincipal(new GenericPrincipal(new GenericIdentity("user"), null));
@@ -163,8 +200,21 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
                 OrganizationId = OrganizationId
             };
             Context.AccountGroups.Add(child);
+
+            var newOrg = new Organization() {Name = "updateTest", Code = "UT"};
+            var updateTestAccountGroup = new AccountGroup
+            {
+                Name = $"TG9{guid}",
+                DisplayName = $"TG9{guid}",
+                IsPrimary = true,
+                ParentId = 0,
+                OrganizationId = newOrg.Id
+            };
+            Context.Organizations.Add(newOrg);
+            Context.AccountGroups.Add(updateTestAccountGroup);
             Context.SaveChanges();
             AccountGroupId = child.Id;
+            UpdateAccountGroupId = updateTestAccountGroup.Id;
         }
     }
 }

@@ -17,6 +17,9 @@ namespace FINS.AutoMap
                 cfg.CreateMap<AccountGroupDto, AddAccountGroupQuery>();
                 cfg.CreateMap<AddAccountGroupQuery, AccountGroupDto>();
 
+                cfg.CreateMap<AccountGroupDto, UpdateAccountGroupQuery>();
+                cfg.CreateMap<UpdateAccountGroupQuery, AccountGroupDto>();
+
                 cfg.CreateMap<AddAccountGroupQuery, AccountGroup>();
                 cfg.CreateMap<AccountGroup, AddAccountGroupQuery>();
             });

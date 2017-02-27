@@ -55,7 +55,7 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
             return parentId == 0 || _context.AccountGroups.Any(c => c.Id == parentId);
         }
 
-        public async Task<bool> AccountGroupExistsInOrganization(AddAccountGroupQuery message)
+        private async Task<bool> AccountGroupExistsInOrganization(AddAccountGroupQuery message)
         {
             return await _context.AccountGroups
                 .AnyAsync(c => c.ParentId == message.ParentId &&

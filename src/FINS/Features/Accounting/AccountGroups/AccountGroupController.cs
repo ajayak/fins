@@ -47,8 +47,8 @@ namespace FINS.Features.Accounting.AccountGroups
             query.OrganizationId = organizationId;
             try
             {
-                var accountGroups = await _mediator.Send(query);
-                return Ok(accountGroups);
+                var addedAccountGroup = await _mediator.Send(query);
+                return Ok(addedAccountGroup);
             }
             catch (Exception e)
             {
@@ -56,6 +56,31 @@ namespace FINS.Features.Accounting.AccountGroups
             }
         }
 
+        [HttpPut("")]
+        [HttpPut("{organizationId}")]
+        public async Task<IActionResult> UpdateAccountGroup([FromBody]AccountGroupDto accountGroup, int organizationId = 0)
+        {
+            if (accountGroup == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var orgId = User.GetOrganizationId();
+            organizationId = orgId ?? organizationId;
+
+            var query = accountGroup.MapTo<UpdateAccountGroupQuery>();
+            query.OrganizationId = organizationId;
+            try
+            {
+                var updatedAccountGroup = await _mediator.Send(query);
+                return Ok(updatedAccountGroup);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{accountGroupId}")]
         [HttpDelete("{accountGroupId}/organization/{organizationId}")]
         public async Task<IActionResult> DeleteAccountGroup(int accountGroupId, int organizationId = 0)
         {
