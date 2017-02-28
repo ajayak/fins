@@ -10,9 +10,12 @@ namespace FINS.Context.Configurations
         {
             entity.Property(p => p.Id).HasColumnName($"{nameof(Account)}Id");
             entity.Property(p => p.Name).IsRequired().HasMaxLength(200);
+            entity.Property(p => p.Code).IsRequired().HasMaxLength(50);
             entity.Property(p => p.DisplayName).IsRequired().HasMaxLength(200);
             entity.Property(p => p.AccountGroupId).IsRequired();
             entity.Property(p => p.OpeningBalance).HasDefaultValue("0").IsRequired();
+
+            entity.HasIndex(e => e.Code).IsUnique();
         }
     }
 }

@@ -18,6 +18,11 @@ namespace FINS.Models.Accounting
         public string DisplayName { get; set; }
 
         /// <summary>
+        /// Account Code
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
         /// Category/Type of Account
         /// </summary>
         public int AccountGroupId { get; set; }

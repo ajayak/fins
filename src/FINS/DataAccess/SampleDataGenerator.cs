@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FINS.Configuration;
 using FINS.Context;
+using FINS.Models;
 using FINS.Models.Accounting;
 using FINS.Models.App;
 using FINS.Security;
@@ -168,6 +169,61 @@ namespace FINS.DataAccess
                 new AccountGroup(){Name = "Purchase", DisplayName = "Purchase", IsPrimary = true, ParentId = 0, OrganizationId = organizationId}
             };
             await _context.AccountGroups.AddRangeAsync(accountGroups);
+
+            var accounts = new List<Account>
+            {
+                new Account()
+                {
+                    AccountGroup = accountGroups[0],
+                    DisplayName = "Account1",
+                    Name = "Account1",
+                    Code = "A1",
+                    OpeningBalance = 10,
+                    OpeningBalanceType = TransactionType.Credit,
+                    ContactPersons = new List<Person>()
+                    {
+                        new Person()
+                        {
+                            FirstName = "ABC",
+                            LastName = "DEF",
+                            EmailId = "a@a.com",
+                            Address = "Gobindgarh",
+                            ItPanNumber = "123456789",
+                            CstNumber = "123456789",
+                            ServiceTaxNumber = "123456789",
+                            TinNumber = "123456789",
+                            Ward = "123456789",
+                            StateId = 1,
+                            Mobile = 987987987
+                        }
+                    }
+                },
+                new Account()
+                {
+                    AccountGroup = accountGroups[1],
+                    DisplayName = "Account2",
+                    Name = "Account2",
+                    Code = "A2",
+                    ContactPersons = new List<Person>()
+                    {
+                        new Person()
+                        {
+                            FirstName = "XYZ",
+                            LastName = "PQL",
+                            EmailId = "aasds@a.com",
+                            Address = "Sirhind",
+                            ItPanNumber = "123456789",
+                            CstNumber = "123456789",
+                            ServiceTaxNumber = "123456789",
+                            TinNumber = "123456789",
+                            Ward = "123456789",
+                            StateId = 1,
+                            Mobile = 987987987
+                        }
+                    }
+                }
+            };
+            await _context.Accounts.AddRangeAsync(accounts);
 
             await _context.SaveChangesAsync();
         }
