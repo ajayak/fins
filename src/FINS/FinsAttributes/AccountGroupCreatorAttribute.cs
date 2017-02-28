@@ -5,7 +5,7 @@ namespace FINS.FinsAttributes
 {
     public class AccountGroupCreatorAttribute : AuthorizeAttribute
     {
-        public AccountGroupCreatorAttribute() : base(Accounting.AccountGroupCreator.ToString())
+        public AccountGroupCreatorAttribute() : base(Accounting.AccountGroupManager.ToString())
         {
             
         }

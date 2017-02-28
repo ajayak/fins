@@ -24,9 +24,9 @@ namespace FINS.Security
                     b.RequireClaim(ClaimTypes.UserType, "SiteAdmin", "OrgAdmin");
                 });
 
-                options.AddPolicy(Accounting.AccountGroupCreator.ToString(), b =>
+                options.AddPolicy(Accounting.AccountGroupManager.ToString(), b =>
                 {
-                    b.RequireClaim(ClaimTypes.Accounting, Accounting.AccountGroupCreator.ToString());
+                    b.RequireClaim(ClaimTypes.Accounting, Accounting.AccountGroupManager.ToString());
                 });
             });
             return service;

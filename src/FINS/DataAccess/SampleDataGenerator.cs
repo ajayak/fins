@@ -107,7 +107,7 @@ namespace FINS.DataAccess
                 {
                     new Claim(Security.ClaimTypes.UserType, "SiteAdmin"),
                     new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
-                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupCreator.ToString())
+                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupManager.ToString())
                 });
 
             var orgAdmin = new ApplicationUser
@@ -125,7 +125,7 @@ namespace FINS.DataAccess
                 {
                     new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
                     new Claim(Security.ClaimTypes.Organization, organization.Id.ToString()),
-                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupCreator.ToString())
+                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupManager.ToString())
                 });
 
             var orgUser = new ApplicationUser
