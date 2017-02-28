@@ -1,11 +1,11 @@
-﻿using FINS.Configuration;
+﻿using FINS.Security;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FINS.FinsAttributes
 {
     public class AccountGroupCreatorAttribute : AuthorizeAttribute
     {
-        public AccountGroupCreatorAttribute() : base(FinsConstants.AccountGroupCreator)
+        public AccountGroupCreatorAttribute() : base(Accounting.AccountGroupCreator.ToString())
         {
             
         }

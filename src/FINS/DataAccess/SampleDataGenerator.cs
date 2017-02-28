@@ -6,6 +6,7 @@ using FINS.Configuration;
 using FINS.Context;
 using FINS.Models.Accounting;
 using FINS.Models.App;
+using FINS.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -106,7 +107,7 @@ namespace FINS.DataAccess
                 {
                     new Claim(Security.ClaimTypes.UserType, "SiteAdmin"),
                     new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
-                    new Claim(Security.ClaimTypes.Accounting, FinsConstants.AccountGroupCreator)
+                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupCreator.ToString())
                 });
 
             var orgAdmin = new ApplicationUser
@@ -124,7 +125,7 @@ namespace FINS.DataAccess
                 {
                     new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
                     new Claim(Security.ClaimTypes.Organization, organization.Id.ToString()),
-                    new Claim(Security.ClaimTypes.Accounting, FinsConstants.AccountGroupCreator)
+                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupCreator.ToString())
                 });
 
             var orgUser = new ApplicationUser

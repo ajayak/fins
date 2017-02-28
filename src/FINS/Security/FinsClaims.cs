@@ -11,4 +11,9 @@
     {
         
     }
+
+    public enum Accounting
+    {
+        AccountGroupCreator
+    }
 }
