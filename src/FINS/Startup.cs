@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using FINS.Context;
+using FINS.Core;
 using FINS.Core.AutoMap;
 using FINS.Core.Configuration;
 using FINS.Core.DataAccess;
@@ -83,6 +84,8 @@ namespace FINS
 
             services.AddResponseCompression();
 
+
+
             // Add MVC services to the services container.
             services.AddMvc()
                 .AddJsonOptions(options =>
@@ -153,6 +156,8 @@ namespace FINS
 
             //Hangfire
             app.UseFinsHangfire();
+
+            app.UseMiddleware(typeof(FinsErrorHandler));
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>

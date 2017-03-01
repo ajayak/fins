@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
 
-namespace FINS
+namespace FINS.Core
 {
     public static class CorsPolicyFactory
     {
