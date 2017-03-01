@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FINS.Context;
+using FINS.Core.FinsExceptions;
 using FINS.Models.Accounting;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,16 +21,16 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
         {
             if (await AccountGroupIsParent(message.AccountGroupId))
             {
-                throw new Exception("Account group has related child account groups.");
+                throw new FinsInvalidOperation("Account group has related child account groups.");
             }
             if (await AccountGroupHasAccounts(message.AccountGroupId))
             {
-                throw new Exception("Account group has related active accounts.");
+                throw new FinsInvalidOperation("Account group has related active accounts.");
             }
             var accountGroup = await _context.AccountGroups.FindAsync(message.AccountGroupId);
             if (accountGroup == null)
             {
-                throw new Exception("No matching Account group found.");
+                throw new FinsNotFoundException("No matching Account group found.");
             }
             accountGroup.IsDeleted = true;
             accountGroup.IsPrimary = false;

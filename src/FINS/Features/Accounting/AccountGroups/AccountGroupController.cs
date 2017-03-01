@@ -47,15 +47,8 @@ namespace FINS.Features.Accounting.AccountGroups
 
             var query = accountGroup.MapTo<AddAccountGroupCommand>();
             query.OrganizationId = organizationId;
-            try
-            {
-                var addedAccountGroup = await _mediator.Send(query);
-                return Ok(addedAccountGroup);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var addedAccountGroup = await _mediator.Send(query);
+            return Ok(addedAccountGroup);
         }
 
         [AccountGroupCreator]
@@ -72,15 +65,8 @@ namespace FINS.Features.Accounting.AccountGroups
 
             var query = accountGroup.MapTo<UpdateAccountGroupCommand>();
             query.OrganizationId = organizationId;
-            try
-            {
-                var updatedAccountGroup = await _mediator.Send(query);
-                return Ok(updatedAccountGroup);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var updatedAccountGroup = await _mediator.Send(query);
+            return Ok(updatedAccountGroup);
         }
 
         [AccountGroupCreator]
@@ -96,15 +82,8 @@ namespace FINS.Features.Accounting.AccountGroups
                 OrganizationId = organizationId,
                 AccountGroupId = accountGroupId
             };
-            try
-            {
-                var result = await _mediator.Send(query);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
     }
 }

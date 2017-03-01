@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FINS.Context;
 using FINS.Core.AutoMap;
+using FINS.Core.FinsExceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,15 +23,15 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
             var accountGroup = await _context.AccountGroups.FindAsync(message.Id);
             if (accountGroup == null)
             {
-                throw new Exception("Account group does not exist");
+                throw new FinsNotFoundException("Account group does not exist");
             }
             if (accountGroup.ParentId != message.ParentId)
             {
-                throw new Exception("Cannot update Parent Id");
+                throw new FinsInvalidDataException("Cannot update Parent Id");
             }
             if (await AccountGroupExistsInOrganization(message, accountGroup.Name))
             {
-                throw new Exception("Account Group with same name already exists under this parent");
+                throw new FinsInvalidDataException("Account Group with same name already exists under this parent");
             }
             accountGroup.DisplayName = message.DisplayName;
             accountGroup.Name = message.Name;

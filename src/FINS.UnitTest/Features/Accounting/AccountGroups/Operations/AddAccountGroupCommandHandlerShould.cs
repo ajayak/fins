@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FINS.Core.FinsExceptions;
 using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Models.Accounting;
 using FINS.Models.App;
@@ -68,7 +69,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 ParentId = 213213123
             };
             var sut = new AddAccountGroupCommandHandler(Context);
-            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            var ex = await Assert.ThrowsAsync<FinsInvalidDataException>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Parent organization does not exist");
         }
 
@@ -94,7 +95,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 OrganizationId = organization.Id
             };
             var sut = new AddAccountGroupCommandHandler(Context);
-            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            var ex = await Assert.ThrowsAsync<FinsInvalidOperation>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account Group with same name already exists under this parent");
         }
     }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FINS.Context;
 using FINS.Core.AutoMap;
+using FINS.Core.FinsExceptions;
 using FINS.Models.Accounting;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,7 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
         {
             if (!CheckParentOrganizationIdExists(message.ParentId))
             {
-                throw new Exception("Parent organization does not exist");
+                throw new FinsInvalidDataException("Parent organization does not exist");
             }
             if (message.ParentId != 0)
             {
@@ -36,7 +37,7 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
             }
             if (await AccountGroupExistsInOrganization(message))
             {
-                throw new Exception("Account Group with same name already exists under this parent");
+                throw new FinsInvalidOperation("Account Group with same name already exists under this parent");
             }
 
             var accountGroup = message.MapTo<AccountGroup>();

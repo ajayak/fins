@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FINS.Core.FinsExceptions;
 using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Models.Accounting;
 using FINS.Models.App;
@@ -46,7 +47,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 Id = 129736123
             };
             var sut = new UpdateAccountGroupCommandHandler(Context);
-            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            var ex = await Assert.ThrowsAsync<FinsNotFoundException>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account group does not exist");
         }
 
@@ -63,7 +64,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 Id = AccountGroupId
             };
             var sut = new UpdateAccountGroupCommandHandler(Context);
-            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            var ex = await Assert.ThrowsAsync<FinsInvalidDataException>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Cannot update Parent Id");
         }
 
@@ -80,7 +81,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 Id = AccountGroupId
             };
             var sut = new UpdateAccountGroupCommandHandler(Context);
-            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            var ex = await Assert.ThrowsAsync<FinsInvalidDataException>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account Group with same name already exists under this parent");
         }
 

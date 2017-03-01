@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FINS.Core.FinsExceptions;
 using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Models;
 using FINS.Models.Accounting;
@@ -38,7 +39,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 AccountGroupId = ParentAccountGroupId
             };
             var sut = new DeleteAccountGroupCommandHandler(Context);
-            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            var ex = await Assert.ThrowsAsync<FinsInvalidOperation>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account group has related child account groups.");
         }
 
@@ -51,7 +52,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 AccountGroupId = RelatedAccountGroupId
             };
             var sut = new DeleteAccountGroupCommandHandler(Context);
-            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            var ex = await Assert.ThrowsAsync<FinsInvalidOperation>(async () => await sut.Handle(query));
             ex.Message.Should().Be("Account group has related active accounts.");
         }
 
@@ -78,7 +79,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
                 AccountGroupId = 78123672
             };
             var sut = new DeleteAccountGroupCommandHandler(Context);
-            var ex = await Assert.ThrowsAsync<Exception>(async () => await sut.Handle(query));
+            var ex = await Assert.ThrowsAsync<FinsNotFoundException>(async () => await sut.Handle(query));
             ex.Message.Should().Be("No matching Account group found.");
         }
 

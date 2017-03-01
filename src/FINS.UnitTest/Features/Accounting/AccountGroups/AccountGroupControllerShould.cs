@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
+using FINS.Core.FinsExceptions;
 using FINS.Features.Accounting.AccountGroups;
 using FINS.Models.Accounting;
 using FINS.Models.App;
@@ -106,11 +107,8 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
                 IsPrimary = true,
                 ParentId = 213213123
             };
-            var result = await _sut.AddAccountGroup(accountGroupDto);
-            result.Should().BeOfType<BadRequestObjectResult>();
-            result.As<BadRequestObjectResult>()
-                .Value.As<string>()
-                .Should().Be("Parent organization does not exist");
+            var ex = await Assert.ThrowsAsync<FinsInvalidDataException>(async () => await _sut.AddAccountGroup(accountGroupDto));
+            ex.Message.Should().Be("Parent organization does not exist");
         }
 
         [Fact]
@@ -127,8 +125,8 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
         {
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();
             _sut.HttpContext.User = CreateOrgAdminUser();
-            var result = await _sut.DeleteAccountGroup(13213123, OrganizationId);
-            result.Should().BeOfType<BadRequestObjectResult>();
+            var ex = await Assert.ThrowsAsync<FinsNotFoundException>(async () => await _sut.DeleteAccountGroup(13213123, OrganizationId));
+            ex.Message.Should().BeOfType<string>();
         }
 
         [Fact]
@@ -162,9 +160,8 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
                 ParentId = 0,
                 Id = 12321312
             };
-            var result = await _sut.UpdateAccountGroup(accountGroupDto);
-            result.Should().BeOfType<BadRequestObjectResult>();
-            result.As<BadRequestObjectResult>().Value.Should().BeOfType<string>();
+            var ex = await Assert.ThrowsAsync<FinsNotFoundException>(async () => await _sut.UpdateAccountGroup(accountGroupDto));
+            ex.Message.Should().BeOfType<string>();
         }
 
         private ClaimsPrincipal CreateOrgAdminUser()

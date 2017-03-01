@@ -35,7 +35,7 @@ namespace FINS.Core
             var code = HttpStatusCode.InternalServerError;
 
             if (exception is FinsNotFoundException) code = HttpStatusCode.NotFound;
-            else if (exception is FinsNotAllowedOperation) code = HttpStatusCode.Unauthorized;
+            else if (exception is FinsInvalidOperation) code = HttpStatusCode.BadRequest;
             else if (exception is FinsInvalidDataException) code = HttpStatusCode.BadRequest;
 
             return WriteExceptionAsync(context, exception, code);
