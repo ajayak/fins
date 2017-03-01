@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FINS.AutoMap;
+using FINS.Core.AutoMap;
+using FINS.Core.FinsAttributes;
 using FINS.Features.Accounting.AccountGroups.Operations;
-using FINS.FinsAttributes;
 using FINS.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

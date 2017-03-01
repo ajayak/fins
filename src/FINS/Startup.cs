@@ -1,9 +1,9 @@
 ﻿using System;
 using Autofac;
-using FINS.AutoMap;
-using FINS.Configuration;
 using FINS.Context;
-using FINS.DataAccess;
+using FINS.Core.AutoMap;
+using FINS.Core.Configuration;
+using FINS.Core.DataAccess;
 using FINS.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -94,7 +94,7 @@ namespace FINS
             services.ConfigureHangfire(Configuration["Data:HangfireConnection:ConnectionString"], HostingEnvironment.IsEnvironment("Test"));
 
             // configure IoC support
-            var container = FINS.Configuration.Services.CreateIoCContainer(services, Configuration);
+            var container = Core.Configuration.Services.CreateIoCContainer(services, Configuration);
             return container.Resolve<IServiceProvider>();
         }
 

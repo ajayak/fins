@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FINS.Configuration
+namespace FINS.Core.Configuration
 {
     internal static class Options
     {

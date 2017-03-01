@@ -3,14 +3,14 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.Variance;
-using FINS.DataAccess;
+using FINS.Core.DataAccess;
 using Hangfire;
 using Hangfire.SqlServer;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FINS.Configuration
+namespace FINS.Core.Configuration
 {
     internal static class Services
     {

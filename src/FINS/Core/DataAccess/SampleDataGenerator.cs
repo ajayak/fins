@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using FINS.Configuration;
 using FINS.Context;
+using FINS.Core.Configuration;
 using FINS.Models;
 using FINS.Models.Accounting;
 using FINS.Models.App;
@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace FINS.DataAccess
+namespace FINS.Core.DataAccess
 {
     public class SampleDataGenerator
     {

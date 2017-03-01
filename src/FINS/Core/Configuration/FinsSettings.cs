@@ -1,4 +1,4 @@
-﻿namespace FINS.Configuration
+﻿namespace FINS.Core.Configuration
 {
     public class GeneralSettings
     {

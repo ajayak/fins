@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FINS.Configuration;
+using FINS.Core.Configuration;
 using FINS.DTO.Account;
 using FINS.Models.App;
 using MediatR;

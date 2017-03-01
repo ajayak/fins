@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FINS.AutoMap;
 using FINS.Context;
+using FINS.Core.AutoMap;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

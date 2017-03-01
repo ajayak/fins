@@ -3,7 +3,7 @@ using AutoMapper;
 using AutoMapper.Configuration.Conventions;
 using AutoMapper.Mappers;
 
-namespace FINS.AutoMap
+namespace FINS.Core.AutoMap
 {
     // Flattens with NameSplitMember
     // Only applies to types that have same name with destination ending with Dto

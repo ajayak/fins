@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using FINS.AutoMap;
 using FINS.Context;
+using FINS.Core.AutoMap;
 using FINS.Models.Accounting;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

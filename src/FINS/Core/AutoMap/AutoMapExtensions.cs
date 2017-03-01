@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace FINS.AutoMap
+namespace FINS.Core.AutoMap
 {
     public static class AutoMapExtensions
     {

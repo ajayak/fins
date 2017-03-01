@@ -1,7 +1,7 @@
 ﻿using FINS.Security;
 using Microsoft.AspNetCore.Authorization;
 
-namespace FINS.FinsAttributes
+namespace FINS.Core.FinsAttributes
 {
     public class AccountGroupCreatorAttribute : AuthorizeAttribute
     {
