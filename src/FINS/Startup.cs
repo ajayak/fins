@@ -81,6 +81,8 @@ namespace FINS
 
             services.AddMemoryCache();
 
+            services.AddResponseCompression();
+
             // Add MVC services to the services container.
             services.AddMvc()
                 .AddJsonOptions(options =>
@@ -145,6 +147,9 @@ namespace FINS
             {
                 context.Database.Migrate();
             }
+
+            // GZIP Compression
+            app.UseResponseCompression();
 
             //Hangfire
             app.UseFinsHangfire();
