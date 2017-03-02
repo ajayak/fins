@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace FINS.Controllers
 {
-    [Authorize]
+    /*[Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -91,7 +91,7 @@ namespace FINS.Controllers
                 await _mediator.SendAsync(new SendResetPasswordEmail { Email = model.Email, CallbackUrl = callbackUrl });
 
                 return View("ForgotPasswordConfirmation");
-            }*/
+            }#1#
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -133,5 +133,5 @@ namespace FINS.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
-    }
+    }*/
 }
