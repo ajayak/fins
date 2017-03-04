@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
 using FINS.Context;
+using FINS.Core.AutoMap;
 using FINS.Core.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +29,7 @@ namespace FINS.Features.Accounting.Accounts.Operations
             var result = await query
                 .ApplySort(message.Sort)
                 .ApplyPaging(message.PageNo, message.PageSize)
-                .ProjectTo<AccountDto>()
+                .Select(c => c.MapTo<AccountDto>())
                 .ToListAsync();
 
             return result.ToPagedResult(message.PageNo, message.PageSize, totalRecordCount);
