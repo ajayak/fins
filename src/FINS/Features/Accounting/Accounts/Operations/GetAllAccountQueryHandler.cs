@@ -29,16 +29,9 @@ namespace FINS.Features.Accounting.Accounts.Operations
 
             var totalRecordCount = await query.CountAsync();
             var result = await query
+                .ProjectTo<AccountDto>()
                 .ApplySort(message.Sort)
                 .ApplyPaging(message.PageNo, message.PageSize)
-                .Select(c => new AccountDto()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    DisplayName = c.DisplayName,
-                    Code = c.Code,
-                    AccountGroupName = c.AccountGroup.Name
-                })
                 .ToListAsync();
 
             return result.ToPagedResult(message.PageNo, message.PageSize, totalRecordCount);

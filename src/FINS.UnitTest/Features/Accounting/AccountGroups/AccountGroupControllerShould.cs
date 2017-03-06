@@ -57,6 +57,17 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
         }
 
         [Fact]
+        public async void ReturnAccountGroupDictionaryForUser()
+        {
+            _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.HttpContext.User = CreateOrgAdminUser();
+
+            var result = await _sut.GetAccountGroupsCollection();
+            result.Should().BeOfType<OkObjectResult>()
+                .Which.Value.As<Dictionary<int, string>>().Count.Should().Be(3);
+        }
+
+        [Fact]
         public async void AddAccountGroupAtRoot()
         {
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();
@@ -198,7 +209,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
             };
             Context.AccountGroups.Add(child);
 
-            var newOrg = new Organization() {Name = "updateTest", Code = "UT"};
+            var newOrg = new Organization() { Name = "updateTest", Code = "UT" };
             var updateTestAccountGroup = new AccountGroup
             {
                 Name = $"TG9{guid}",

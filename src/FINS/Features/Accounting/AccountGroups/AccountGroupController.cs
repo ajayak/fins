@@ -33,6 +33,18 @@ namespace FINS.Features.Accounting.AccountGroups
             return Ok(accountGroups);
         }
 
+        [HttpGet("list")]
+        [HttpGet("list/{organizationId}"), Produces("application/json")]
+        public async Task<IActionResult> GetAccountGroupsCollection(int organizationId = 0)
+        {
+            var orgId = User.GetOrganizationId();
+            organizationId = orgId ?? organizationId;
+
+            var accountGroups = await _mediator.Send(new GetAccountGroupDictionaryQuery() { OrganizationId = organizationId });
+
+            return Ok(accountGroups);
+        }
+
         [AccountGroupCreator]
         [HttpPost("")]
         [HttpPost("{organizationId}")]

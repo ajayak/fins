@@ -38,5 +38,15 @@ namespace FINS.Features.Accounting.Accounts
 
             return Ok(accountList);
         }
+
+        [HttpGet("{accountId}"), Produces("application/json")]
+        public async Task<IActionResult> GetAccount(int accountId, int organizationId = 0)
+        {
+            var orgId = User.GetOrganizationId();
+            organizationId = orgId ?? organizationId;
+
+
+            return Ok();
+        }
     }
 }
