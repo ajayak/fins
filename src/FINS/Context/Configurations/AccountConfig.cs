@@ -14,6 +14,13 @@ namespace FINS.Context.Configurations
             entity.Property(p => p.DisplayName).IsRequired().HasMaxLength(200);
             entity.Property(p => p.AccountGroupId).IsRequired();
             entity.Property(p => p.OpeningBalance).HasDefaultValue("0").IsRequired();
+            entity.Property(p => p.Address).HasMaxLength(1000);
+            entity.Property(p => p.CstNumber).HasMaxLength(15);
+            entity.Property(p => p.ItPanNumber).HasMaxLength(15);
+            entity.Property(p => p.LstNumber).HasMaxLength(15);
+            entity.Property(p => p.ServiceTaxNumber).HasMaxLength(15);
+            entity.Property(p => p.TinNumber).HasMaxLength(15);
+            entity.Property(p => p.Ward).HasMaxLength(50);
 
             entity.HasIndex(e => e.Code).IsUnique();
         }

@@ -180,6 +180,13 @@ namespace FINS.Core.DataAccess
                     Code = "A1",
                     OpeningBalance = 10,
                     OpeningBalanceType = TransactionType.Credit,
+                    Address = "Gobindgarh",
+                    ItPanNumber = "123456789",
+                    CstNumber = "123456789",
+                    ServiceTaxNumber = "123456789",
+                    TinNumber = "123456789",
+                    Ward = "123456789",
+                    StateId = 1,
                     ContactPersons = new List<Person>()
                     {
                         new Person()
@@ -187,13 +194,6 @@ namespace FINS.Core.DataAccess
                             FirstName = "ABC",
                             LastName = "DEF",
                             EmailId = "a@a.com",
-                            Address = "Gobindgarh",
-                            ItPanNumber = "123456789",
-                            CstNumber = "123456789",
-                            ServiceTaxNumber = "123456789",
-                            TinNumber = "123456789",
-                            Ward = "123456789",
-                            StateId = 1,
                             Mobile = 987987987
                         }
                     }
@@ -204,6 +204,13 @@ namespace FINS.Core.DataAccess
                     DisplayName = "Account2",
                     Name = "Account2",
                     Code = "A2",
+                    Address = "Sirhind",
+                    ItPanNumber = "123456789",
+                    CstNumber = "123456789",
+                    ServiceTaxNumber = "123456789",
+                    TinNumber = "123456789",
+                    Ward = "123456789",
+                    StateId = 1,
                     ContactPersons = new List<Person>()
                     {
                         new Person()
@@ -211,13 +218,6 @@ namespace FINS.Core.DataAccess
                             FirstName = "XYZ",
                             LastName = "PQL",
                             EmailId = "aasds@a.com",
-                            Address = "Sirhind",
-                            ItPanNumber = "123456789",
-                            CstNumber = "123456789",
-                            ServiceTaxNumber = "123456789",
-                            TinNumber = "123456789",
-                            Ward = "123456789",
-                            StateId = 1,
                             Mobile = 987987987
                         }
                     }

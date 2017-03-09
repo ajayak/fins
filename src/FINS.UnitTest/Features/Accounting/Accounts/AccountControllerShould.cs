@@ -85,6 +85,13 @@ namespace FINS.UnitTest.Features.Accounting.Accounts
                     Name = "Account1",
                     Code = "A1",
                     OpeningBalance = 10,
+                    Address = "Gobindgarh",
+                    ItPanNumber = "123456789",
+                    CstNumber = "123456789",
+                    ServiceTaxNumber = "123456789",
+                    TinNumber = "123456789",
+                    Ward = "123456789",
+                    StateId = 1,
                     OpeningBalanceType = TransactionType.Credit,
                     ContactPersons = new List<Person>()
                     {
@@ -93,13 +100,6 @@ namespace FINS.UnitTest.Features.Accounting.Accounts
                             FirstName = "ABC",
                             LastName = "DEF",
                             EmailId = "a@a.com",
-                            Address = "Gobindgarh",
-                            ItPanNumber = "123456789",
-                            CstNumber = "123456789",
-                            ServiceTaxNumber = "123456789",
-                            TinNumber = "123456789",
-                            Ward = "123456789",
-                            StateId = 1,
                             Mobile = 987987987
                         }
                     }
@@ -110,6 +110,13 @@ namespace FINS.UnitTest.Features.Accounting.Accounts
                     DisplayName = "Account2",
                     Name = "Account2",
                     Code = "A2",
+                    Address = "Sirhind",
+                    ItPanNumber = "123456789",
+                    CstNumber = "123456789",
+                    ServiceTaxNumber = "123456789",
+                    TinNumber = "123456789",
+                    Ward = "123456789",
+                    StateId = 1,
                     ContactPersons = new List<Person>()
                     {
                         new Person()
@@ -117,13 +124,6 @@ namespace FINS.UnitTest.Features.Accounting.Accounts
                             FirstName = "XYZ",
                             LastName = "PQL",
                             EmailId = "aasds@a.com",
-                            Address = "Sirhind",
-                            ItPanNumber = "123456789",
-                            CstNumber = "123456789",
-                            ServiceTaxNumber = "123456789",
-                            TinNumber = "123456789",
-                            Ward = "123456789",
-                            StateId = 1,
                             Mobile = 987987987
                         }
                     }

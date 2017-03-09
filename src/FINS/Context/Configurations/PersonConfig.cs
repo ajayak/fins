@@ -13,13 +13,6 @@ namespace FINS.Context.Configurations
             entity.Property(p => p.LastName).IsRequired().HasMaxLength(50);
             entity.Property(p => p.EmailId).HasMaxLength(250);
             entity.Property(p => p.Mobile).IsRequired();
-            entity.Property(p => p.Address).HasMaxLength(1000);
-            entity.Property(p => p.CstNumber).HasMaxLength(15);
-            entity.Property(p => p.ItPanNumber).HasMaxLength(15);
-            entity.Property(p => p.LstNumber).HasMaxLength(15);
-            entity.Property(p => p.ServiceTaxNumber).HasMaxLength(15);
-            entity.Property(p => p.TinNumber).HasMaxLength(15);
-            entity.Property(p => p.Ward).HasMaxLength(50);
         }
     }
 }
