@@ -7,7 +7,7 @@ using MediatR;
 
 namespace FINS.Features.Common.State.Operations
 {
-    public class GetAllStatesQuery : IRequest
+    public class GetAllStatesQuery : IRequest<List<StateDto>>
     {
 
     }

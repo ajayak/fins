@@ -7,6 +7,7 @@ using FINS.Core.Configuration;
 using FINS.Models;
 using FINS.Models.Accounting;
 using FINS.Models.App;
+using FINS.Models.Common;
 using FINS.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -36,8 +37,53 @@ namespace FINS.Core.DataAccess
 
         public async Task InsertDemoData()
         {
+            await InsertMasterData();
             await InsertOrgUserRoleData();
             await InsertAccountData();
+        }
+
+        public async Task InsertMasterData()
+        {
+            if (_context.States.Any()) return;
+
+            var states = new List<State>
+            {
+                new State{Code = "AP",Name = "Andhra Pradesh"},
+                new State{Code = "AR",Name = "Arunachal Pradesh"},
+                new State{Code = "AS",Name = "Assam"},
+                new State{Code = "BR",Name = "Bihar"},
+                new State{Code = "CG",Name = "Chhattisgarh"},
+                new State{Code = "CH",Name = "Chandigarh"},
+                new State{Code = "DN",Name = "Dadra and Nagar Haveli"},
+                new State{Code = "DD",Name = "Daman and Diu"},
+                new State{Code = "DL",Name = "Delhi"},
+                new State{Code = "GA",Name = "Goa"},
+                new State{Code = "GJ",Name = "Gujarat"},
+                new State{Code = "HR",Name = "Haryana"},
+                new State{Code = "HP",Name = "Himachal Pradesh"},
+                new State{Code = "JK",Name = "Jammu and Kashmir"},
+                new State{Code = "JH",Name = "Jharkhand"},
+                new State{Code = "KA",Name = "Karnataka"},
+                new State{Code = "KL",Name = "Kerala"},
+                new State{Code = "MP",Name = "Madhya Pradesh"},
+                new State{Code = "MH",Name = "Maharashtra"},
+                new State{Code = "MN",Name = "Manipur"},
+                new State{Code = "ML",Name = "Meghalaya"},
+                new State{Code = "MZ",Name = "Mizoram"},
+                new State{Code = "NL",Name = "Nagaland"},
+                new State{Code = "OR",Name = "Orissa"},
+                new State{Code = "PB",Name = "Punjab"},
+                new State{Code = "PY",Name = "Pondicherry"},
+                new State{Code = "RJ",Name = "Rajasthan"},
+                new State{Code = "SK",Name = "Sikkim"},
+                new State{Code = "TN",Name = "Tamil Nadu"},
+                new State{Code = "TR",Name = "Tripura"},
+                new State{Code = "UP",Name = "Uttar Pradesh"},
+                new State{Code = "UK",Name = "Uttarakhand"},
+                new State{Code = "WB",Name = "West Benga"}
+            };
+            await _context.States.AddRangeAsync(states);
+            await _context.SaveChangesAsync();
         }
 
         public async Task InsertOrgUserRoleData()

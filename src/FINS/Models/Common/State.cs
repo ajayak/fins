@@ -1,6 +1,6 @@
 ﻿namespace FINS.Models.Common
 {
-    public class State : BaseModel<int>
+    public class State : BaseModel<int>, ISoftDelete
     {
         /// <summary>
         /// Name of the state
@@ -11,5 +11,7 @@
         /// State code
         /// </summary>
         public string Code { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }
