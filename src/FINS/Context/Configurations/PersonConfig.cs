@@ -12,7 +12,7 @@ namespace FINS.Context.Configurations
             entity.Property(p => p.FirstName).IsRequired().HasMaxLength(50);
             entity.Property(p => p.LastName).IsRequired().HasMaxLength(50);
             entity.Property(p => p.EmailId).HasMaxLength(250);
-            entity.Property(p => p.Decription).HasMaxLength(1000);
+            entity.Property(p => p.Description).HasMaxLength(1000);
             entity.Property(p => p.Mobile).IsRequired();
         }
     }

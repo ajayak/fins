@@ -9,8 +9,8 @@ using FINS.Models;
 namespace FINS.Migrations
 {
     [DbContext(typeof(FinsDbContext))]
-    [Migration("20170223040310_RemovedOrgIdFromAccountAndAddedPersonConfig")]
-    partial class RemovedOrgIdFromAccountAndAddedPersonConfig
+    [Migration("20170313104947_CleanIntialization")]
+    partial class CleanIntialization
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,7 +18,7 @@ namespace FINS.Migrations
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("FINS.Models.Account.Account", b =>
+            modelBuilder.Entity("FINS.Models.Accounting.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -26,11 +26,27 @@ namespace FINS.Migrations
 
                     b.Property<int>("AccountGroupId");
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("CstNumber")
+                        .HasMaxLength(15);
+
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("ItPanNumber")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("LstNumber")
+                        .HasMaxLength(15);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -42,14 +58,28 @@ namespace FINS.Migrations
 
                     b.Property<int>("OpeningBalanceType");
 
+                    b.Property<string>("ServiceTaxNumber")
+                        .HasMaxLength(15);
+
+                    b.Property<int>("StateId");
+
+                    b.Property<string>("TinNumber")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Ward")
+                        .HasMaxLength(50);
+
                     b.HasKey("Id");
 
                     b.HasIndex("AccountGroupId");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("Account");
                 });
 
-            modelBuilder.Entity("FINS.Models.Account.AccountGroup", b =>
+            modelBuilder.Entity("FINS.Models.Accounting.AccountGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +108,7 @@ namespace FINS.Migrations
                     b.ToTable("AccountGroup");
                 });
 
-            modelBuilder.Entity("FINS.Models.Account.Person", b =>
+            modelBuilder.Entity("FINS.Models.Accounting.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,11 +116,8 @@ namespace FINS.Migrations
 
                     b.Property<int>("AccountId");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("Description")
                         .HasMaxLength(1000);
-
-                    b.Property<string>("CstNumber")
-                        .HasMaxLength(15);
 
                     b.Property<string>("EmailId")
                         .HasMaxLength(250);
@@ -99,30 +126,13 @@ namespace FINS.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("ItPanNumber")
-                        .HasMaxLength(15);
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("LstNumber")
-                        .HasMaxLength(15);
-
                     b.Property<long>("Mobile");
 
-                    b.Property<string>("ServiceTaxNumber")
-                        .HasMaxLength(15);
-
-                    b.Property<int>("StateId");
-
                     b.Property<long>("Telephone");
-
-                    b.Property<string>("TinNumber")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("Ward")
-                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -415,23 +425,23 @@ namespace FINS.Migrations
                     b.ToTable("OpenIddictToken");
                 });
 
-            modelBuilder.Entity("FINS.Models.Account.Account", b =>
+            modelBuilder.Entity("FINS.Models.Accounting.Account", b =>
                 {
-                    b.HasOne("FINS.Models.Account.AccountGroup", "AccountGroup")
+                    b.HasOne("FINS.Models.Accounting.AccountGroup", "AccountGroup")
                         .WithMany()
                         .HasForeignKey("AccountGroupId");
                 });
 
-            modelBuilder.Entity("FINS.Models.Account.AccountGroup", b =>
+            modelBuilder.Entity("FINS.Models.Accounting.AccountGroup", b =>
                 {
                     b.HasOne("FINS.Models.App.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId");
                 });
 
-            modelBuilder.Entity("FINS.Models.Account.Person", b =>
+            modelBuilder.Entity("FINS.Models.Accounting.Person", b =>
                 {
-                    b.HasOne("FINS.Models.Account.Account", "Account")
+                    b.HasOne("FINS.Models.Accounting.Account", "Account")
                         .WithMany("ContactPersons")
                         .HasForeignKey("AccountId");
                 });

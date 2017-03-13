@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using FINS.Core.AutoMap;
 using FINS.Core.Helpers;
 using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Features.Accounting.Accounts.DTO;
@@ -41,20 +43,28 @@ namespace FINS.Features.Accounting.Accounts
         }
 
         [HttpGet("{accountId}"), Produces("application/json")]
-        public async Task<IActionResult> GetAccount(int accountId, int organizationId = 0)
+        public async Task<IActionResult> GetAccount(int accountId)
         {
             var orgId = User.GetOrganizationId();
-            organizationId = orgId ?? organizationId;
-
-
-            return Ok();
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
+            var account = await _mediator.Send(new GetAccountQuery()
+            {
+                AccountId = accountId,
+                OrganizationId = organizationId
+            });
+            return Ok(account);
         }
 
         [HttpPost("")]
-        [HttpPost("{organizationId}")]
-        public async Task<IActionResult> AddAccount([FromBody] AccountDto account)
+        public async Task<IActionResult> AddAccount([FromBody]AccountDto account)
         {
-            return Ok();
+            if (account == null || !account.ContactPersons.Any() || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var addAccountCommand = account.MapTo<AddAccountCommand>();
+            var addedAccount = await _mediator.Send(addAccountCommand);
+            return Ok(addedAccount);
         }
     }
 }

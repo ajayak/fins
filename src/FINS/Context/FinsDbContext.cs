@@ -2,6 +2,7 @@
 using FINS.Context.Configurations;
 using FINS.Models.Accounting;
 using FINS.Models.App;
+using FINS.Models.Common;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -17,6 +18,7 @@ namespace FINS.Context
         public DbSet<AccountGroup> AccountGroups { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<State> States { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -46,6 +48,7 @@ namespace FINS.Context
             builder.Entity<AccountGroup>().Configure();
             builder.Entity<Account>().Configure();
             builder.Entity<Person>().Configure();
+            builder.Entity<State>().Configure();
         }
     }
 }

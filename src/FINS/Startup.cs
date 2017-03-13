@@ -84,8 +84,6 @@ namespace FINS
 
             services.AddResponseCompression();
 
-
-
             // Add MVC services to the services container.
             services.AddMvc()
                 .AddJsonOptions(options =>
@@ -93,8 +91,8 @@ namespace FINS
 
             services.ConfigureFinsOpenIdConnect();
 
-            //Hangfire
-            services.ConfigureHangfire(Configuration["Data:HangfireConnection:ConnectionString"], HostingEnvironment.IsEnvironment("Test"));
+            ////Hangfire
+            //services.ConfigureHangfire(Configuration["Data:HangfireConnection:ConnectionString"], HostingEnvironment.IsEnvironment("Test"));
 
             // configure IoC support
             var container = Core.Configuration.Services.CreateIoCContainer(services, Configuration);
@@ -154,8 +152,8 @@ namespace FINS
             // GZIP Compression
             app.UseResponseCompression();
 
-            //Hangfire
-            app.UseFinsHangfire();
+            ////Hangfire
+            //app.UseFinsHangfire();
 
             app.UseMiddleware(typeof(FinsErrorHandler));
 

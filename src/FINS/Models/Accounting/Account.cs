@@ -31,7 +31,7 @@ namespace FINS.Models.Accounting
         /// <summary>
         /// Opening balance Amount
         /// </summary>
-        public decimal OpeningBalance { get; set; }
+        public decimal? OpeningBalance { get; set; }
 
         /// <summary>
         /// Type of Opening Balance Credit/Debit
