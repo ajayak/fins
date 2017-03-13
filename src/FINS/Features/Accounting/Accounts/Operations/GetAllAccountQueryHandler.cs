@@ -5,12 +5,13 @@ using AutoMapper.QueryableExtensions;
 using FINS.Context;
 using FINS.Core.AutoMap;
 using FINS.Core.Helpers;
+using FINS.Features.Accounting.Accounts.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace FINS.Features.Accounting.Accounts.Operations
 {
-    public class GetAllAccountQueryHandler : IAsyncRequestHandler<GetAllAccountQuery, PagedResult<AccountDto>>
+    public class GetAllAccountQueryHandler : IAsyncRequestHandler<GetAllAccountQuery, PagedResult<AccountListDto>>
     {
         private readonly FinsDbContext _context;
 
@@ -19,7 +20,7 @@ namespace FINS.Features.Accounting.Accounts.Operations
             _context = context;
         }
 
-        public async Task<PagedResult<AccountDto>> Handle(GetAllAccountQuery message)
+        public async Task<PagedResult<AccountListDto>> Handle(GetAllAccountQuery message)
         {
             var query = _context.Accounts
                 .Where(c =>
@@ -29,7 +30,7 @@ namespace FINS.Features.Accounting.Accounts.Operations
 
             var totalRecordCount = await query.CountAsync();
             var result = await query
-                .ProjectTo<AccountDto>()
+                .ProjectTo<AccountListDto>()
                 .ApplySort(message.Sort)
                 .ApplyPaging(message.PageNo, message.PageSize)
                 .ToListAsync();

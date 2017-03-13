@@ -49,9 +49,10 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
             }));
 
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();
+            _sut.ControllerContext.HttpContext.Request.Headers.Add("orgId", OrganizationId.ToString());
             _sut.HttpContext.User = user;
 
-            var result = await _sut.GetAllAccountGroups(OrganizationId);
+            var result = await _sut.GetAllAccountGroups();
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.As<List<AccountGroupDto>>().Count.Should().Be(3);
         }
@@ -127,7 +128,9 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
         {
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();
             _sut.HttpContext.User = CreateOrgAdminUser();
-            var result = await _sut.DeleteAccountGroup(AccountGroupId, OrganizationId);
+            _sut.ControllerContext.HttpContext.Request.Headers.Add("orgId", OrganizationId.ToString());
+
+            var result = await _sut.DeleteAccountGroup(AccountGroupId);
             result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeOfType<bool>();
         }
 
@@ -136,7 +139,9 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
         {
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();
             _sut.HttpContext.User = CreateOrgAdminUser();
-            var ex = await Assert.ThrowsAsync<FinsNotFoundException>(async () => await _sut.DeleteAccountGroup(13213123, OrganizationId));
+            _sut.ControllerContext.HttpContext.Request.Headers.Add("orgId", OrganizationId.ToString());
+
+            var ex = await Assert.ThrowsAsync<FinsNotFoundException>(async () => await _sut.DeleteAccountGroup(13213123));
             ex.Message.Should().BeOfType<string>();
         }
 

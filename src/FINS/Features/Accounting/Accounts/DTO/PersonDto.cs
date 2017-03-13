@@ -1,9 +1,8 @@
-﻿namespace FINS.Models.Accounting
+﻿using FINS.DTO;
+
+namespace FINS.Features.Accounting.Accounts.DTO
 {
-    /// <summary>
-    /// Person Details
-    /// </summary>
-    public class Person : BaseModel<int>
+    public class PersonDto : BaseDto<int>
     {
         /// <summary>
         /// First Name of the contact person
@@ -34,11 +33,5 @@
         /// Mobile Number
         /// </summary>
         public long Mobile { get; set; }
-
-        /// <summary>
-        /// Associated Account Id
-        /// </summary>
-        public int AccountId { get; set; }
-        public virtual Account Account { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using FINS.Features.Accounting.AccountGroups;
 using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Features.Accounting.Accounts;
+using FINS.Features.Accounting.Accounts.DTO;
 using FINS.Models.Accounting;
 
 namespace FINS.Core.AutoMap
@@ -21,7 +22,7 @@ namespace FINS.Core.AutoMap
 
                 cfg.CreateMap<AddAccountGroupCommand, AccountGroup>().ReverseMap();
 
-                cfg.CreateMap<AccountDto, Account>().ReverseMap();
+                cfg.CreateMap<AccountListDto, Account>().ReverseMap();
             });
         }
     }

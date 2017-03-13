@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using FINS.Core.AutoMap;
 using FINS.Core.FinsAttributes;
+using FINS.Core.Helpers;
 using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FINS.Features.Accounting.AccountGroups
@@ -21,24 +23,22 @@ namespace FINS.Features.Accounting.AccountGroups
             _mediator = mediator;
         }
 
-        [HttpGet("")]
-        [HttpGet("{organizationId}"), Produces("application/json")]
-        public async Task<IActionResult> GetAllAccountGroups(int organizationId = 0)
+        [HttpGet(""), Produces("application/json")]
+        public async Task<IActionResult> GetAllAccountGroups()
         {
             var orgId = User.GetOrganizationId();
-            organizationId = orgId ?? organizationId;
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
 
             var accountGroups = await _mediator.Send(new GetAllAccountGroupQuery() { OrganizationId = organizationId });
 
             return Ok(accountGroups);
         }
 
-        [HttpGet("list")]
-        [HttpGet("list/{organizationId}"), Produces("application/json")]
-        public async Task<IActionResult> GetAccountGroupsCollection(int organizationId = 0)
+        [HttpGet("list"), Produces("application/json")]
+        public async Task<IActionResult> GetAccountGroupsCollection()
         {
             var orgId = User.GetOrganizationId();
-            organizationId = orgId ?? organizationId;
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
 
             var accountGroups = await _mediator.Send(new GetAccountGroupDictionaryQuery() { OrganizationId = organizationId });
 
@@ -47,15 +47,14 @@ namespace FINS.Features.Accounting.AccountGroups
 
         [AccountGroupCreator]
         [HttpPost("")]
-        [HttpPost("{organizationId}")]
-        public async Task<IActionResult> AddAccountGroup([FromBody]AccountGroupDto accountGroup, int organizationId = 0)
+        public async Task<IActionResult> AddAccountGroup([FromBody]AccountGroupDto accountGroup)
         {
             if (accountGroup == null || !ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             var orgId = User.GetOrganizationId();
-            organizationId = orgId ?? organizationId;
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
 
             var query = accountGroup.MapTo<AddAccountGroupCommand>();
             query.OrganizationId = organizationId;
@@ -65,15 +64,14 @@ namespace FINS.Features.Accounting.AccountGroups
 
         [AccountGroupCreator]
         [HttpPut("")]
-        [HttpPut("{organizationId}")]
-        public async Task<IActionResult> UpdateAccountGroup([FromBody]AccountGroupDto accountGroup, int organizationId = 0)
+        public async Task<IActionResult> UpdateAccountGroup([FromBody]AccountGroupDto accountGroup)
         {
             if (accountGroup == null || !ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             var orgId = User.GetOrganizationId();
-            organizationId = orgId ?? organizationId;
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
 
             var query = accountGroup.MapTo<UpdateAccountGroupCommand>();
             query.OrganizationId = organizationId;
@@ -83,11 +81,10 @@ namespace FINS.Features.Accounting.AccountGroups
 
         [AccountGroupCreator]
         [HttpDelete("{accountGroupId}")]
-        [HttpDelete("{accountGroupId}/organization/{organizationId}")]
-        public async Task<IActionResult> DeleteAccountGroup(int accountGroupId, int organizationId = 0)
+        public async Task<IActionResult> DeleteAccountGroup(int accountGroupId)
         {
             var orgId = User.GetOrganizationId();
-            organizationId = orgId ?? organizationId;
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
 
             var query = new DeleteAccountGroupCommand
             {

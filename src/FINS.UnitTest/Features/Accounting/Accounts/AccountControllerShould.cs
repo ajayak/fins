@@ -6,6 +6,7 @@ using System.Security.Principal;
 using FINS.Core.Helpers;
 using FINS.Features.Accounting.AccountGroups;
 using FINS.Features.Accounting.Accounts;
+using FINS.Features.Accounting.Accounts.DTO;
 using FINS.Features.Accounting.Accounts.Operations;
 using FINS.Models;
 using FINS.Models.Accounting;
@@ -36,7 +37,7 @@ namespace FINS.UnitTest.Features.Accounting.Accounts
             _sut.HttpContext.User = CreateOrgAdminUser();
             var result = await _sut.GetAllAccounts();
             result.Should().BeOfType<OkObjectResult>();
-            var dto = result.As<OkObjectResult>().Value.As<PagedResult<AccountDto>>();
+            var dto = result.As<OkObjectResult>().Value.As<PagedResult<AccountListDto>>();
             dto.PageNo.Should().Be(1);
             dto.PageSize.Should().Be(10);
             dto.Items.Count.Should().BeGreaterThan(1);

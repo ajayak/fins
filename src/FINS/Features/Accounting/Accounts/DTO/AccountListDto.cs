@@ -1,8 +1,8 @@
 ﻿using FINS.DTO;
 
-namespace FINS.Features.Accounting.Accounts
+namespace FINS.Features.Accounting.Accounts.DTO
 {
-    public class AccountDto : BaseDto<int>
+    public class AccountListDto : BaseDto<int>
     {
         /// <summary>
         /// Name of the account

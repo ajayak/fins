@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using FINS.Core.Helpers;
 using FINS.Features.Accounting.AccountGroups.Operations;
+using FINS.Features.Accounting.Accounts.DTO;
 using FINS.Features.Accounting.Accounts.Operations;
 using FINS.Security;
 using MediatR;
@@ -20,13 +22,12 @@ namespace FINS.Features.Accounting.Accounts
             _mediator = mediator;
         }
 
-        [HttpGet("")]
-        [HttpGet("{organizationId}"), Produces("application/json")]
+        [HttpGet(""), Produces("application/json")]
         public async Task<IActionResult> GetAllAccounts
-            (int organizationId = 0, int pageNo = 1, int pageSize = 10, string sort = "")
+            (int pageNo = 1, int pageSize = 10, string sort = "")
         {
             var orgId = User.GetOrganizationId();
-            organizationId = orgId ?? organizationId;
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
 
             var accountList = await _mediator.Send(new GetAllAccountQuery()
             {
@@ -46,6 +47,13 @@ namespace FINS.Features.Accounting.Accounts
             organizationId = orgId ?? organizationId;
 
 
+            return Ok();
+        }
+
+        [HttpPost("")]
+        [HttpPost("{organizationId}")]
+        public async Task<IActionResult> AddAccount([FromBody] AccountDto account)
+        {
             return Ok();
         }
     }
