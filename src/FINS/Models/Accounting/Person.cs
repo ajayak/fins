@@ -26,11 +26,6 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// Telephone Number
-        /// </summary>
-        public long Telephone { get; set; }
-
-        /// <summary>
         /// Mobile Number
         /// </summary>
         public long Mobile { get; set; }

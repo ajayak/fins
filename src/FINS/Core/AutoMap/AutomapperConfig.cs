@@ -24,6 +24,7 @@ namespace FINS.Core.AutoMap
                 cfg.CreateMap<AccountListDto, Account>().ReverseMap();
                 cfg.CreateMap<AccountDto, Account>().ReverseMap();
                 cfg.CreateMap<AccountDto, AddAccountCommand>().ReverseMap();
+                cfg.CreateMap<AccountDto, UpdateAccountCommand>().ReverseMap();
 
                 cfg.CreateMap<PersonDto, Person>().ReverseMap();
             });

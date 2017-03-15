@@ -9,9 +9,10 @@ using FINS.Models;
 namespace FINS.Migrations
 {
     [DbContext(typeof(FinsDbContext))]
-    partial class FinsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170313143905_RemovedTelephoneNo")]
+    partial class RemovedTelephoneNo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -69,6 +70,9 @@ namespace FINS.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountGroupId");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.ToTable("Account");
                 });

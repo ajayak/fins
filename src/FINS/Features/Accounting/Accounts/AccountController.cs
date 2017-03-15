@@ -2,14 +2,12 @@
 using System.Threading.Tasks;
 using FINS.Core.AutoMap;
 using FINS.Core.Helpers;
-using FINS.Features.Accounting.AccountGroups.Operations;
 using FINS.Features.Accounting.Accounts.DTO;
 using FINS.Features.Accounting.Accounts.Operations;
 using FINS.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace FINS.Features.Accounting.Accounts
 {
@@ -24,7 +22,7 @@ namespace FINS.Features.Accounting.Accounts
             _mediator = mediator;
         }
 
-        [HttpGet(""), Produces("application/json")]
+        [HttpGet, Produces("application/json")]
         public async Task<IActionResult> GetAllAccounts
             (int pageNo = 1, int pageSize = 10, string sort = "")
         {
@@ -55,7 +53,7 @@ namespace FINS.Features.Accounting.Accounts
             return Ok(account);
         }
 
-        [HttpPost("")]
+        [HttpPost]
         public async Task<IActionResult> AddAccount([FromBody]AccountDto account)
         {
             if (account == null || !account.ContactPersons.Any() || !ModelState.IsValid)
@@ -65,6 +63,18 @@ namespace FINS.Features.Accounting.Accounts
             var addAccountCommand = account.MapTo<AddAccountCommand>();
             var addedAccount = await _mediator.Send(addAccountCommand);
             return Ok(addedAccount);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAccount([FromBody]AccountDto account)
+        {
+            if (account == null || !account.ContactPersons.Any() || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var updateAccountCommand = account.MapTo<UpdateAccountCommand>();
+            var updatedAccount = await _mediator.Send(updateAccountCommand);
+            return Ok(updatedAccount);
         }
     }
 }

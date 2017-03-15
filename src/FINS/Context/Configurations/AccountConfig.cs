@@ -22,7 +22,7 @@ namespace FINS.Context.Configurations
             entity.Property(p => p.TinNumber).HasMaxLength(15);
             entity.Property(p => p.Ward).HasMaxLength(50);
 
-            entity.HasIndex(e => e.Code).IsUnique();
+            //entity.HasIndex(e => e.Code).IsUnique();
         }
     }
 }
