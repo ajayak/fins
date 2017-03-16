@@ -164,7 +164,10 @@ namespace FINS.Core.DataAccess
                 {
                     new Claim(Security.ClaimTypes.UserType, "SiteAdmin"),
                     new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
-                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupManager.ToString())
+                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupManager.ToString()),
+                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountManager.ToString()),
+                    new Claim(Security.ClaimTypes.Inventory, Inventory.ItemGroupManager.ToString()),
+                    new Claim(Security.ClaimTypes.Inventory, Inventory.ItemManager.ToString())
                 });
 
             var orgAdmin = new ApplicationUser
@@ -182,7 +185,10 @@ namespace FINS.Core.DataAccess
                 {
                     new Claim(Security.ClaimTypes.UserType, "OrgAdmin"),
                     new Claim(Security.ClaimTypes.Organization, organization.Id.ToString()),
-                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupManager.ToString())
+                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountGroupManager.ToString()),
+                    new Claim(Security.ClaimTypes.Accounting, Accounting.AccountManager.ToString()),
+                    new Claim(Security.ClaimTypes.Inventory, Inventory.ItemGroupManager.ToString()),
+                    new Claim(Security.ClaimTypes.Inventory, Inventory.ItemManager.ToString())
                 });
 
             var orgUser = new ApplicationUser

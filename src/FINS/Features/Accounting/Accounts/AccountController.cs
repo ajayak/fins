@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using FINS.Core.AutoMap;
+using FINS.Core.FinsAttributes;
 using FINS.Core.Helpers;
 using FINS.Features.Accounting.Accounts.DTO;
 using FINS.Features.Accounting.Accounts.Operations;
@@ -53,6 +54,7 @@ namespace FINS.Features.Accounting.Accounts
             return Ok(account);
         }
 
+        [AccountCreator]
         [HttpPost]
         public async Task<IActionResult> AddAccount([FromBody]AccountDto account)
         {
@@ -65,6 +67,7 @@ namespace FINS.Features.Accounting.Accounts
             return Ok(addedAccount);
         }
 
+        [AccountCreator]
         [HttpPut]
         public async Task<IActionResult> UpdateAccount([FromBody]AccountDto account)
         {
@@ -77,6 +80,7 @@ namespace FINS.Features.Accounting.Accounts
             return Ok(updatedAccount);
         }
 
+        [AccountCreator]
         [HttpDelete("{accountId}")]
         public async Task<IActionResult> DeleteAccount(int accountId)
         {
