@@ -2,7 +2,7 @@
 
 namespace FINS.Models.Inventory
 {
-    public class Item : BaseModel<int>, ISoftDelete, IBelongToOrganization
+    public class ItemGroup : BaseModel<int>, ISoftDelete, IBelongToOrganization
     {
         /// <summary>
         /// Name of Item

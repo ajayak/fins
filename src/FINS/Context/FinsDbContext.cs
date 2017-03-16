@@ -18,7 +18,7 @@ namespace FINS.Context
         public virtual DbSet<Organization> Organizations { get; set; }
         public DbSet<AccountGroup> AccountGroups { get; set; }
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Item> Items { get; set; }
+        public DbSet<ItemGroup> ItemGroups { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<State> States { get; set; }
 
@@ -49,7 +49,7 @@ namespace FINS.Context
             builder.Entity<Organization>().Configure();
             builder.Entity<AccountGroup>().Configure();
             builder.Entity<Account>().Configure();
-            builder.Entity<Item>().Configure();
+            builder.Entity<ItemGroup>().Configure();
             builder.Entity<Person>().Configure();
             builder.Entity<State>().Configure();
         }

@@ -8,6 +8,7 @@ using FINS.Models;
 using FINS.Models.Accounting;
 using FINS.Models.App;
 using FINS.Models.Common;
+using FINS.Models.Inventory;
 using FINS.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -23,6 +24,8 @@ namespace FINS.Core.DataAccess
         private readonly GeneralSettings _generalSettings;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+
+        public int OrganizationId { get; set; }
 
         public SampleDataGenerator(FinsDbContext context, IOptions<SampleDataSettings> options,
             IOptions<GeneralSettings> generalSettings, UserManager<ApplicationUser> userManager,
@@ -40,6 +43,7 @@ namespace FINS.Core.DataAccess
             await InsertMasterData();
             await InsertOrgUserRoleData();
             await InsertAccountData();
+            await InsertInventoriesData();
         }
 
         public async Task InsertMasterData()
@@ -91,6 +95,10 @@ namespace FINS.Core.DataAccess
             if (_context.Roles.Any() ||
                 _context.Users.Any())
             {
+                OrganizationId = _context.Organizations
+                .Where(c => c.Name == "fs")
+                .Select(c => c.Id)
+                .FirstOrDefault();
                 return;
             }
 
@@ -120,6 +128,7 @@ namespace FINS.Core.DataAccess
             };
             await _context.Organizations.AddAsync(organization);
             await _context.Organizations.AddAsync(anotherOrganization);
+            OrganizationId = organization.Id;
 
             #endregion
 
@@ -203,16 +212,11 @@ namespace FINS.Core.DataAccess
                 return;
             }
 
-            var organizationId = _context.Organizations
-                .Where(c => c.Name == "fs")
-                .Select(c => c.Id)
-                .FirstOrDefault();
-
             var accountGroups = new List<AccountGroup>
             {
-                new AccountGroup(){Name = "Loan", DisplayName = "Loan", IsPrimary = true, ParentId = 0, OrganizationId = organizationId},
-                new AccountGroup(){Name = "Sales", DisplayName = "Sales", IsPrimary = true, ParentId = 0, OrganizationId = organizationId},
-                new AccountGroup(){Name = "Purchase", DisplayName = "Purchase", IsPrimary = true, ParentId = 0, OrganizationId = organizationId}
+                new AccountGroup(){Name = "Loan", DisplayName = "Loan", IsPrimary = true, ParentId = 0, OrganizationId = OrganizationId},
+                new AccountGroup(){Name = "Sales", DisplayName = "Sales", IsPrimary = true, ParentId = 0, OrganizationId = OrganizationId},
+                new AccountGroup(){Name = "Purchase", DisplayName = "Purchase", IsPrimary = true, ParentId = 0, OrganizationId = OrganizationId}
             };
             await _context.AccountGroups.AddRangeAsync(accountGroups);
 
@@ -272,6 +276,21 @@ namespace FINS.Core.DataAccess
             await _context.Accounts.AddRangeAsync(accounts);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task InsertInventoriesData()
+        {
+            if (_context.ItemGroups.Any())
+            {
+                return;
+            }
+
+            var items = new List<ItemGroup>
+            {
+                new ItemGroup(){Name = "Hardware Tools", DisplayName = "Hardware Tools", IsPrimary = true, ParentId = 0, OrganizationId = OrganizationId},
+                new ItemGroup(){Name = "Stationary", DisplayName = "Stationary", IsPrimary = true, ParentId = 0, OrganizationId = OrganizationId}
+            };
+            await _context.ItemGroups.AddRangeAsync(items);
         }
     }
 }

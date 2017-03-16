@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using FINS.Features.Accounting.AccountGroups;
 using FINS.Features.Accounting.AccountGroups.Operations;
-using FINS.Features.Accounting.Accounts;
 using FINS.Features.Accounting.Accounts.DTO;
 using FINS.Features.Accounting.Accounts.Operations;
+using FINS.Features.Inventory.ItemGroups;
+using FINS.Features.Inventory.ItemGroups.Operations;
 using FINS.Models.Accounting;
+using FINS.Models.Inventory;
 
 namespace FINS.Core.AutoMap
 {
@@ -27,6 +29,10 @@ namespace FINS.Core.AutoMap
                 cfg.CreateMap<AccountDto, UpdateAccountCommand>().ReverseMap();
 
                 cfg.CreateMap<PersonDto, Person>().ReverseMap();
+
+                cfg.CreateMap<ItemGroupDto, AddItemGroupCommand>().ReverseMap();
+                cfg.CreateMap<ItemGroupDto, UpdateItemGroupCommand>().ReverseMap();
+                cfg.CreateMap<AddItemGroupCommand, ItemGroup>().ReverseMap();
             });
         }
     }
