@@ -128,6 +128,7 @@ namespace FINS.Core.DataAccess
             };
             await _context.Organizations.AddAsync(organization);
             await _context.Organizations.AddAsync(anotherOrganization);
+            await _context.SaveChangesAsync();
             OrganizationId = organization.Id;
 
             #endregion
