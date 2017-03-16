@@ -26,8 +26,13 @@
         public const string AccessLevel = "fs:accessLevel";
 
         /// <summary>
-        /// Access levels of user
+        /// Accounting claims of user
         /// </summary>
         public const string Accounting = "fs:accounting";
+
+        /// <summary>
+        /// Inventory claims of user
+        /// </summary>
+        public const string Inventory = "fs:inventory";
     }
 }

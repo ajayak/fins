@@ -5,7 +5,7 @@ namespace FINS.Core.FinsAttributes
 {
     public class ItemGroupCreatorAttribute : AuthorizeAttribute
     {
-        public ItemGroupCreatorAttribute() : base(Accounting.AccountGroupManager.ToString())
+        public ItemGroupCreatorAttribute() : base(Inventory.ItemGroupManager.ToString())
         {
 
         }

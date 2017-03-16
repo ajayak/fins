@@ -27,6 +27,19 @@ namespace FINS.Security
                 {
                     b.RequireClaim(ClaimTypes.Accounting, Accounting.AccountGroupManager.ToString());
                 });
+                options.AddPolicy(Accounting.AccountManager.ToString(), b =>
+                {
+                    b.RequireClaim(ClaimTypes.Accounting, Accounting.AccountManager.ToString());
+                });
+
+                options.AddPolicy(Inventory.ItemGroupManager.ToString(), b =>
+                {
+                    b.RequireClaim(ClaimTypes.Inventory, Inventory.ItemGroupManager.ToString());
+                });
+                options.AddPolicy(Accounting.AccountManager.ToString(), b =>
+                {
+                    b.RequireClaim(ClaimTypes.Inventory, Inventory.ItemManager.ToString());
+                });
             });
             return service;
         }

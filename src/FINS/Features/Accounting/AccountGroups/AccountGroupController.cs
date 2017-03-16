@@ -23,7 +23,7 @@ namespace FINS.Features.Accounting.AccountGroups
             _mediator = mediator;
         }
 
-        [HttpGet(""), Produces("application/json")]
+        [HttpGet, Produces("application/json")]
         public async Task<IActionResult> GetAllAccountGroups()
         {
             var orgId = User.GetOrganizationId();
@@ -46,7 +46,7 @@ namespace FINS.Features.Accounting.AccountGroups
         }
 
         [AccountGroupCreator]
-        [HttpPost("")]
+        [HttpPost]
         public async Task<IActionResult> AddAccountGroup([FromBody]AccountGroupDto accountGroup)
         {
             if (accountGroup == null || !ModelState.IsValid)
@@ -63,7 +63,7 @@ namespace FINS.Features.Accounting.AccountGroups
         }
 
         [AccountGroupCreator]
-        [HttpPut("")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAccountGroup([FromBody]AccountGroupDto accountGroup)
         {
             if (accountGroup == null || !ModelState.IsValid)

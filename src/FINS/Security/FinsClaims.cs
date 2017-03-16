@@ -9,11 +9,18 @@
 
     public enum AccessLevel
     {
-        
+
     }
 
     public enum Accounting
     {
-        AccountGroupManager
+        AccountGroupManager,
+        AccountManager
+    }
+
+    public enum Inventory
+    {
+        ItemGroupManager,
+        ItemManager
     }
 }

@@ -292,6 +292,7 @@ namespace FINS.Core.DataAccess
                 new ItemGroup(){Name = "Stationary", DisplayName = "Stationary", IsPrimary = true, ParentId = 0, OrganizationId = OrganizationId}
             };
             await _context.ItemGroups.AddRangeAsync(items);
+            await _context.SaveChangesAsync();
         }
     }
 }
