@@ -76,5 +76,18 @@ namespace FINS.Features.Accounting.Accounts
             var updatedAccount = await _mediator.Send(updateAccountCommand);
             return Ok(updatedAccount);
         }
+
+        [HttpDelete("{accountId}")]
+        public async Task<IActionResult> DeleteAccount(int accountId)
+        {
+            var orgId = User.GetOrganizationId();
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
+            var result = await _mediator.Send(new DeleteAccountCommand()
+            {
+                AccountId = accountId,
+                OrganizationId = organizationId
+            });
+            return Ok(result);
+        }
     }
 }

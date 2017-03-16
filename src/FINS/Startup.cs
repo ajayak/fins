@@ -135,6 +135,8 @@ namespace FINS
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseMiddleware(typeof(FinsErrorHandler));
+
             app.UseIdentity();
 
             app.UseOpenIddict();
@@ -154,8 +156,6 @@ namespace FINS
 
             ////Hangfire
             //app.UseFinsHangfire();
-
-            app.UseMiddleware(typeof(FinsErrorHandler));
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>

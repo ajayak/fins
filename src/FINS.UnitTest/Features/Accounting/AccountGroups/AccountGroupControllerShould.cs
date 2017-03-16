@@ -63,7 +63,7 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups
             _sut.ControllerContext.HttpContext = new DefaultHttpContext();
             _sut.HttpContext.User = CreateOrgAdminUser();
 
-            var result = await _sut.GetAccountGroupsCollection();
+            var result = await _sut.GetAllPrimaryAccountGroupsCollection();
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.As<Dictionary<int, string>>().Count.Should().Be(3);
         }

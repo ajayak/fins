@@ -35,12 +35,12 @@ namespace FINS.Features.Accounting.AccountGroups
         }
 
         [HttpGet("list"), Produces("application/json")]
-        public async Task<IActionResult> GetAccountGroupsCollection()
+        public async Task<IActionResult> GetAllPrimaryAccountGroupsCollection()
         {
             var orgId = User.GetOrganizationId();
             var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
 
-            var accountGroups = await _mediator.Send(new GetAccountGroupDictionaryQuery() { OrganizationId = organizationId });
+            var accountGroups = await _mediator.Send(new GetPrimaryAccountGroupDictionaryQuery() { OrganizationId = organizationId });
 
             return Ok(accountGroups);
         }

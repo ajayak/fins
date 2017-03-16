@@ -19,8 +19,8 @@ namespace FINS.UnitTest.Features.Accounting.AccountGroups.Operations
         [Fact]
         public async void ReturnsAccountGroupsDictionaryForOrganization()
         {
-            var sut = new GetAccountGroupDictionaryQueryHandler(Context);
-            var result = await sut.Handle(new GetAccountGroupDictionaryQuery() { OrganizationId = OrganizationId });
+            var sut = new GetPrimaryAccountGroupDictionaryQueryHandler(Context);
+            var result = await sut.Handle(new GetPrimaryAccountGroupDictionaryQuery() { OrganizationId = OrganizationId });
             result.Should().BeOfType<Dictionary<int, string>>();
             result.Keys.Count.Should().Be(4);
             result.Values.Should().Contain("TG3");

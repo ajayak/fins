@@ -10,12 +10,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FINS.Features.Accounting.AccountGroups.Operations
 {
-    public class GetAccountGroupDictionaryQueryHandler :
-        IAsyncRequestHandler<GetAccountGroupDictionaryQuery, Dictionary<int, string>>
+    public class GetPrimaryAccountGroupDictionaryQueryHandler :
+        IAsyncRequestHandler<GetPrimaryAccountGroupDictionaryQuery, Dictionary<int, string>>
     {
         private readonly FinsDbContext _context;
 
-        public GetAccountGroupDictionaryQueryHandler(FinsDbContext context)
+        public GetPrimaryAccountGroupDictionaryQueryHandler(FinsDbContext context)
         {
             _context = context;
         }
@@ -25,11 +25,11 @@ namespace FINS.Features.Accounting.AccountGroups.Operations
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public async Task<Dictionary<int,string>> Handle(GetAccountGroupDictionaryQuery message)
+        public async Task<Dictionary<int, string>> Handle(GetPrimaryAccountGroupDictionaryQuery message)
         {
             return await _context.AccountGroups
                 .AsNoTracking()
-                .Where(c => c.OrganizationId == message.OrganizationId && !c.IsDeleted)
+                .Where(c => c.OrganizationId == message.OrganizationId && !c.IsDeleted && c.IsPrimary)
                 .ToDictionaryAsync(c => c.Id, c => c.Name);
         }
     }
