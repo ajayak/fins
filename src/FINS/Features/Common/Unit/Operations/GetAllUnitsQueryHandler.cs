@@ -6,22 +6,22 @@ using FINS.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace FINS.Features.Common.State.Operations
+namespace FINS.Features.Common.Unit.Operations
 {
-    public class GetAllStatesQueryHandler : IAsyncRequestHandler<GetAllStatesQuery, List<NameCodeDto<int>>>
+    public class GetAllUnitsQueryHandler : IAsyncRequestHandler<GetAllUnitsQuery, List<NameCodeDto<int>>>
     {
         private readonly FinsDbContext _context;
 
-        public GetAllStatesQueryHandler(FinsDbContext context)
+        public GetAllUnitsQueryHandler(FinsDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<NameCodeDto<int>>> Handle(GetAllStatesQuery query)
+        public async Task<List<NameCodeDto<int>>> Handle(GetAllUnitsQuery query)
         {
-            return await _context.States
+            return await _context.Units
                 .Where(c => c.OrganizationId == query.OrganizationId && !c.IsDeleted)
-                .Select(c => new NameCodeDto<int>()
+                .Select(c => new NameCodeDto<int>
                 {
                     Id = c.Id,
                     Name = c.Name,

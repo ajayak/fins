@@ -179,7 +179,7 @@ namespace FINS.Core.DataAccess
         public async Task InsertMasterData()
         {
             if (_context.States.Any() ||
-                _context.Taxs.Any() ||
+                _context.Taxes.Any() ||
                 _context.Units.Any()) return;
 
             var states = new List<State>
@@ -228,7 +228,7 @@ namespace FINS.Core.DataAccess
                 new Tax{Category = "Tax 14%", Percentage = 14}
             };
             taxes.ForEach(tax => tax.OrganizationId = OrganizationId);
-            await _context.Taxs.AddRangeAsync(taxes);
+            await _context.Taxes.AddRangeAsync(taxes);
 
             var units = new List<Unit>
             {

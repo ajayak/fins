@@ -24,7 +24,7 @@ namespace FINS.Context
         public DbSet<State> States { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UnitConversion> UnitConversions { get; set; }
-        public DbSet<Tax> Taxs { get; set; }
+        public DbSet<Tax> Taxes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

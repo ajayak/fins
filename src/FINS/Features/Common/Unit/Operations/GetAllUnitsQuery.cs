@@ -2,9 +2,9 @@
 using FINS.DTO;
 using MediatR;
 
-namespace FINS.Features.Common.State.Operations
+namespace FINS.Features.Common.Unit.Operations
 {
-    public class GetAllStatesQuery : IRequest<List<NameCodeDto<int>>>
+    public class GetAllUnitsQuery : IRequest<List<NameCodeDto<int>>>
     {
         public int OrganizationId { get; set; }
     }
