@@ -23,8 +23,8 @@ namespace FINS.Models
     /// </summary>
     public interface IAudited
     {
-        int AddedBy { get; set; }
-        DateTime? AddedDate { get; set; }
+        string AddedBy { get; set; }
+        DateTime AddedDate { get; set; }
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ namespace FINS.Models
     /// </summary>
     public interface IFullyAuditedEntity : IAudited
     {
-        int ModifiedBy { get; set; }
+        string ModifiedBy { get; set; }
         DateTime? ModifiedDate { get; set; }
     }
 

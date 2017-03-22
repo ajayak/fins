@@ -9,9 +9,10 @@ using FINS.Models;
 namespace FINS.Migrations
 {
     [DbContext(typeof(FinsDbContext))]
-    partial class FinsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170321150203_AddedUnitConversionTaxTables")]
+    partial class AddedUnitConversionTaxTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -268,7 +269,7 @@ namespace FINS.Migrations
 
                     b.Property<int>("OrganizationId");
 
-                    b.Property<double>("Percentage")
+                    b.Property<decimal>("Percentage")
                         .HasColumnType("decimal");
 
                     b.HasKey("Id");
@@ -282,11 +283,9 @@ namespace FINS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("UnitId");
 
-                    b.Property<string>("AddedBy");
+                    b.Property<int>("AddedBy");
 
-                    b.Property<DateTime>("AddedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetDate()");
+                    b.Property<DateTime>("AddedDate");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -294,7 +293,7 @@ namespace FINS.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("ModifiedBy");
+                    b.Property<int>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
@@ -315,17 +314,17 @@ namespace FINS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("UnitConversionId");
 
-                    b.Property<string>("AddedBy");
+                    b.Property<int>("AddedBy");
 
                     b.Property<DateTime>("AddedDate");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("ModifiedBy");
+                    b.Property<int>("ModifiedBy");
 
                     b.Property<DateTime?>("ModifiedDate");
 
-                    b.Property<double>("MultiplicationFactor")
+                    b.Property<decimal>("MultiplicationFactor")
                         .HasColumnType("decimal");
 
                     b.Property<int>("ParentUnitId");

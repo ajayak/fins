@@ -22,6 +22,9 @@ namespace FINS.Context
         public DbSet<Item> Items { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<State> States { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<UnitConversion> UnitConversions { get; set; }
+        public DbSet<Tax> Taxs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -54,6 +57,9 @@ namespace FINS.Context
             builder.Entity<Item>().Configure();
             builder.Entity<Person>().Configure();
             builder.Entity<State>().Configure();
+            builder.Entity<Unit>().Configure();
+            builder.Entity<UnitConversion>().Configure();
+            builder.Entity<Tax>().Configure();
         }
     }
 }
