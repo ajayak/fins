@@ -218,21 +218,29 @@ namespace FINS.Core.DataAccess
                 new State{Code = "UK",Name = "Uttarakhand"},
                 new State{Code = "WB",Name = "West Benga"}
             };
+            states.ForEach(state => state.OrganizationId = OrganizationId);
             await _context.States.AddRangeAsync(states);
 
             var taxes = new List<Tax>
             {
-                new Tax{Category = "Tax 5%", Percentage = 5, OrganizationId = OrganizationId},
-                new Tax{Category = "Tax 12.5%", Percentage = 12.5, OrganizationId = OrganizationId},
-                new Tax{Category = "Tax 14%", Percentage = 14, OrganizationId = OrganizationId}
+                new Tax{Category = "Tax 5%", Percentage = 5},
+                new Tax{Category = "Tax 12.5%", Percentage = 12.5},
+                new Tax{Category = "Tax 14%", Percentage = 14}
             };
+            taxes.ForEach(tax => tax.OrganizationId = OrganizationId);
             await _context.Taxs.AddRangeAsync(taxes);
 
             var units = new List<Unit>
             {
-                new Unit{Code = "kg", Name = "kilogram", AddedBy = OrgAdminUserId, AddedDate = DateTime.Now},
-                new Unit{Code = "g", Name = "gram", AddedBy = OrgAdminUserId, AddedDate = DateTime.Now}
+                new Unit{Code = "kg", Name = "kilogram"},
+                new Unit{Code = "g", Name = "gram"}
             };
+            units.ForEach(unit =>
+            {
+                unit.OrganizationId = OrganizationId;
+                unit.AddedDate = DateTime.Now;
+                unit.AddedBy = OrgAdminUserId;
+            });
             await _context.Units.AddRangeAsync(units);
             await _context.SaveChangesAsync();
 

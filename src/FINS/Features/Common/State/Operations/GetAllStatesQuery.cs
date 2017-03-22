@@ -9,6 +9,6 @@ namespace FINS.Features.Common.State.Operations
 {
     public class GetAllStatesQuery : IRequest<List<StateDto>>
     {
-
+        public int OrganizationId { get; set; }
     }
 }

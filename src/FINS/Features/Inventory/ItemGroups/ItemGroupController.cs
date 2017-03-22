@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FINS.Core.AutoMap;
 using FINS.Core.FinsAttributes;
 using FINS.Core.Helpers;
@@ -7,7 +6,6 @@ using FINS.Features.Inventory.ItemGroups.Operations;
 using FINS.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FINS.Features.Inventory.ItemGroups
@@ -23,7 +21,7 @@ namespace FINS.Features.Inventory.ItemGroups
             _mediator = mediator;
         }
 
-        [HttpGet(""), Produces("application/json")]
+        [HttpGet, Produces("application/json")]
         public async Task<IActionResult> GetAllItemGroups()
         {
             var orgId = User.GetOrganizationId();
@@ -46,7 +44,7 @@ namespace FINS.Features.Inventory.ItemGroups
         }
 
         [ItemGroupCreator]
-        [HttpPost("")]
+        [HttpPost]
         public async Task<IActionResult> AddItemGroup([FromBody]ItemGroupDto itemGroup)
         {
             if (itemGroup == null || !ModelState.IsValid)
@@ -63,7 +61,7 @@ namespace FINS.Features.Inventory.ItemGroups
         }
 
         [ItemGroupCreator]
-        [HttpPut("")]
+        [HttpPut]
         public async Task<IActionResult> UpdateItemGroup([FromBody]ItemGroupDto itemGroup)
         {
             if (itemGroup == null || !ModelState.IsValid)

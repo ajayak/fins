@@ -20,7 +20,7 @@ namespace FINS.Features.Common.State.Operations
         public async Task<List<StateDto>> Handle(GetAllStatesQuery query)
         {
             return await _context.States
-                .Where(c => !c.IsDeleted)
+                .Where(c => c.OrganizationId == query.OrganizationId && !c.IsDeleted)
                 .ProjectTo<StateDto>()
                 .ToListAsync();
         }
