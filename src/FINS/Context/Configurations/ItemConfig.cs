@@ -9,6 +9,13 @@ namespace FINS.Context.Configurations
         public static void Configure(this EntityTypeBuilder<Item> entity)
         {
             entity.Property(p => p.Id).HasColumnName($"{nameof(ItemGroup)}Id");
+            entity.Property(p => p.Name).IsRequired().HasMaxLength(200);
+            entity.Property(p => p.Code).IsRequired().HasMaxLength(50);
+            entity.Property(p => p.Color).HasMaxLength(20);
+            entity.Property(p => p.SafetyStockLevel).HasColumnType("smallint");
+            entity.Property(p => p.DaysToManufacture).HasColumnType("smallint");
+            entity.Property(p => p.StandardCost).HasColumnType("money");
+            entity.Property(p => p.ListPrice).HasColumnType("money");
         }
     }
 }

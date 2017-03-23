@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FINS.Core.Helpers;
-using FINS.Features.Common.State.Operations;
+using FINS.Features.Common.Unit.Operations;
 using FINS.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +25,7 @@ namespace FINS.Features.Common.Unit
             var orgId = User.GetOrganizationId();
             var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
 
-            var states = await _mediator.Send(new GetAllStatesQuery { OrganizationId = organizationId });
+            var states = await _mediator.Send(new GetAllUnitsQuery { OrganizationId = organizationId });
             return Ok(states);
         }
     }

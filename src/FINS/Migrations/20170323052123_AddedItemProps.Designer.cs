@@ -9,9 +9,10 @@ using FINS.Models;
 namespace FINS.Migrations
 {
     [DbContext(typeof(FinsDbContext))]
-    partial class FinsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170323052123_AddedItemProps")]
+    partial class AddedItemProps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
