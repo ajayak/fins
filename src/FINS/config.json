@@ -31,7 +31,8 @@
     "EmailFolder": "..."
   },
   "FinsPaths": {
-    "ItemImagePath": "Content\\ItemImage"
+    "ItemImagePath": "Content\\ItemImage",
+    "DefaultItemImagePath": "Content\\ItemImage\\default-item-thumb.png"
   },
   "Authentication": {
     "SendGrid": {

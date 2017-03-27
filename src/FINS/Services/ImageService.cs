@@ -32,15 +32,15 @@ namespace FINS.Services
             using (var input = File.OpenRead(imagePath))
             {
                 var image = new Image(input);
-                var imageHeight = image.Height > 400 ? 400 : image.Height;
-                var imageWidth = image.Width > 400 ? 400 : image.Width;
+                var imageHeight = image.Height > 500 ? 500 : image.Height;
+                var imageWidth = image.Width > 500 ? 500 : image.Width;
                 image.Resize(new ResizeOptions
                 {
                     Size = new Size(imageWidth, imageHeight),
                     Mode = ResizeMode.Max
                 });
                 image.MetaData.ExifProfile = null;
-                image.MetaData.Quality = 80;
+                image.MetaData.Quality = 60;
                 var path = imagePath.Split('.').ToList();
                 var fileExtension = path.Last();
                 path.RemoveAt(path.Count - 1);

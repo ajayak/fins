@@ -45,15 +45,18 @@ namespace FINS.Features.Inventory.Items.Operations
 
         private List<ItemListDto> SetImageThumbnailPath(string baseUrl, List<ItemListDto> items)
         {
-            var folderPath = _paths.ItemImagePath;
             items.ForEach(item =>
             {
-                if (string.IsNullOrEmpty(item.ImageUrl)) return;
+                if (string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    item.ImageUrl = $"{baseUrl}\\{_paths.DefaultItemImagePath}";
+                    return;
+                }
                 var itemUrl = item.ImageUrl.Split('.').ToList();
                 var fileExtension = itemUrl.Last();
                 itemUrl.RemoveAt(itemUrl.Count - 1);
                 var thumbnail = $"{string.Join(".", itemUrl)}-thumb.{fileExtension}";
-                item.ImageUrl = $"{baseUrl}\\{folderPath}\\{thumbnail}";
+                item.ImageUrl = $"{baseUrl}\\{_paths.ItemImagePath}\\{thumbnail}";
             });
             return items;
         }

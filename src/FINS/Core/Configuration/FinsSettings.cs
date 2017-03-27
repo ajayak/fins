@@ -45,5 +45,6 @@
     public class FinsPathsSettings
     {
         public string ItemImagePath { get; set; }
+        public string DefaultItemImagePath { get; set; }
     }
 }
