@@ -5,9 +5,11 @@ using FINS.Core;
 using FINS.Core.AutoMap;
 using FINS.Core.Configuration;
 using FINS.Core.DataAccess;
+using FINS.Core.Middlewares;
 using FINS.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -156,6 +158,9 @@ namespace FINS
 
             ////Hangfire
             //app.UseFinsHangfire();
+
+            // Fins static resource
+            app.UseFinsStaticResources((HostingEnvironment)env);
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
