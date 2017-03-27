@@ -23,10 +23,10 @@ namespace FINS.Features.Inventory.ItemGroups.Operations
             {
                 throw new FinsInvalidOperation("Item group has related child item groups.");
             }
-            //if (await ItemGroupHasAccounts(message.ItemGroupId))
-            //{
-            //    throw new FinsInvalidOperation("Item group has related active accounts.");
-            //}
+            if (await ItemGroupHasItems(message.ItemGroupId))
+            {
+                throw new FinsInvalidOperation("Item group has related active items.");
+            }
             var itemGroup = await _context.ItemGroups.FindAsync(message.ItemGroupId);
             if (itemGroup == null)
             {
@@ -44,11 +44,11 @@ namespace FINS.Features.Inventory.ItemGroups.Operations
                 .AnyAsync(c => c.ParentId == itemGroupId && !c.IsDeleted);
         }
 
-        //private async Task<bool> ItemGroupHasAccounts(int itemGroupId)
-        //{
-        //    return await _context.ItemGroups
-        //        .AnyAsync(c => c.ItemGroupId == itemGroupId && !c.IsDeleted);
-        //}
+        private async Task<bool> ItemGroupHasItems(int itemGroupId)
+        {
+            return await _context.ItemGroups
+                .AnyAsync(c => c.Id == itemGroupId && !c.IsDeleted);
+        }
 
         private async Task CheckAndMakeItemGroupParentPrimary(int itemGroupParentId, int itemGroupId)
         {
