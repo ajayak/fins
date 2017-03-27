@@ -7,5 +7,6 @@ namespace FINS.Features.Inventory.Items.Operations
     public class GetAllItemQuery : BasePaging, IRequest<PagedResult<ItemListDto>>
     {
         public int OrganizationId { get; set; }
+        public string BaseUrl { get; set; }
     }
 }

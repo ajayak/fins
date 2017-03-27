@@ -38,14 +38,22 @@ namespace FINS.Features.Inventory.Items.Operations
                 .ApplyPaging(message.PageNo, message.PageSize)
                 .ToListAsync();
 
-            result = SetImageThumbnailPath(result);
+            result = SetImageThumbnailPath(message.BaseUrl, result);
 
             return result.ToPagedResult(message.PageNo, message.PageSize, totalRecordCount);
         }
 
-        private List<ItemListDto> SetImageThumbnailPath(List<ItemListDto> items)
+        private List<ItemListDto> SetImageThumbnailPath(string baseUrl, List<ItemListDto> items)
         {
             var folderPath = _paths.ItemImagePath;
+            items.ForEach(item =>
+            {
+                var itemUrl = item.ImageUrl.Split('.').ToList();
+                var fileExtension = itemUrl.Last();
+                itemUrl.RemoveAt(itemUrl.Count - 1);
+                var thumbnail = $"{string.Join(".", itemUrl)}-thumb.{fileExtension}";
+                item.ImageUrl = $"{baseUrl}\\{folderPath}\\{thumbnail}";
+            });
             return items;
         }
     }

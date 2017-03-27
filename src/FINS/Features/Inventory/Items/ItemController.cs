@@ -27,13 +27,15 @@ namespace FINS.Features.Inventory.Items
         {
             var orgId = User.GetOrganizationId();
             var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
+            var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
 
             var itemList = await _mediator.Send(new GetAllItemQuery
             {
                 OrganizationId = organizationId,
                 Sort = sort,
                 PageNo = pageNo,
-                PageSize = pageSize
+                PageSize = pageSize,
+                BaseUrl = baseUrl
             });
 
             return Ok(itemList);
