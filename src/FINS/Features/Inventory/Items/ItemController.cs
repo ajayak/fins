@@ -41,6 +41,19 @@ namespace FINS.Features.Inventory.Items
             return Ok(itemList);
         }
 
+        [HttpGet("{itemId}"), Produces("application/json")]
+        public async Task<IActionResult> GetItem(int itemId)
+        {
+            var orgId = User.GetOrganizationId();
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
+            var item = await _mediator.Send(new GetItemQuery()
+            {
+                ItemId = itemId,
+                OrganizationId = organizationId
+            });
+            return Ok(item);
+        }
+
         [HttpPost]
         [ItemCreator]
         public async Task<IActionResult> AddItem([FromBody]ItemDto item)
@@ -52,6 +65,19 @@ namespace FINS.Features.Inventory.Items
             var addItemCommand = item.MapTo<AddItemCommand>();
             var addedItem = await _mediator.Send(addItemCommand);
             return Ok(addedItem);
+        }
+
+        [HttpPut]
+        [ItemCreator]
+        public async Task<IActionResult> UpdateItem([FromBody]ItemDto item)
+        {
+            if (item == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var updateItemCommand = item.MapTo<UpdateItemCommand>();
+            var updatedItem = await _mediator.Send(updateItemCommand);
+            return Ok(updatedItem);
         }
     }
 }

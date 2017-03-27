@@ -1,18 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FINS.Context;
 using FINS.Core.AutoMap;
 using FINS.Core.Configuration;
-using FINS.Features.Accounting.Accounts.DTO;
-using FINS.Features.Accounting.Accounts.Operations;
 using FINS.Features.Inventory.Items.DTO;
-using FINS.Models.Accounting;
 using FINS.Models.Inventory;
 using FINS.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace FINS.Features.Inventory.Items.Operations

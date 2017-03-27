@@ -48,6 +48,7 @@ namespace FINS.Features.Inventory.Items.Operations
             var folderPath = _paths.ItemImagePath;
             items.ForEach(item =>
             {
+                if (string.IsNullOrEmpty(item.ImageUrl)) return;
                 var itemUrl = item.ImageUrl.Split('.').ToList();
                 var fileExtension = itemUrl.Last();
                 itemUrl.RemoveAt(itemUrl.Count - 1);

@@ -40,6 +40,7 @@ namespace FINS.Core.AutoMap
                     .ForMember(c => c.ImageUrl, c => c.MapFrom(i => i.ImageName));
                 cfg.CreateMap<ItemDto, Item>().ReverseMap();
                 cfg.CreateMap<ItemDto, AddItemCommand>().ReverseMap();
+                cfg.CreateMap<ItemDto, UpdateItemCommand>().ReverseMap();
             });
         }
     }
