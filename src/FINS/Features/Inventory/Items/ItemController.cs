@@ -79,5 +79,19 @@ namespace FINS.Features.Inventory.Items
             var updatedItem = await _mediator.Send(updateItemCommand);
             return Ok(updatedItem);
         }
+
+        [ItemCreator]
+        [HttpDelete("{itemId}")]
+        public async Task<IActionResult> DeleteAccount(int itemId)
+        {
+            var orgId = User.GetOrganizationId();
+            var organizationId = orgId ?? HttpContext.Request.Headers.GetOrgIdFromHeader();
+            var result = await _mediator.Send(new DeleteItemCommand()
+            {
+                ItemId = itemId,
+                OrganizationId = organizationId
+            });
+            return Ok(result);
+        }
     }
 }
