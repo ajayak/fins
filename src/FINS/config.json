@@ -30,6 +30,9 @@
   "Email": {
     "EmailFolder": "..."
   },
+  "FinsPaths": {
+    "ItemImagePath": "Content\\ItemImage"
+  },
   "Authentication": {
     "SendGrid": {
       "UserName": "[sendgriduser]",

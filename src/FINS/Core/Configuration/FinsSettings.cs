@@ -41,4 +41,9 @@
         public string Token { get; set; }
         public string PhoneNo { get; set; }
     }
+
+    public class FinsPathsSettings
+    {
+        public string ItemImagePath { get; set; }
+    }
 }

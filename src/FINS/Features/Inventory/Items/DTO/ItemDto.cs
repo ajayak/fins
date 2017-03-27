@@ -1,9 +1,10 @@
 ﻿using System;
-using FINS.Models.Common;
+using FINS.DTO;
+using FINS.Models;
 
-namespace FINS.Models.Inventory
+namespace FINS.Features.Inventory.Items.DTO
 {
-    public class Item : BaseModel<int>, ISoftDelete
+    public class ItemDto : BaseDto<int>
     {
         public string Name { get; set; }
 
@@ -53,21 +54,10 @@ namespace FINS.Models.Inventory
         public DateTime? SellEndTime { get; set; }
 
         public string DisplayImageName { get; set; }
+        public string Base64Image { get; set; }
 
-        public string ImageName { get; set; }
-
-        /// <summary>
-        /// Category/Type of Item
-        /// </summary>
         public int ItemGroupId { get; set; }
-        public ItemGroup ItemGroup { get; set; }
 
-        /// <summary>
-        /// Unit of the Item
-        /// </summary>
         public int UnitId { get; set; }
-        public Unit Unit { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using FINS.Features.Accounting.Accounts.Operations;
 using FINS.Features.Inventory.ItemGroups;
 using FINS.Features.Inventory.ItemGroups.Operations;
 using FINS.Features.Inventory.Items.DTO;
+using FINS.Features.Inventory.Items.Operations;
 using FINS.Models.Accounting;
 using FINS.Models.Inventory;
 
@@ -35,7 +36,10 @@ namespace FINS.Core.AutoMap
                 cfg.CreateMap<ItemGroupDto, UpdateItemGroupCommand>().ReverseMap();
                 cfg.CreateMap<AddItemGroupCommand, ItemGroup>().ReverseMap();
 
-                cfg.CreateMap<ItemListDto, Item>().ReverseMap();
+                cfg.CreateMap<Item, ItemListDto>()
+                    .ForMember(c => c.ImageUrl, c => c.MapFrom(i => i.ImageName));
+                cfg.CreateMap<ItemDto, Item>().ReverseMap();
+                cfg.CreateMap<ItemDto, AddItemCommand>().ReverseMap();
             });
         }
     }

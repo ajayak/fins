@@ -1,21 +1,26 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using FINS.Context;
+using FINS.Core.Configuration;
 using FINS.Core.Helpers;
 using FINS.Features.Inventory.Items.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace FINS.Features.Inventory.Items.Operations
 {
     public class GetAllItemQueryHandler : IAsyncRequestHandler<GetAllItemQuery, PagedResult<ItemListDto>>
     {
         private readonly FinsDbContext _context;
+        private readonly FinsPathsSettings _paths;
 
-        public GetAllItemQueryHandler(FinsDbContext context)
+        public GetAllItemQueryHandler(FinsDbContext context, IOptions<FinsPathsSettings> pathSettings)
         {
             _context = context;
+            _paths = pathSettings.Value;
         }
 
         public async Task<PagedResult<ItemListDto>> Handle(GetAllItemQuery message)
@@ -33,7 +38,15 @@ namespace FINS.Features.Inventory.Items.Operations
                 .ApplyPaging(message.PageNo, message.PageSize)
                 .ToListAsync();
 
+            result = SetImageThumbnailPath(result);
+
             return result.ToPagedResult(message.PageNo, message.PageSize, totalRecordCount);
+        }
+
+        private List<ItemListDto> SetImageThumbnailPath(List<ItemListDto> items)
+        {
+            var folderPath = _paths.ItemImagePath;
+            return items;
         }
     }
 }

@@ -9,9 +9,10 @@ using FINS.Models;
 namespace FINS.Migrations
 {
     [DbContext(typeof(FinsDbContext))]
-    partial class FinsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170327050951_AddedImageThumbnail")]
+    partial class AddedImageThumbnail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -393,6 +394,8 @@ namespace FINS.Migrations
                     b.Property<decimal?>("StandardCost")
                         .HasColumnType("money")
                         .HasMaxLength(250);
+
+                    b.Property<string>("ThumbnailImageName");
 
                     b.Property<int>("UnitId");
 

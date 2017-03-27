@@ -13,6 +13,7 @@ namespace FINS.Core.Configuration
             services.Configure<GeneralSettings>(configuration.GetSection("General"));
             services.Configure<TwitterAuthenticationSettings>(configuration.GetSection("Authentication:Twitter"));
             services.Configure<TwilioSettings>(configuration.GetSection("Authentication:Twilio"));
+            services.Configure<FinsPathsSettings>(configuration.GetSection("FinsPaths"));
         }
     }
 }

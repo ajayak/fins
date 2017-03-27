@@ -9,9 +9,10 @@ using FINS.Models;
 namespace FINS.Migrations
 {
     [DbContext(typeof(FinsDbContext))]
-    partial class FinsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170326095005_AddedItemImage")]
+    partial class AddedItemImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -350,7 +351,7 @@ namespace FINS.Migrations
                     b.Property<string>("Color")
                         .HasMaxLength(20);
 
-                    b.Property<short?>("DaysToManufacture")
+                    b.Property<short>("DaysToManufacture")
                         .HasColumnType("smallint");
 
                     b.Property<string>("Description")
@@ -369,7 +370,7 @@ namespace FINS.Migrations
 
                     b.Property<int>("ItemGroupId");
 
-                    b.Property<decimal?>("ListPrice")
+                    b.Property<decimal>("ListPrice")
                         .HasColumnType("money");
 
                     b.Property<string>("Name")
@@ -381,7 +382,7 @@ namespace FINS.Migrations
                     b.Property<string>("ReorderPoint")
                         .HasMaxLength(50);
 
-                    b.Property<short?>("SafetyStockLevel")
+                    b.Property<short>("SafetyStockLevel")
                         .HasColumnType("smallint");
 
                     b.Property<DateTime?>("SellEndTime");
@@ -390,13 +391,13 @@ namespace FINS.Migrations
 
                     b.Property<int>("Size");
 
-                    b.Property<decimal?>("StandardCost")
+                    b.Property<decimal>("StandardCost")
                         .HasColumnType("money")
                         .HasMaxLength(250);
 
                     b.Property<int>("UnitId");
 
-                    b.Property<decimal?>("Weight");
+                    b.Property<decimal>("Weight");
 
                     b.HasKey("Id");
 

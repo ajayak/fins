@@ -36,7 +36,7 @@ namespace FINS.Security
                 {
                     b.RequireClaim(ClaimTypes.Inventory, Inventory.ItemGroupManager.ToString());
                 });
-                options.AddPolicy(Accounting.AccountManager.ToString(), b =>
+                options.AddPolicy(Inventory.ItemManager.ToString(), b =>
                 {
                     b.RequireClaim(ClaimTypes.Inventory, Inventory.ItemManager.ToString());
                 });

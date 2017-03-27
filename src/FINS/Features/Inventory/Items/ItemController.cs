@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using FINS.Core.AutoMap;
+using FINS.Core.FinsAttributes;
 using FINS.Core.Helpers;
-using FINS.Features.Accounting.Accounts.Operations;
+using FINS.Features.Inventory.Items.DTO;
 using FINS.Features.Inventory.Items.Operations;
 using FINS.Security;
 using MediatR;
@@ -35,6 +37,19 @@ namespace FINS.Features.Inventory.Items
             });
 
             return Ok(itemList);
+        }
+
+        [HttpPost]
+        [ItemCreator]
+        public async Task<IActionResult> AddItem([FromBody]ItemDto item)
+        {
+            if (item == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var addItemCommand = item.MapTo<AddItemCommand>();
+            var addedItem = await _mediator.Send(addItemCommand);
+            return Ok(addedItem);
         }
     }
 }
