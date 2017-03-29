@@ -46,8 +46,8 @@ namespace FINS.Features.Inventory.ItemGroups.Operations
 
         private async Task<bool> ItemGroupHasItems(int itemGroupId)
         {
-            return await _context.ItemGroups
-                .AnyAsync(c => c.Id == itemGroupId && !c.IsDeleted);
+            return await _context.Items
+                .AnyAsync(c => c.ItemGroupId == itemGroupId && !c.IsDeleted);
         }
 
         private async Task CheckAndMakeItemGroupParentPrimary(int itemGroupParentId, int itemGroupId)
